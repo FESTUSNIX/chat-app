@@ -1,0 +1,52 @@
+@use '../colors' as *;
+
+.sidebar {
+	width: 300px;
+	min-width: 300px;
+	background: $primary-color;
+	min-height: 100vh;
+	box-sizing: border-box;
+	position: relative;
+	color: #fff;
+	.sidebar-content {
+		position: fixed;
+		width: inherit;
+		.user {
+			font-weight: bold;
+			text-align: center;
+			letter-spacing: 1px;
+			padding: 40px 30px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+		}
+		.links {
+			margin-top: 80px;
+			margin-left: 20px;
+			li {
+				margin-top: 10px;
+			}
+
+			img {
+				margin-right: 10px;
+				filter: invert(100%);
+			}
+
+			a {
+				display: flex;
+				padding: 10px;
+				text-decoration: none;
+				width: 100%;
+				color: #fff;
+				box-sizing: border-box;
+			}
+
+			a.active {
+				color: #555;
+				background: $bg-color;
+				border-radius: 20px 0 0 20px;
+				img {
+					filter: invert(40%);
+				}
+			}
+		}
+	}
+}

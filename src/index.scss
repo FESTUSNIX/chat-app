@@ -1,0 +1,83 @@
+@use './colors' as *;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-size: 62.5%;
+	scroll-behavior: smooth;
+}
+
+body {
+	min-height: 100vh;
+	font-family: 'Poppins', sans-serif;
+	font-size: 1.6rem;
+	background-color: $bg-color;
+	color: $text-color;
+	overflow: hidden;
+}
+
+ul {
+	list-style-type: none;
+}
+
+/* layout */
+.page-title {
+	font-size: 2.2rem;
+	color: $heading-color;
+	display: inline-block;
+}
+.btn {
+	background: #1d1d1d;
+	padding: 8px 12px;
+	border-radius: 4px;
+	color: $primary-color;
+	cursor: pointer;
+	font-size: 1.6rem;
+	border: 1px solid $primary-color;
+}
+.btn:hover {
+	color: #fff;
+	background-color: $primary-color;
+}
+
+/* forms */
+label {
+	display: block;
+	margin: 24px auto;
+}
+label span {
+	display: block;
+	margin-bottom: 6px;
+}
+input,
+textarea {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 8px 12px;
+	border: 1px solid #313131;
+	border-radius: 20px;
+	background-color: #1b1a1a;
+	color: #777;
+
+	&:focus {
+		outline: none;
+	}
+}
+textarea {
+	min-height: 160px;
+}
+.error {
+	color: red;
+	background: pink;
+	border: 1px solid red;
+	border-radius: 4px;
+	padding: 8px;
+	margin: 10px 0;
+}

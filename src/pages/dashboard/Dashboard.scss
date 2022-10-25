@@ -1,0 +1,37 @@
+@use '../../colors' as *;
+
+.project-filter {
+	margin: 30px auto;
+
+	nav {
+		display: flex;
+		padding: 10px;
+		border-radius: 4px;
+		background-color: #1b1a1a;
+
+		p {
+			margin-right: 10px;
+			font-size: 1.6rem;
+		}
+
+		button {
+			padding: 0 6px;
+			border: 0;
+			border-right: 1px solid #353333;
+			font-family: inherit;
+			font-weight: bold;
+			font-size: 1.6rem;
+			cursor: pointer;
+			background-color: transparent;
+			color: $text-color;
+
+			&:last-child {
+				border: 0;
+			}
+		}
+
+		button.active {
+			color: $primary-color;
+		}
+	}
+}

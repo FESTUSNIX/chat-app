@@ -1,0 +1,373 @@
+@use '../../colors' as *;
+
+.project-details {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	height: 100%;
+	.top-bar {
+		display: flex;
+		align-items: center;
+		padding: 1em 0.6em 0.6em 0.6em;
+		box-shadow: 0px 5px 4px -5px rgba(255, 255, 255, 0.2);
+
+		.avatar {
+			width: 36px;
+			height: 36px;
+			margin-right: 1em;
+		}
+
+		h3 {
+			font-weight: 500;
+			font-size: 1.5rem;
+
+			color: #ddd;
+		}
+	}
+
+	// comments list
+	.project-comments {
+		height: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		flex-grow: 1;
+
+		& > ul {
+			display: flex;
+			flex-direction: column-reverse;
+			padding: 0 15px;
+			overflow-x: hidden;
+			overflow-y: scroll;
+
+			&::-webkit-scrollbar {
+				width: 2px;
+			}
+
+			&::-webkit-scrollbar-track {
+				background: transparent;
+			}
+			&::-webkit-scrollbar-thumb {
+				border-radius: 5px;
+				background: #888;
+
+				&:hover {
+					background-color: #aaaaaa;
+				}
+			}
+
+			.comments-wrapper {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+
+				.infinite-scroll {
+					all: inherit;
+				}
+
+				.conv-start {
+					margin: 2em 0;
+					align-self: center;
+					font-size: 1.5rem;
+				}
+				.time-passed {
+					align-self: center;
+					padding: 2em 0 1em 0;
+					font-size: 1.3rem;
+					color: #888;
+				}
+
+				li {
+					max-width: 80%;
+					display: flex;
+					flex-direction: column;
+					margin-top: 2px;
+					background-color: transparent;
+
+					&.owner {
+						align-self: flex-end;
+						.comment-bottom {
+							.comment-content {
+								border-radius: 25px;
+								background-color: $primary-color;
+							}
+						}
+
+						.created-at {
+							align-self: flex-end;
+						}
+					}
+
+					&.group-top {
+						margin-top: 20px;
+
+						.comment-bottom {
+							.comment-content {
+								border-radius: 25px 25px 25px 5px;
+							}
+						}
+					}
+
+					&.group-top.owner {
+						.comment-bottom {
+							.comment-content {
+								border-radius: 25px 25px 5px 25px;
+							}
+						}
+					}
+
+					&.group-middle {
+						.comment-bottom {
+							.comment-content {
+								border-radius: 5px 25px 25px 5px;
+							}
+						}
+					}
+
+					&.group-middle.owner {
+						.comment-bottom {
+							.comment-content {
+								border-radius: 25px 5px 5px 25px;
+							}
+						}
+					}
+
+					&.group-down {
+						.comment-bottom {
+							.comment-content {
+								border-radius: 5px 25px 25px 25px;
+							}
+						}
+					}
+
+					&.group-down.owner {
+						.comment-bottom {
+							.comment-content {
+								border-radius: 25px 5px 25px 25px;
+							}
+						}
+					}
+
+					.comment-author {
+						display: inline-block;
+						margin-left: 60px;
+						font-size: 1.4rem;
+						color: rgba(156, 156, 156, 0.5);
+					}
+
+					.comment-bottom {
+						position: relative;
+						display: flex;
+						align-items: flex-end;
+						.avatar {
+							position: absolute;
+							min-width: 36px;
+							min-height: 36px;
+							max-width: 36px;
+							max-height: 36px;
+							margin-right: 10px;
+						}
+
+						.comment-date {
+							color: $text-color;
+							font-size: 1.4rem;
+							margin: 4px 0 10px;
+						}
+
+						.comment-content {
+							padding: 8px 12px;
+							margin-left: 46px;
+							border-radius: 25px;
+							border: 1px solid #252424;
+							box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.05);
+							font-size: 1.5rem;
+							background: #1b1a1a;
+							color: #cacaca;
+							overflow: hidden;
+
+							img {
+								display: block;
+								width: 100%;
+								max-height: 200px;
+							}
+
+							video {
+								display: block;
+								max-height: 200px;
+								width: 158px;
+							}
+						}
+					}
+
+					.created-at {
+						margin-left: 60px;
+						font-weight: 200;
+						font-size: 1.2rem;
+					}
+				}
+			}
+		}
+		.add-comment {
+			display: flex;
+			align-items: flex-end;
+			margin: 15px 5px;
+
+			.attach-image {
+				display: flex;
+				align-items: center;
+				padding: 8px 0;
+				margin: 0 20px 0 0;
+
+				&:hover {
+					cursor: pointer;
+				}
+
+				input {
+					display: none;
+				}
+
+				img {
+					width: 25px;
+					height: 25px;
+					color: $primary-color;
+				}
+			}
+
+			.message-field {
+				width: 100%;
+				min-height: 36px;
+				position: relative;
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+				padding: 8px 12px;
+				margin: 0;
+				border-radius: 20px;
+				background-color: #1b1a1a;
+
+				.column {
+					width: 100%;
+					flex-direction: column;
+					.thumbnails {
+						display: flex;
+						flex-direction: row;
+						padding: 0.5em 0;
+						.file-thumbnail {
+							display: inline-block;
+							position: relative;
+
+							img {
+								width: 48px;
+								height: 48px;
+								border-radius: 15px;
+							}
+
+							.remove-img {
+								position: absolute;
+								top: -8px;
+								right: -8px;
+								padding: 5px;
+								border: none;
+								border-radius: 50vw;
+								background-color: #111111;
+								color: #fff;
+
+								&:hover {
+									cursor: pointer;
+								}
+
+								.close-btn {
+									display: block;
+									width: 12px;
+									height: 12px;
+								}
+							}
+						}
+					}
+
+					& > label {
+						all: unset;
+						input {
+							width: 100%;
+							padding: 0 0 0 6px;
+							border: none;
+							font-size: 1.5rem;
+							color: #cacaca;
+
+							&:focus {
+								outline: none;
+							}
+						}
+					}
+				}
+
+				.toggle-emoji-picker {
+					border: none;
+					background-color: transparent;
+					color: #3e2a49;
+
+					&:hover {
+						cursor: pointer;
+					}
+				}
+
+				.EmojiPickerReact {
+					position: absolute;
+					top: 0;
+					right: 0;
+					transform: translateY(-105%);
+
+					.epr-preview {
+						display: none;
+					}
+
+					.epr-body {
+						margin-right: 5px;
+						&::-webkit-scrollbar {
+							width: 4px;
+						}
+
+						&::-webkit-scrollbar-track {
+							background: transparent;
+						}
+						&::-webkit-scrollbar-thumb {
+							border-radius: 5px;
+							background: #888;
+
+							&:hover {
+								background-color: #aaaaaa;
+							}
+						}
+					}
+				}
+				.EmojiPickerReact li.epr-emoji-category > .epr-emoji-category-label {
+					top: -1px;
+				}
+			}
+
+			.input-tool {
+				max-height: 41px;
+				display: flex;
+				align-items: center;
+				margin: 0 0 0 15px;
+				padding: 8px 0;
+				background-color: transparent;
+				border: none;
+
+				&:hover {
+					cursor: pointer;
+				}
+
+				span {
+					font-size: 2.6rem;
+				}
+
+				svg {
+					width: 25px;
+					height: 25px;
+					transform: rotate(45deg);
+				}
+			}
+		}
+	}
+}
