@@ -4,6 +4,7 @@ import { useSignup } from '../../hooks/useSignup'
 // Styles
 import './Signup.scss'
 import googleLogo from '../../assets/btn_google_dark_normal_ios.svg'
+import githubLogo from '../../assets/GitHub-Mark-Light-32px.png'
 
 export default function Signup() {
 	const [email, setEmail] = useState('')
@@ -11,7 +12,7 @@ export default function Signup() {
 	const [displayName, setDisplayName] = useState('')
 	const [thumbnail, setThumbnail] = useState(null)
 	const [thumbnailError, setThumbnailError] = useState(null)
-	const { signup, signInWithGoogle, isPending, error } = useSignup()
+	const { signup, signInWithGoogle, signInWithGithub, isPending, error } = useSignup()
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -21,6 +22,11 @@ export default function Signup() {
 	const handleSubmitWithGoogle = e => {
 		e.preventDefault()
 		signInWithGoogle()
+	}
+
+	const handleSubmitWithGithub = e => {
+		e.preventDefault()
+		signInWithGithub()
 	}
 
 	const handleFileChange = e => {
@@ -50,15 +56,21 @@ export default function Signup() {
 
 			<label>
 				<span>Email:</span>
-				<input type='email' required onChange={e => setEmail(e.target.value)} value={email} />
+				<input type='email' required onChange={e => setEmail(e.target.value)} value={email} placeholder='Aa' />
 			</label>
 			<label>
 				<span>Password:</span>
-				<input type='password' required onChange={e => setPassword(e.target.value)} value={password} />
+				<input type='password' required onChange={e => setPassword(e.target.value)} value={password} placeholder='Aa' />
 			</label>
 			<label>
 				<span>Display name:</span>
-				<input type='text' required onChange={e => setDisplayName(e.target.value)} value={displayName} />
+				<input
+					type='text'
+					required
+					onChange={e => setDisplayName(e.target.value)}
+					value={displayName}
+					placeholder='Aa'
+				/>
 			</label>
 			<label>
 				<span>Profile thumbnail:</span>
@@ -81,6 +93,11 @@ export default function Signup() {
 			<button className='google-btn' onClick={handleSubmitWithGoogle}>
 				<img src={googleLogo} alt='google logo' />
 				<span>Sign in with google</span>
+			</button>
+
+			<button className='github-btn' onClick={handleSubmitWithGithub}>
+				<img src={githubLogo} alt='github logo' />
+				<span>Sign in with GitHub</span>
 			</button>
 
 			{error && <div className='error'>{error}</div>}

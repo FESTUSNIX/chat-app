@@ -1,48 +1,48 @@
 {
-  "name": "messenger-copy",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "date-fns": "^2.29.3",
-    "emoji-picker-react": "^4.4.3",
-    "firebase": "^9.10.0",
-    "firestore": "^1.1.6",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-infinite-scroller": "^1.2.6",
-    "react-outside-click-handler": "^1.3.0",
-    "react-router-dom": "5.1",
-    "react-scripts": "4.0.3",
-    "react-select": "^5.4.0",
-    "sass": "^1.55.0",
-    "uuidv4": "^6.2.13",
-    "web-vitals": "^1.1.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "messenger-copy",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@testing-library/jest-dom": "^5.14.1",
+		"@testing-library/react": "^11.2.7",
+		"@testing-library/user-event": "^12.8.3",
+		"date-fns": "^2.29.3",
+		"emoji-picker-react": "^4.4.3",
+		"firebase": "^9.10.0",
+		"firestore": "^1.1.6",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-infinite-scroller": "^1.2.6",
+		"react-outside-click-handler": "^1.3.0",
+		"react-router-dom": "5.1",
+		"react-scripts": "4.0.3",
+		"react-select": "^5.4.0",
+		"sass": "^1.55.0",
+		"uuidv4": "^6.2.13",
+		"web-vitals": "^1.1.2"
+	},
+	"scripts": {
+		"start": "react-scripts --openssl-legacy-provider start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }

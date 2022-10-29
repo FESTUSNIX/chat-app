@@ -1,5 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
+.github-btn {
+	width: 100%;
+	height: 46px;
+	display: flex;
+	align-items: center;
+	padding: 0 18px 0 8px;
+	margin: 5px 0;
+	border: none;
+	border-radius: 4px;
+	text-decoration: none;
+	background-color: #24292e;
+	color: #fff;
+	cursor: pointer;
+
+	span {
+		width: 100%;
+		font-family: 'Roboto', sans-serif;
+		font-size: 18px;
+	}
+}
+
 .google-btn {
 	width: 100%;
 	display: flex;
@@ -11,10 +32,7 @@
 	text-decoration: none;
 	background-color: #4285f4;
 	color: #fff;
-
-	&:hover {
-		cursor: pointer;
-	}
+	cursor: pointer;
 
 	span {
 		width: 100%;

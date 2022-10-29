@@ -4,11 +4,12 @@ import { useLogin } from '../../hooks/useLogin'
 // Styles & assets
 import './Login.scss'
 import googleLogo from '../../assets/btn_google_dark_normal_ios.svg'
+import githubLogo from '../../assets/GitHub-Mark-Light-32px.png'
 
 export default function Login() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	const { login, loginWithGoogle, isPending, error } = useLogin()
+	const { login, loginWithGoogle, loginWithGithub, isPending, error } = useLogin()
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -18,6 +19,10 @@ export default function Login() {
 		e.preventDefault()
 		loginWithGoogle()
 	}
+	const handleSubmitWithGithub = e => {
+		e.preventDefault()
+		loginWithGithub()
+	}
 
 	return (
 		<form className='auth-form' onSubmit={handleSubmit}>
@@ -25,12 +30,12 @@ export default function Login() {
 
 			<label>
 				<span>Email:</span>
-				<input type='email' required onChange={e => setEmail(e.target.value)} value={email} />
+				<input type='email' required onChange={e => setEmail(e.target.value)} value={email} placeholder='Aa' />
 			</label>
 
 			<label>
 				<span>Password:</span>
-				<input type='password' required onChange={e => setPassword(e.target.value)} value={password} />
+				<input type='password' required onChange={e => setPassword(e.target.value)} value={password} placeholder='Aa' />
 			</label>
 
 			{!isPending && <button className='btn'>Login in</button>}
@@ -47,6 +52,11 @@ export default function Login() {
 			<button className='google-btn' onClick={handleSubmitWithGoogle}>
 				<img src={googleLogo} alt='google logo' />
 				<span>Sign in with google</span>
+			</button>
+
+			<button className='github-btn' onClick={handleSubmitWithGithub}>
+				<img src={githubLogo} alt='github logo' />
+				<span>Sign in with GitHub</span>
 			</button>
 
 			{error && <div className='error'>{error}</div>}

@@ -15,7 +15,12 @@
 9. Answering messages [❌]
 10. Reacting to messages [❌]
 11. Show unread messages [❌]
-12. Add more sign in options (github, apple, facebook) [❌]
+12. Add more sign in options:
+
+- Github [✅]
+- Apple [❌]
+- Facebook [❌]
+
 13. Remind password if forgotten (login screen) [❌]
 14. Friend invites (change the chat add/invitation system) [❌]
 15. Blocking people [❌]
