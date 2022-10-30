@@ -18,9 +18,7 @@
 12. Add more sign in options:
 
 - Github [✅]
-- Apple [❌]
-- Facebook [❌]
-
+8
 13. Remind password if forgotten (login screen) [❌]
 14. Friend invites (change the chat add/invitation system) [❌]
 15. Blocking people [❌]

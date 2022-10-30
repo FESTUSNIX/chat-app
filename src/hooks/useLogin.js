@@ -75,7 +75,6 @@ export const useLogin = () => {
 		try {
 			// Login
 			const res = await projectAuth.signInWithPopup(projectGitHub)
-
 			// Update online status
 
 			await projectFirestore.collection('users').doc(res.user.uid).update({
@@ -98,9 +97,23 @@ export const useLogin = () => {
 		}
 	}
 
+	const resetPassword = async email => {
+		setError(null)
+		setIsPending(true)
+
+		try {
+			await projectAuth.sendPasswordResetEmail(email)
+		} catch (err) {
+			if (!isCancelled) {
+				setError(err.message)
+				setIsPending(false)
+			}
+		}
+	}
+
 	useEffect(() => {
 		return () => setIsCancelled(true)
 	}, [])
 
-	return { login, loginWithGoogle, loginWithGithub, isPending, error }
+	return { login, loginWithGoogle, loginWithGithub, resetPassword, isPending, error }
 }

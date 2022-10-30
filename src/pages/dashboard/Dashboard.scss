@@ -1,37 +1,22 @@
 @use '../../colors' as *;
+.dashboard {
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-.project-filter {
-	margin: 30px auto;
-
-	nav {
-		display: flex;
-		padding: 10px;
-		border-radius: 4px;
-		background-color: #1b1a1a;
-
-		p {
-			margin-right: 10px;
-			font-size: 1.6rem;
-		}
-
-		button {
-			padding: 0 6px;
-			border: 0;
-			border-right: 1px solid #353333;
-			font-family: inherit;
-			font-weight: bold;
-			font-size: 1.6rem;
-			cursor: pointer;
-			background-color: transparent;
-			color: $text-color;
-
-			&:last-child {
-				border: 0;
-			}
-		}
-
-		button.active {
-			color: $primary-color;
-		}
+	.wise-mystical-tree {
+		width: 400px;
+		height: 400px;
+		// position: relative;
+		// top: 50%;
+		// left: 50%;
+		border-radius: 50vw;
+		// background-color: $primary-color;
+		background-image: url('https://i.ytimg.com/vi/QVui_0B3-4Q/hqdefault.jpg');
+		background-size: cover;
+		background-position: center;
+		animation: spin 120s linear infinite;
+		transition: 4s;
 	}
 }

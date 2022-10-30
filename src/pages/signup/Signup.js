@@ -51,56 +51,72 @@ export default function Signup() {
 	}
 
 	return (
-		<form className='auth-form' onSubmit={handleSubmit}>
-			<h2>Sign up</h2>
-
-			<label>
-				<span>Email:</span>
-				<input type='email' required onChange={e => setEmail(e.target.value)} value={email} placeholder='Aa' />
-			</label>
-			<label>
-				<span>Password:</span>
-				<input type='password' required onChange={e => setPassword(e.target.value)} value={password} placeholder='Aa' />
-			</label>
-			<label>
-				<span>Display name:</span>
-				<input
-					type='text'
-					required
-					onChange={e => setDisplayName(e.target.value)}
-					value={displayName}
-					placeholder='Aa'
-				/>
-			</label>
-			<label>
-				<span>Profile thumbnail:</span>
-				<input type='file' required onChange={handleFileChange} />
-
-				{thumbnailError && <div className='error'>{thumbnailError}</div>}
-			</label>
-
-			{!isPending && <button className='btn'>Sign up</button>}
-			{isPending && (
-				<button className='btn' disabled>
-					Loading
-				</button>
-			)}
-
-			<div className='others-separator'>
-				<span>or</span>
+		<div className='signup'>
+			<div className='auth-decoration'>
+				<div className='circle'></div>
+				<div className='blur'></div>
 			</div>
+			<form className='auth-form' onSubmit={handleSubmit}>
+				<h2>Sign up</h2>
 
-			<button className='google-btn' onClick={handleSubmitWithGoogle}>
-				<img src={googleLogo} alt='google logo' />
-				<span>Sign in with google</span>
-			</button>
+				<label>
+					<span>Email:</span>
+					<input type='email' required onChange={e => setEmail(e.target.value)} value={email} placeholder='Aa' />
+				</label>
+				<label>
+					<span>Password:</span>
+					<input
+						type='password'
+						required
+						onChange={e => setPassword(e.target.value)}
+						value={password}
+						placeholder='Aa'
+					/>
+				</label>
+				<label>
+					<span>Display name:</span>
+					<input
+						type='text'
+						required
+						onChange={e => setDisplayName(e.target.value)}
+						value={displayName}
+						placeholder='Aa'
+					/>
+				</label>
+				<label>
+					<span>Profile thumbnail:</span>
+					<input type='file' required onChange={handleFileChange} />
 
-			<button className='github-btn' onClick={handleSubmitWithGithub}>
-				<img src={githubLogo} alt='github logo' />
-				<span>Sign in with GitHub</span>
-			</button>
+					{thumbnailError && <div className='error'>{thumbnailError}</div>}
+				</label>
 
-			{error && <div className='error'>{error}</div>}
-		</form>
+				{!isPending && <button className='btn'>Sign up</button>}
+				{isPending && (
+					<button className='btn' disabled>
+						Loading
+					</button>
+				)}
+
+				<div className='others-separator'>
+					<span>or</span>
+				</div>
+
+				<button className='google-btn' onClick={handleSubmitWithGoogle}>
+					<img src={googleLogo} alt='google logo' />
+					<span>Sign in with google</span>
+				</button>
+
+				<button className='github-btn' onClick={handleSubmitWithGithub}>
+					<img src={githubLogo} alt='github logo' />
+					<span>Sign in with GitHub</span>
+				</button>
+
+				<p className='signup-link'>
+					Already have an account? <a href='/login'>Login</a>
+				</p>
+
+				{error && <div className='error'>{error}</div>}
+			</form>
+		</div>
 	)
 }

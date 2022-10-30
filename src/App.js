@@ -22,34 +22,31 @@ function App() {
 				<BrowserRouter>
 					{user && <Chats />}
 
-					<div className='container'>
-						{!user && <Navbar />}
-						<Switch>
-							<Route exact path='/'>
-								{!user && <Redirect to='/login' />}
-								{user && <Dashboard />}
-							</Route>
+					<Switch>
+						<Route exact path='/'>
+							{!user && <Redirect to='/login' />}
+							{user && <Dashboard />}
+						</Route>
 
-							<Route path='/projects/:id'>
-								{!user && <Redirect to='/login' />}
-								{user && <Project />}
-							</Route>
+						<Route path='/projects/:id'>
+							{!user && <Redirect to='/login' />}
+							{user && <Project />}
+						</Route>
 
-							<Route path='/login'>
-								{user && <Redirect to='/' />}
-								{!user && <Login />}
-							</Route>
+						<Route path='/privacy-policy'>
+							<PrivacyPolicy />
+						</Route>
 
-							<Route path='/signup'>
-								{user && <Redirect to='/' />}
-								{!user && <Signup />}
-							</Route>
+						<Route path='/login'>
+							{user && <Redirect to='/' />}
+							{!user && <Login />}
+						</Route>
 
-							<Route path='/privacy-policy'>
-								<PrivacyPolicy />
-							</Route>
-						</Switch>
-					</div>
+						<Route path='/signup'>
+							{user && <Redirect to='/' />}
+							{!user && <Signup />}
+						</Route>
+					</Switch>
 				</BrowserRouter>
 			)}
 		</div>
