@@ -24,6 +24,13 @@ export default function PrivacyPolicy() {
 					twoich danych.
 				</p>
 			</div>
+			<div class='privacy-section'>
+				<h3>Usuwanie danych</h3>
+
+				<p>
+					Jeśli zrezygnujesz z używania naszej aplikacji w każdym momencie możesz do nas napisać na maila "matkowsky808@gmail" lub wykorzystać funkcję w ustawieniach, aby usunąć konto oraz swoje dane.
+				</p>
+			</div>
 
 			<div class='privacy-section'>
 				<h3>Pozostałe informacje</h3>
