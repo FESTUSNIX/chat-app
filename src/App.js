@@ -9,6 +9,7 @@ import Dashboard from './pages/dashboard/Dashboard'
 import Project from './pages/project/Project'
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
+import PrivacyPolicy from './pages/privacyPolicy/privacyPolicy'
 import Navbar from './components/Navbar'
 import Chats from './components/Chats'
 
@@ -42,6 +43,10 @@ function App() {
 							<Route path='/signup'>
 								{user && <Redirect to='/' />}
 								{!user && <Signup />}
+							</Route>
+
+							<Route path='/privacy-policy'>
+								<PrivacyPolicy />
 							</Route>
 						</Switch>
 					</div>
