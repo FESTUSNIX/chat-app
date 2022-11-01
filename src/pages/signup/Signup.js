@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useSignup } from '../../hooks/useSignup'
+import { Link } from 'react-router-dom'
 
 // Styles
 import './Signup.scss'
 import googleLogo from '../../assets/btn_google_dark_normal_ios.svg'
+import githubLogo from '../../assets/GitHub-Mark-Light-32px.png'
 
 export default function Signup() {
 	const [email, setEmail] = useState('')
@@ -11,7 +13,7 @@ export default function Signup() {
 	const [displayName, setDisplayName] = useState('')
 	const [thumbnail, setThumbnail] = useState(null)
 	const [thumbnailError, setThumbnailError] = useState(null)
-	const { signup, signInWithGoogle, isPending, error } = useSignup()
+	const { signup, signInWithGoogle, signInWithGithub, isPending, error } = useSignup()
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -21,6 +23,11 @@ export default function Signup() {
 	const handleSubmitWithGoogle = e => {
 		e.preventDefault()
 		signInWithGoogle()
+	}
+
+	const handleSubmitWithGithub = e => {
+		e.preventDefault()
+		signInWithGithub()
 	}
 
 	const handleFileChange = e => {
@@ -45,45 +52,74 @@ export default function Signup() {
 	}
 
 	return (
-		<form className='auth-form' onSubmit={handleSubmit}>
-			<h2>Sign up</h2>
-
-			<label>
-				<span>Email:</span>
-				<input type='email' required onChange={e => setEmail(e.target.value)} value={email} />
-			</label>
-			<label>
-				<span>Password:</span>
-				<input type='password' required onChange={e => setPassword(e.target.value)} value={password} />
-			</label>
-			<label>
-				<span>Display name:</span>
-				<input type='text' required onChange={e => setDisplayName(e.target.value)} value={displayName} />
-			</label>
-			<label>
-				<span>Profile thumbnail:</span>
-				<input type='file' required onChange={handleFileChange} />
-
-				{thumbnailError && <div className='error'>{thumbnailError}</div>}
-			</label>
-
-			{!isPending && <button className='btn'>Sign up</button>}
-			{isPending && (
-				<button className='btn' disabled>
-					Loading
-				</button>
-			)}
-
-			<div className='others-separator'>
-				<span>or</span>
+		<div className='signup'>
+			<div className='auth-decoration'>
+				<div className='circle'></div>
+				<div className='blur'></div>
 			</div>
+			<form className='auth-form' onSubmit={handleSubmit}>
+				<div className='auth-form__title'>
+					<h2>Join us</h2>
+				</div>
 
-			<button className='google-btn' onClick={handleSubmitWithGoogle}>
-				<img src={googleLogo} alt='google logo' />
-				<span>Sign in with google</span>
-			</button>
+				<label>
+					<span>Email:</span>
+					<input type='email' required onChange={e => setEmail(e.target.value)} value={email} placeholder='Aa' />
+				</label>
+				<label>
+					<span>Password:</span>
+					<input
+						type='password'
+						required
+						onChange={e => setPassword(e.target.value)}
+						value={password}
+						placeholder='Aa'
+					/>
+				</label>
+				<label>
+					<span>Display name:</span>
+					<input
+						type='text'
+						required
+						onChange={e => setDisplayName(e.target.value)}
+						value={displayName}
+						placeholder='Aa'
+					/>
+				</label>
+				<label>
+					<span>Profile thumbnail:</span>
+					<input type='file' required onChange={handleFileChange} />
 
-			{error && <div className='error'>{error}</div>}
-		</form>
+					{thumbnailError && <div className='error'>{thumbnailError}</div>}
+				</label>
+
+				{!isPending && <button className='btn'>Sign up</button>}
+				{isPending && (
+					<button className='btn' disabled>
+						Loading
+					</button>
+				)}
+
+				<div className='others-separator'>
+					<span>or</span>
+				</div>
+
+				<button className='google-btn' onClick={handleSubmitWithGoogle}>
+					<img src={googleLogo} alt='google logo' />
+					<span>Sign in with google</span>
+				</button>
+
+				<button className='github-btn' onClick={handleSubmitWithGithub}>
+					<img src={githubLogo} alt='github logo' />
+					<span>Sign in with GitHub</span>
+				</button>
+
+				<p className='change-page'>
+					Already have an account? <Link to='/login'>Login</Link>
+				</p>
+
+				{error && <div className='error'>{error}</div>}
+			</form>
+		</div>
 	)
 }

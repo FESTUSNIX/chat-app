@@ -84,8 +84,11 @@ export default function ChatsList({ projects }) {
 						{/* {console.log(project.messages[project.messages.length - 1].createdAt.toDate().getTime())}
 					{console.log(project)} */}
 						<div className='chat-info'>
-							<p className='display-name'>{rightDisplayName.substring(0, 18)}</p>
-							{rightDisplayName.length >= 18 && '...'}
+							<p className='display-name'>
+								{rightDisplayName.substring(0, 18)}
+								<span>{rightDisplayName.length >= 18 && '...'}</span>
+							</p>
+
 							<div className='last-chat'>
 								<span className='last-message'>
 									{project &&

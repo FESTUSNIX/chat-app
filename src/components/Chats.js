@@ -51,7 +51,6 @@ export default function OnlineUsers() {
 	return (
 		<div className='user-list'>
 			<div className='search'>
-				<h2>Chats</h2>
 				<div>
 					<div className='search-form'>
 						<input

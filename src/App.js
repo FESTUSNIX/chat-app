@@ -9,7 +9,8 @@ import Dashboard from './pages/dashboard/Dashboard'
 import Project from './pages/project/Project'
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
-import Navbar from './components/Navbar'
+import PrivacyPolicy from './pages/privacyPolicy/privacyPolicy'
+import ResetPassword from './pages/login/ResetPassword'
 import Chats from './components/Chats'
 
 function App() {
@@ -21,30 +22,35 @@ function App() {
 				<BrowserRouter>
 					{user && <Chats />}
 
-					<div className='container'>
-						{!user && <Navbar />}
-						<Switch>
-							<Route exact path='/'>
-								{!user && <Redirect to='/login' />}
-								{user && <Dashboard />}
-							</Route>
+					<Switch>
+						<Route exact path='/'>
+							{!user && <Redirect to='/login' />}
+							{user && <Dashboard />}
+						</Route>
 
-							<Route path='/projects/:id'>
-								{!user && <Redirect to='/login' />}
-								{user && <Project />}
-							</Route>
+						<Route path='/projects/:id'>
+							{!user && <Redirect to='/login' />}
+							{user && <Project />}
+						</Route>
 
-							<Route path='/login'>
-								{user && <Redirect to='/' />}
-								{!user && <Login />}
-							</Route>
+						<Route path='/privacy-policy'>
+							<PrivacyPolicy />
+						</Route>
 
-							<Route path='/signup'>
-								{user && <Redirect to='/' />}
-								{!user && <Signup />}
-							</Route>
-						</Switch>
-					</div>
+						<Route path='/recover-password'>
+							<ResetPassword />
+						</Route>
+
+						<Route path='/login'>
+							{user && <Redirect to='/' />}
+							{!user && <Login />}
+						</Route>
+
+						<Route path='/signup'>
+							{user && <Redirect to='/' />}
+							{!user && <Signup />}
+						</Route>
+					</Switch>
 				</BrowserRouter>
 			)}
 		</div>

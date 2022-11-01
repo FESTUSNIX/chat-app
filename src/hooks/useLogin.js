@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { projectAuth, projectFirestore, projectGoogle } from '../firebase/config'
+import { useHistory } from 'react-router-dom'
+import { projectAuth, projectFirestore, projectGitHub, projectGoogle } from '../firebase/config'
 import { useAuthContext } from './useAuthContext'
 
 export const useLogin = () => {
@@ -7,6 +8,9 @@ export const useLogin = () => {
 	const [error, setError] = useState(null)
 	const [isPending, setIsPending] = useState(false)
 	const { dispatch } = useAuthContext()
+	const [isFinished, setIsFinished] = useState(false)
+
+	let history = useHistory()
 
 	const login = async (email, password) => {
 		setError(null)
@@ -68,9 +72,63 @@ export const useLogin = () => {
 		}
 	}
 
+	const loginWithGithub = async () => {
+		setError(null)
+		setIsPending(true)
+
+		try {
+			// Login
+			const res = await projectAuth.signInWithPopup(projectGitHub)
+			// Update online status
+
+			await projectFirestore.collection('users').doc(res.user.uid).update({
+				online: true,
+			})
+
+			// Dispatch login action
+			dispatch({ type: 'LOGIN', payload: res.user })
+
+			// Update state
+			if (!isCancelled) {
+				setIsPending(false)
+				setError(null)
+			}
+		} catch (err) {
+			if (!isCancelled) {
+				setError(err.message)
+				setIsPending(false)
+			}
+		}
+	}
+
+	const resetPassword = async email => {
+		setError(null)
+		setIsPending(true)
+		setIsFinished(false)
+
+		try {
+			await projectAuth.sendPasswordResetEmail(email)
+			if (!isCancelled) {
+				setIsPending(false)
+				setError(null)
+				setIsFinished(true)
+
+				setTimeout(() => {
+					history.push('/login')
+				}, 15000)
+			}
+		} catch (err) {
+			if (!isCancelled) {
+				setError(err.message)
+				setIsPending(false)
+				setIsFinished(false)
+			}
+		}
+	}
+
 	useEffect(() => {
 		return () => setIsCancelled(true)
 	}, [])
 
-	return { login, loginWithGoogle, isPending, error }
+	return { login, loginWithGoogle, loginWithGithub, resetPassword, isPending, error, isFinished }
 }

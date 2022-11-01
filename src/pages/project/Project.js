@@ -47,7 +47,7 @@ export default function Project() {
 	})
 
 	return (
-		<>
+		<div className='container'>
 			{isAssignedUser && (
 				<div className='project-details'>
 					{user && (
@@ -59,6 +59,6 @@ export default function Project() {
 					<ProjectComments project={document} />
 				</div>
 			)}
-		</>
+		</div>
 	)
 }
