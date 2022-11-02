@@ -47,18 +47,22 @@ export default function Project() {
 	})
 
 	return (
-		<div className='container'>
+		<>
 			{isAssignedUser && (
-				<div className='project-details'>
+				<div className='chat'>
 					{user && (
-						<div className='top-bar'>
+						<div className='chat__top-bar'>
 							<Avatar src={rightUrl} />
 							<h3>{rightDisplayName}</h3>
 						</div>
 					)}
-					<ProjectComments project={document} />
+					<div className='container'>
+						<div className='chat__container'>
+							<ProjectComments project={document} />
+						</div>
+					</div>
 				</div>
 			)}
-		</div>
+		</>
 	)
 }

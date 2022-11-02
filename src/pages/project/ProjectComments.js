@@ -26,8 +26,17 @@ export default function ProjectComments({ project }) {
 	const [newComment, setNewComment] = useState('')
 	const [imgUpload, setImgUpload] = useState(null)
 	const [isAssignedUser, setIsAssignedUser] = useState(false)
+	const [fastEmoji, setFastEmoji] = useState('👍')
+	const [sendFastEmoji, setSendFastEmoji] = useState(false)
 
 	const inputRef = useRef(null)
+
+	useEffect(() => {
+		if (sendFastEmoji === true) {
+			// console.log(fastEmoji)
+			sendMessage()
+		}
+	}, [sendFastEmoji])
 
 	useEffect(() => {
 		project.assignedUsersId.forEach(id => {
@@ -35,31 +44,24 @@ export default function ProjectComments({ project }) {
 		})
 	}, [setIsAssignedUser, project.assignedUsersId, user.uid])
 
-	// const bottomRef = useRef(null)
-	// useEffect(() => {
-	// 	// bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-	// 	if (bottomRef.current) {
-	// 		bottomRef.current.scrollTop = bottomRef.current.scrollHeight
-	// 	}
-	// }, [project.messages])
-
 	const sendMessage = async () => {
 		const commentToAdd = {
 			displayName: user.displayName,
 			photoURL: user.photoURL,
-			content: newComment,
+			content: sendFastEmoji ? fastEmoji : newComment,
 			createdAt: timestamp.fromDate(new Date()),
 			createdBy: user.uid,
 			id: uniqueId,
 		}
 
-		if (newComment.trim() !== '' && newComment.length < 900 && isAssignedUser) {
+		if (commentToAdd.content.trim() !== '' && newComment.length < 900 && isAssignedUser) {
 			await updateDocument(project.id, {
 				messages: [...project.messages, commentToAdd],
 				updatedAt: timestamp.fromDate(new Date()),
 			})
 			if (!response.error) {
 				setNewComment('')
+				setSendFastEmoji(false)
 			}
 		}
 	}
@@ -202,7 +204,7 @@ export default function ProjectComments({ project }) {
 	// }
 
 	return (
-		<div className='project-comments'>
+		<div className='chat-comments'>
 			<ul>
 				<div className='comments-wrapper' id='scrollableDiv'>
 					{/* <InfiniteScroll
@@ -265,6 +267,7 @@ export default function ProjectComments({ project }) {
 							{imgUpload && (
 								<div className='thumbnails'>
 									<div className='file-thumbnail'>
+										x
 										<img src={fileThumbnail} alt='' />
 										<button className='remove-img' onClick={e => resetFileInput(e)}>
 											<CloseBtn className='close-btn' />
@@ -306,11 +309,13 @@ export default function ProjectComments({ project }) {
 						)}
 					</div>
 
-					{/* todo - send the emoji when clicked on this button. For now sendMessage() needs to run twice to send whatever was before second run of function*/}
-
 					{!imgUpload && newComment.trim() === '' && (
-						<button className='input-tool' onClick={() => handleEmojis({ emoji: '👍', isQuickEmoji: true })}>
-							<span title="it doesn't work as it should">👍</span>
+						<button
+							className='input-tool'
+							onClick={() => {
+								setSendFastEmoji(true)
+							}}>
+							<span>👍</span>
 						</button>
 					)}
 

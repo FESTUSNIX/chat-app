@@ -8,7 +8,7 @@
    - (render a specific amount of messages and render more on scroll)
    - (https://www.npmjs.com/package/react-infinite-scroller) [❌]
 4. Fix the issue with bad styling when there's a date before a message block [❌]
-5. Auto sending emoji when clicked fast emoji icon [❌]
+5. Auto sending emoji when clicked fast emoji icon [✅]
 6. Posibility of changing the quick emoji [❌]
 7. Opening image preview on click [❌]
 8. Deleting messages [❌]
@@ -18,8 +18,8 @@
 12. Add more sign in options:
 
 - Github [✅]
-8
-13. Remind password if forgotten (login screen) [❌]
+
+13. Remind password if forgotten (login screen) [✅]
 14. Friend invites (change the chat add/invitation system) [❌]
 15. Blocking people [❌]
 16. Sending voice messages [❌]
