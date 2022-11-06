@@ -6,7 +6,7 @@ import './App.scss'
 
 // Components && Pages
 import Dashboard from './pages/dashboard/Dashboard'
-import Project from './pages/project/Project'
+import Chat from './pages/chat/Chat'
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
 import PrivacyPolicy from './pages/privacyPolicy/privacyPolicy'
@@ -30,7 +30,7 @@ function App() {
 
 						<Route path='/projects/:id'>
 							{!user && <Redirect to='/login' />}
-							{user && <Project />}
+							{user && <Chat />}
 						</Route>
 
 						<Route path='/privacy-policy'>

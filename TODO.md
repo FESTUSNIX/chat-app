@@ -1,43 +1,45 @@
 <h1 style="color: #ff0000">TODO:</h1>
 <hr>
 
-0. Add the project to github !!!! [✅]
-1. Make something cool on the dashboard page [❌]
-2. Remove lags when writing a message [❌]
-3. Make infinite scrolling
+1. Add the project to github !!!! [✅]
+2. Make something cool on the dashboard page [❌]
+3. Remove lags when writing a message [❌]
+4. Make infinite scrolling
    - (render a specific amount of messages and render more on scroll)
    - (https://www.npmjs.com/package/react-infinite-scroller) [❌]
-4. Fix the issue with bad styling when there's a date before a message block [❌]
-5. Auto sending emoji when clicked fast emoji icon [✅]
-6. Posibility of changing the quick emoji [❌]
-7. Opening image preview on click [❌]
-8. Deleting messages [❌]
-9. Answering messages [❌]
-10. Reacting to messages [❌]
-11. Show unread messages [❌]
-12. Add more sign in options:
+5. Fix the issue with bad styling when there's a date before a message block [❌]
+6. Auto sending emoji when clicked fast emoji icon [✅]
+7. Posibility of changing the quick emoji [❌]
+8. Opening image preview on click [✅]
+9. Deleting messages [❌]
+10. Answering messages [❌]
+11. Reacting to messages (with emoji)[❌]
+12. Show unread messages [❌]
+13. Add more sign in options:
 
 - Github [✅]
 
-13. Remind password if forgotten (login screen) [✅]
-14. Friend invites (change the chat add/invitation system) [❌]
-15. Blocking people [❌]
-16. Sending voice messages [❌]
-17. Audio/Video Calls [❌]
+0. Make sending images and message at the same time
 
-18. Make the UI prettier: [❌]
+1. Remind password if forgotten (login screen) [✅]
+2. Friend invites (change the chat add/invitation system) [❌]
+3. Blocking people [❌]
+4. Sending voice messages [❌]
+5. Audio/Video Calls [❌]
+
+6. Make the UI prettier: [❌]
 
 - Make it responsive [❌]
 - Dark/Light modes [❌]
 - New themes [❌]
 
-19. Editing account: [❌]
+0. Editing account: [❌]
 
 - Reset password [❌]
 - Adding bio and showing it [❌]
 - Changing profile picture [❌]
 - Changing username (once a month) [❌]
 
-20. Migrate the app to windows, macOS, android, ios with use of Electron [❌]
+0. Migrate the app to windows, macOS, android, ios with use of Electron [❌]
 
 # Celebrate 🥳🥳🥳

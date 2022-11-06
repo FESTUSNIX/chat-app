@@ -53,13 +53,16 @@ export default function OnlineUsers() {
 			<div className='search'>
 				<div>
 					<div className='search-form'>
-						<input
-							type='text'
-							placeholder='Find a user'
-							// onKeyUp={handleSearch}
-							onChange={e => setQuery(e.target.value)}
-							value={query}
-						/>
+						<label>
+							<i class='fa-solid fa-magnifying-glass'></i>
+							<input
+								type='text'
+								placeholder='Find a user'
+								// onKeyUp={handleSearch}
+								onChange={e => setQuery(e.target.value)}
+								value={query}
+							/>
+						</label>
 					</div>
 					{query !== '' && (
 						<>

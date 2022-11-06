@@ -32,6 +32,10 @@ export default function Login() {
 		}, 1000)
 	}
 
+	const handleKey = e => {
+		e.code === 'Enter' && handlePasswordReset(e)
+	}
+
 	return (
 		<div className='login'>
 			<div className='auth-decoration'>
@@ -69,6 +73,7 @@ export default function Login() {
 								onChange={e => setEmail(e.target.value)}
 								value={email}
 								placeholder='Enter your email'
+								onKeyDown={e => handleKey(e)}
 							/>
 						</label>
 

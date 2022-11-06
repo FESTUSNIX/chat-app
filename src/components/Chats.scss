@@ -18,11 +18,27 @@
 	.search {
 		position: relative;
 		padding: 0 1em;
-		// margin: 1em 0;
 
 		.search-form {
-			input {
+			label {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				gap: 1em;
+				padding: 12px;
 				margin: 2em 0;
+				border: 1px solid #313131;
+				border-radius: 8px;
+				font-size: 1.5rem;
+				background-color: #121212;
+				color: #777;
+				outline: none;
+
+				input {
+					all: unset;
+					cursor: text;
+					flex-grow: 1;
+				}
 			}
 		}
 		.add-users {

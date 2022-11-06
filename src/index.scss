@@ -14,7 +14,6 @@ html {
 	scroll-behavior: smooth;
 }
 
-
 body {
 	min-height: 100vh;
 	font-family: 'Poppins', sans-serif;
@@ -24,9 +23,41 @@ body {
 	overflow: hidden;
 }
 
+.wrapper {
+	max-width: calc(100vw - 3em);
+	margin: 0 auto;
+	width: 100%;
+}
+
+@media screen and (min-width: 576px) {
+	.wrapper {
+		max-width: calc(100vw - 5em);
+	}
+}
+
+@media screen and (min-width: 992px) {
+	.wrapper {
+		max-width: calc(100vw - 10em);
+	}
+}
+
+@media screen and (min-width: 1600px) {
+	.wrapper {
+		max-width: 1400px;
+	}
+}
+
 .container {
 	flex-grow: 1;
 	padding: 0 60px;
+}
+
+.vertical-container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	padding: 0 10px;
 }
 
 a {
@@ -55,31 +86,32 @@ a {
 }
 
 /* forms */
-label {
-	display: block;
-	margin-bottom: 16px;
-}
-label span {
-	display: block;
-	margin-bottom: 6px;
-}
 input,
 textarea {
-	box-sizing: border-box;
 	width: 100%;
 	padding: 12px;
 	border: 1px solid #313131;
 	border-radius: 8px;
 	background-color: #1b1a1a;
 	color: #777;
+	outline: none;
 
-	&:focus {
-		outline: none;
+}
+
+label {
+	display: block;
+	margin-bottom: 16px;
+
+	span {
+		display: block;
+		margin-bottom: 6px;
 	}
 }
+
 textarea {
 	min-height: 160px;
 }
+
 .error {
 	color: red;
 	background: pink;
