@@ -66,7 +66,7 @@ a {
 }
 
 .btn {
-	padding: 8px 12px;
+	padding: 0.6em 1em;
 	border: 1px solid $primary-color;
 	border-radius: 8px;
 	font-size: 1.6rem;
@@ -77,10 +77,37 @@ a {
 
 	&:not([disabled]) {
 		&:hover {
-			border: 1px solid $primary-color;
 			cursor: pointer;
-			background-color: #1d1d1d;
-			color: $primary-color;
+			filter: brightness(1.2);
+		}
+	}
+
+	&--secondary {
+		border: 1px solid #161616;
+		background-color: #161616;
+		transition: 0.3s;
+
+		// &:not([disabled]) {
+		// 	&:hover {
+		// 	}
+		// }
+	}
+}
+
+.custom-scrollbar {
+	&::-webkit-scrollbar {
+		width: 2px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	&::-webkit-scrollbar-thumb {
+		border-radius: 5px;
+		background: #888;
+
+		&:hover {
+			background-color: #aaaaaa;
 		}
 	}
 }
@@ -95,7 +122,6 @@ textarea {
 	background-color: #1b1a1a;
 	color: #777;
 	outline: none;
-
 }
 
 label {

@@ -15,22 +15,6 @@
 		}
 	}
 
-	&::-webkit-scrollbar {
-		width: 2px;
-	}
-
-	&::-webkit-scrollbar-track {
-		background: transparent;
-	}
-	&::-webkit-scrollbar-thumb {
-		border-radius: 5px;
-		background: #888;
-
-		&:hover {
-			background-color: #aaaaaa;
-		}
-	}
-
 	a {
 		position: relative;
 		display: flex;

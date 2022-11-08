@@ -12,7 +12,7 @@ import ChatsList from './ChatsList'
 import './Chats.scss'
 import Avatar from './Avatar'
 
-export default function OnlineUsers() {
+export default function Chats() {
 	const { user } = useAuthContext()
 	const { logout, isPending } = useLogout()
 	const { documents: users } = useCollection('users')
@@ -54,7 +54,7 @@ export default function OnlineUsers() {
 				<div>
 					<div className='search-form'>
 						<label>
-							<i class='fa-solid fa-magnifying-glass'></i>
+							<i className='fa-solid fa-magnifying-glass'></i>
 							<input
 								type='text'
 								placeholder='Find a user'

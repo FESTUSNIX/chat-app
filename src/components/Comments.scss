@@ -7,22 +7,6 @@
 	overflow-x: hidden;
 	overflow-y: scroll;
 
-	&::-webkit-scrollbar {
-		width: 2px;
-	}
-
-	&::-webkit-scrollbar-track {
-		background: transparent;
-	}
-	&::-webkit-scrollbar-thumb {
-		border-radius: 5px;
-		background: #888;
-
-		&:hover {
-			background-color: #aaaaaa;
-		}
-	}
-
 	.full-img {
 		width: 100%;
 		height: 100%;
@@ -124,6 +108,67 @@
 		color: #888;
 	}
 
+	.confirm-message-delete {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: rgba(0, 0, 0, 0.6);
+		transform: translate(-50%, -50%);
+		z-index: 150;
+
+		&__content {
+			max-width: clamp(15%, 25%, 80%);
+			display: flex;
+			flex-direction: column;
+			padding: 1.5em;
+			border-radius: 5px;
+			background-color: $bg-color;
+			z-index: 160;
+
+			p:nth-of-type(2) {
+				margin-top: 2em;
+			}
+
+			.message-to-delete {
+				max-height: 400px;
+				display: flex;
+				flex-direction: column;
+				padding: 0 1em 0 0;
+				margin: 1em 0;
+				overflow-y: auto;
+
+				span {
+					word-break: break-all;
+					font-size: 1.5rem;
+
+					&:nth-of-type(1) {
+						margin-bottom: 1em;
+					}
+				}
+
+				img {
+					max-height: 250px;
+					border-radius: 5px;
+				}
+			}
+
+			.vertical-btns {
+				display: flex;
+				gap: 0.5em;
+				margin-top: 1.5em;
+
+				button {
+					width: 50%;
+				}
+			}
+		}
+	}
+
 	li {
 		position: relative;
 		width: 100%;
@@ -135,7 +180,8 @@
 		&:hover {
 			.comment-content {
 				.comment-tools {
-					display: block;
+					visibility: visible;
+					opacity: 1;
 				}
 			}
 		}
@@ -149,6 +195,10 @@
 					right: auto;
 					margin-left: -1em;
 					transform: translate(-100%, -50%);
+				}
+
+				.comment-tools {
+					left: -4.5em;
 				}
 
 				&__text {
@@ -221,14 +271,16 @@
 
 		.comment-content {
 			position: relative;
-			width: max-content;
+			width: fit-content;
 			max-width: 80%;
 			display: flex;
 			align-items: flex-end;
 
-			&:hover .comment-createdAt {
-				visibility: visible;
-				opacity: 1;
+			&:hover {
+				.comment-createdAt {
+					visibility: visible;
+					opacity: 1;
+				}
 			}
 
 			.comment-createdAt {
@@ -239,9 +291,9 @@
 				top: 50%;
 				left: auto;
 				right: 0;
-				padding: 0.8em;
+				padding: 0.6em 0.8em;
 				margin-right: -1em;
-				border-radius: 9px;
+				border-radius: 50vw;
 				font-size: 1.2rem;
 				background-color: #1b1a1a;
 				z-index: 50;
@@ -252,16 +304,29 @@
 			}
 
 			.comment-tools {
-				display: none;
+				visibility: hidden;
+				opacity: 0;
 				position: absolute;
-				top: 0.5em;
-				right: -0.5em;
-				padding: 0.5em;
-				font-size: 1.3rem;
+				top: 50%;
+				right: -2.5em;
+				display: flex;
+				gap: 0.4em;
+				font-size: 1.6rem;
 				cursor: pointer;
 				color: #a5a5a5;
 				transform: translateY(-50%);
+				transition: 0.1s;
+				transition-delay: 0.3s;
 				z-index: 100;
+
+				&:hover + .comment-createdAt {
+					visibility: hidden;
+					opacity: 0;
+				}
+
+				i {
+					padding: 0.4em;
+				}
 			}
 
 			.left-margin {
@@ -281,7 +346,6 @@
 
 			&__text {
 				padding: 8px 12px;
-				// margin-left: 46px;
 				border-radius: 25px;
 				border: 1px solid #252424;
 				box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.05);
@@ -290,6 +354,11 @@
 				background: #1b1a1a;
 				color: #cacaca;
 				overflow: hidden;
+
+				&:hover + .comment-tools {
+					visibility: hidden;
+					opacity: 0;
+				}
 
 				.file-message {
 					position: relative;

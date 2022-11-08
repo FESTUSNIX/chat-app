@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useDates } from '../hooks/useDates'
+import { useFirestore } from '../hooks/useFirestore'
 import FileSaver from 'file-saver'
 
 // Styles && Assets
@@ -10,6 +11,10 @@ import Avatar from './Avatar'
 const Comments = ({ chat }) => {
 	const { formatDate } = useDates()
 	const { user } = useAuthContext()
+	const { updateDocument } = useFirestore('projects')
+
+	const [showImage, setShowImage] = useState('')
+	const [messageToDelete, setMessageToDelete] = useState(null)
 
 	const handleMessageStyle = (comment, i, elements) => {
 		if (
@@ -70,7 +75,20 @@ const Comments = ({ chat }) => {
 		}
 	}
 
-	const [showImage, setShowImage] = useState('')
+	const deleteMessage = async comment => {
+		if (user.uid === comment.createdBy) {
+			chat.messages.splice(chat.messages.indexOf(comment), 1)
+
+			try {
+				await updateDocument(chat.id, {
+					messages: [...chat.messages],
+				})
+				setMessageToDelete(null)
+			} catch (error) {
+				console.log(error)
+			}
+		}
+	}
 
 	const showFullImage = e => {
 		if (showImage !== e.target.src) {
@@ -87,7 +105,7 @@ const Comments = ({ chat }) => {
 	}
 
 	return (
-		<ul className='comments'>
+		<ul className='comments custom-scrollbar'>
 			{showImage && (
 				<div className='full-img'>
 					<div className='full-img__background'>
@@ -123,12 +141,6 @@ const Comments = ({ chat }) => {
 									)}
 
 								<div className='comment-content'>
-									<div className='comment-createdAt'>{formatDate(comment)}</div>
-
-									{/* On click show options (deleting message and answering to it) */}
-									<div className='comment-tools'>
-										<i class='fa-solid fa-gear'></i>
-									</div>
 									{comment.createdBy !== user.uid && (
 										<div className='left-margin'>
 											{(!elements[i + 1] || comment.createdBy !== elements[i + 1].createdBy) && (
@@ -158,11 +170,46 @@ const Comments = ({ chat }) => {
 											</div>
 										)}
 									</div>
+									{/* On click show options (deleting message and replying to it) */}
+
+									<div className='comment-tools'>
+										{user.uid === comment.createdBy && (
+											<i className='fa-solid fa-trash-can' onClick={() => setMessageToDelete(comment)}></i>
+										)}
+										<i className='fa-solid fa-reply'></i>
+									</div>
+
+									<div className='comment-createdAt'>{formatDate(comment)}</div>
 								</div>
 							</li>
 						</React.Fragment>
 					))}
 			</div>
+			{messageToDelete && (
+				<div className='confirm-message-delete'>
+					<div className='hero-shadow'></div>
+
+					<div className='confirm-message-delete__content'>
+						<h2>Delete message</h2>
+						<p>Do you really want to delete this message?</p>
+
+						<p>Message to delete: </p>
+						<div className='message-to-delete custom-scrollbar'>
+							{messageToDelete.content && <span>"{messageToDelete.content}"</span>}
+							{messageToDelete.image && <img src={messageToDelete.image} alt='' />}
+						</div>
+
+						<div className='vertical-btns'>
+							<button className='btn btn--secondary' onClick={() => setMessageToDelete(null)}>
+								Cancel
+							</button>
+							<button className='btn' onClick={() => deleteMessage(messageToDelete)}>
+								Delete
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</ul>
 	)
 }

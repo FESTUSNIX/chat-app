@@ -18,6 +18,7 @@ export default function ChatsList({ projects }) {
 	const replaceDistanceToNow = {
 		about: '',
 		minute: 'min',
+		minutes: 'min',
 		'less than a minute': '1 min',
 	}
 
@@ -42,7 +43,7 @@ export default function ChatsList({ projects }) {
 	}
 
 	return (
-		<div className='chat-list' onMouseMove={handleOnMouseMove}>
+		<div className='chat-list custom-scrollbar' onMouseMove={handleOnMouseMove}>
 			{projects.length === 0 && <p>No chats yet!</p>}
 			{projects.map(project => (
 				<Link to={`/projects/${project.id}`} key={project.id} className='card'>

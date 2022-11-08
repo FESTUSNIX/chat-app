@@ -1,6 +1,8 @@
 <h1 style="color: #ff0000">TODO:</h1>
 <hr>
 
+# FIX THE DATES !!!!
+
 1. Add the project to github !!!! [✅]
 2. Make something cool on the dashboard page [❌]
 3. Remove lags when writing a message [❌]
