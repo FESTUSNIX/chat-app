@@ -1,23 +1,44 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useDates } from '../hooks/useDates'
 import { useFirestore } from '../hooks/useFirestore'
+import { useHistory } from 'react-router-dom'
 import FileSaver from 'file-saver'
 
 // Styles && Assets
 import './Comments.scss'
 import Avatar from './Avatar'
 
-const Comments = ({ chat }) => {
-	const { formatDate } = useDates()
+const Comments = ({ chat, onQuery }) => {
+	const { formatDate, dates } = useDates()
 	const { user } = useAuthContext()
 	const { updateDocument } = useFirestore('projects')
 
 	const [showImage, setShowImage] = useState('')
 	const [messageToDelete, setMessageToDelete] = useState(null)
 
+	const history = useHistory()
+
+	useEffect(() => {
+		return history.listen(() => {
+			onQuery(null)
+		})
+	}, [history])
+
 	const handleMessageStyle = (comment, i, elements) => {
-		if (
+		if (elements[i + 1] && comment.response && elements[i + 1].response) {
+			if (comment.createdBy === user.uid) {
+				return 'owner'
+			} else {
+				return ''
+			}
+		} else if (elements[i - 1] && comment.response && (!elements[i - 1].response || elements[i - 1].response)) {
+			if (comment.createdBy === user.uid) {
+				return 'owner group-top'
+			} else {
+				return 'group-top'
+			}
+		} else if (
 			!elements[i - 1] ||
 			(elements[i + 1] &&
 				elements[i - 1] &&
@@ -28,6 +49,12 @@ const Comments = ({ chat }) => {
 				return 'owner group-top'
 			} else {
 				return 'group-top'
+			}
+		} else if (elements[i + 1] && elements[i + 1].response) {
+			if (comment.createdBy === user.uid) {
+				return 'owner group-down'
+			} else {
+				return 'group-down'
 			}
 		} else if (
 			elements[i + 1] &&
@@ -90,6 +117,10 @@ const Comments = ({ chat }) => {
 		}
 	}
 
+	const handleReply = comment => {
+		onQuery(comment)
+	}
+
 	const showFullImage = e => {
 		if (showImage !== e.target.src) {
 			setShowImage(e.target.src)
@@ -127,7 +158,10 @@ const Comments = ({ chat }) => {
 				</div>
 			)}
 			<div className='comments-wrapper'>
-				<p className='comments__conversation-start'>This is the start of your conversation with this user</p>
+				<div className='comments__conversation-start'>
+					<p>This is the start of your conversation with this user</p>
+					{/* <p>{dates(chat.createdAt).fullDate}</p> */}
+				</div>
 
 				{chat.messages.length > 0 &&
 					chat.messages.map((comment, i, elements) => (
@@ -139,6 +173,8 @@ const Comments = ({ chat }) => {
 									(!elements[i - 1] || comment.createdBy !== elements[i - 1].createdBy) && (
 										<p className='comment-author'>{comment.displayName}</p>
 									)}
+
+								{comment.response && <div className='response-message'>{comment.response.content}</div>}
 
 								<div className='comment-content'>
 									{comment.createdBy !== user.uid && (
@@ -176,7 +212,7 @@ const Comments = ({ chat }) => {
 										{user.uid === comment.createdBy && (
 											<i className='fa-solid fa-trash-can' onClick={() => setMessageToDelete(comment)}></i>
 										)}
-										<i className='fa-solid fa-reply'></i>
+										<i className='fa-solid fa-reply' onClick={() => handleReply(comment)}></i>
 									</div>
 
 									<div className='comment-createdAt'>{formatDate(comment)}</div>

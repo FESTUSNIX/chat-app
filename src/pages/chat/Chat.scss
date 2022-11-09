@@ -31,165 +31,196 @@
 		justify-content: space-between;
 		flex-grow: 1;
 
-		.add-comment {
+		form {
 			display: flex;
-			align-items: flex-end;
-			margin: 15px 5px;
+			flex-direction: column;
+			margin: 1em 0.5em;
 
-			.attach-image {
+			.response {
+				width: 100%;
 				display: flex;
-				align-items: center;
-				padding: 8px 0;
-				margin: 0 20px 0 0;
+				align-items: flex-start;
+				justify-content: space-between;
+				padding: 0.5em 0.8em 1.5em 0.8em;
+				border-top: 1px solid #303030;
+				font-size: 1.4rem;
 
-				&:hover {
+				&__content {
+					color: #7e7e7e;
+
+					img {
+						max-height: 150px;
+						border-radius: 5px;
+					}
+				}
+
+				&__close-btn {
+					padding: 0.2em;
 					cursor: pointer;
-				}
-
-				input {
-					display: none;
-				}
-
-				img {
-					width: 25px;
-					height: 25px;
-					color: $primary-color;
+					i {
+						font-size: 1.8rem;
+					}
 				}
 			}
-
-			.message-field {
-				width: 100%;
-				min-height: 36px;
-				position: relative;
+			.add-comment {
 				display: flex;
-				justify-content: space-between;
 				align-items: flex-end;
-				padding: 8px 12px;
-				margin: 0;
-				border-radius: 20px;
-				background-color: #1b1a1a;
 
-				.column {
-					width: 100%;
-					flex-direction: column;
-					.thumbnails {
-						display: flex;
-						flex-direction: row;
-						padding: 0.5em 0;
-						.file-thumbnail {
-							display: inline-block;
-							position: relative;
-
-							img {
-								width: 48px;
-								height: 48px;
-								border-radius: 15px;
-							}
-
-							.remove-img {
-								position: absolute;
-								top: -8px;
-								right: -8px;
-								padding: 5px;
-								border: none;
-								border-radius: 50vw;
-								background-color: #111111;
-								color: #fff;
-
-								&:hover {
-									cursor: pointer;
-								}
-
-								.close-btn {
-									display: block;
-									width: 12px;
-									height: 12px;
-								}
-							}
-						}
-					}
-
-					& > label {
-						all: unset;
-						input {
-							width: 100%;
-							padding: 0 0 0 6px;
-							border: none;
-							font-size: 1.5rem;
-							color: #cacaca;
-
-							&:focus {
-								outline: none;
-							}
-						}
-					}
-				}
-
-				.toggle-emoji-picker {
-					border: none;
-					background-color: transparent;
-					color: #3e2a49;
+				.attach-image {
+					display: flex;
+					align-items: center;
+					padding: 8px 0;
+					margin: 0 20px 0 0;
 
 					&:hover {
 						cursor: pointer;
 					}
-				}
 
-				.EmojiPickerReact {
-					position: absolute;
-					top: 0;
-					right: 0;
-					transform: translateY(-105%);
-
-					.epr-preview {
+					input {
 						display: none;
 					}
 
-					.epr-body {
-						margin-right: 5px;
-						&::-webkit-scrollbar {
-							width: 4px;
+					img {
+						width: 25px;
+						height: 25px;
+						color: $primary-color;
+					}
+				}
+
+				.message-field {
+					width: 100%;
+					min-height: 36px;
+					position: relative;
+					display: flex;
+					justify-content: space-between;
+					align-items: flex-end;
+					padding: 8px 12px;
+					margin: 0;
+					border-radius: 20px;
+					background-color: #1b1a1a;
+
+					.column {
+						width: 100%;
+						flex-direction: column;
+						.thumbnails {
+							display: flex;
+							flex-direction: row;
+							padding: 0.5em 0;
+							.file-thumbnail {
+								display: inline-block;
+								position: relative;
+
+								img {
+									width: 48px;
+									height: 48px;
+									border-radius: 15px;
+								}
+
+								.remove-img {
+									position: absolute;
+									top: -8px;
+									right: -8px;
+									padding: 5px;
+									border: none;
+									border-radius: 50vw;
+									background-color: #111111;
+									color: #fff;
+
+									&:hover {
+										cursor: pointer;
+									}
+
+									.close-btn {
+										display: block;
+										width: 12px;
+										height: 12px;
+									}
+								}
+							}
 						}
 
-						&::-webkit-scrollbar-track {
-							background: transparent;
-						}
-						&::-webkit-scrollbar-thumb {
-							border-radius: 5px;
-							background: #888;
+						& > label {
+							all: unset;
+							input {
+								width: 100%;
+								padding: 0 0 0 6px;
+								border: none;
+								font-size: 1.5rem;
+								color: #cacaca;
 
-							&:hover {
-								background-color: #aaaaaa;
+								&:focus {
+									outline: none;
+								}
 							}
 						}
 					}
-				}
-				.EmojiPickerReact li.epr-emoji-category > .epr-emoji-category-label {
-					top: -1px;
-				}
-			}
 
-			.input-tool {
-				max-height: 41px;
-				display: flex;
-				align-items: center;
-				margin: 0 0 0 15px;
-				padding: 8px 0;
-				background-color: transparent;
-				border: none;
+					.toggle-emoji-picker {
+						border: none;
+						background-color: transparent;
+						color: #3e2a49;
 
-				&:hover {
-					cursor: pointer;
+						&:hover {
+							cursor: pointer;
+						}
+					}
+
+					.EmojiPickerReact {
+						position: absolute;
+						top: 0;
+						right: 0;
+						transform: translateY(-105%);
+
+						.epr-preview {
+							display: none;
+						}
+
+						.epr-body {
+							margin-right: 5px;
+							&::-webkit-scrollbar {
+								width: 4px;
+							}
+
+							&::-webkit-scrollbar-track {
+								background: transparent;
+							}
+							&::-webkit-scrollbar-thumb {
+								border-radius: 5px;
+								background: #888;
+
+								&:hover {
+									background-color: #aaaaaa;
+								}
+							}
+						}
+					}
+					.EmojiPickerReact li.epr-emoji-category > .epr-emoji-category-label {
+						top: -1px;
+					}
 				}
 
-				span {
-					font-size: 2.6rem;
-				}
+				.input-tool {
+					max-height: 41px;
+					display: flex;
+					align-items: center;
+					margin: 0 0 0 15px;
+					padding: 8px 0;
+					background-color: transparent;
+					border: none;
 
-				svg {
-					width: 25px;
-					height: 25px;
-					transform: rotate(45deg);
+					&:hover {
+						cursor: pointer;
+					}
+
+					span {
+						font-size: 2.6rem;
+					}
+
+					svg {
+						width: 25px;
+						height: 25px;
+						transform: rotate(45deg);
+					}
 				}
 			}
 		}

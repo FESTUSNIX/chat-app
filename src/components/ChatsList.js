@@ -46,7 +46,7 @@ export default function ChatsList({ projects }) {
 		<div className='chat-list custom-scrollbar' onMouseMove={handleOnMouseMove}>
 			{projects.length === 0 && <p>No chats yet!</p>}
 			{projects.map(project => (
-				<Link to={`/projects/${project.id}`} key={project.id} className='card'>
+				<Link to={`/u/${project.id}`} key={project.id} className='card'>
 					<div className='card-content'>
 						{project.assignedUsersPhotoURL.forEach(url => {
 							if (url !== user.photoURL) {

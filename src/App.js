@@ -28,7 +28,7 @@ function App() {
 							{user && <Dashboard />}
 						</Route>
 
-						<Route path='/projects/:id'>
+						<Route path='/u/:id'>
 							{!user && <Redirect to='/login' />}
 							{user && <Chat />}
 						</Route>

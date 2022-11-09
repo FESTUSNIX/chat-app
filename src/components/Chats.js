@@ -41,6 +41,7 @@ export default function Chats() {
 					assignedUsersPhotoURL: [user.photoURL, addUser.photoURL],
 					messages: [],
 					updatedAt: timestamp.fromDate(new Date()),
+					createdAt: timestamp.fromDate(new Date()),
 				})
 			}
 		} catch (err) {}

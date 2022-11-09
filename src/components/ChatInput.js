@@ -15,7 +15,7 @@ import { ReactComponent as SendIcon } from '../assets/send-icon.svg'
 import { ReactComponent as CloseBtn } from '../assets/x.svg'
 import { ReactComponent as SmileIcon } from '../assets/smile.svg'
 
-const ChatInput = ({ chat }) => {
+const ChatInput = ({ chat, query, onQuery }) => {
 	const uniqueId = uuid()
 
 	const { updateDocument, response } = useFirestore('projects')
@@ -32,7 +32,6 @@ const ChatInput = ({ chat }) => {
 
 	useEffect(() => {
 		if (sendFastEmoji === true) {
-			// console.log(fastEmoji)
 			sendMessage()
 		}
 	}, [sendFastEmoji])
@@ -51,6 +50,7 @@ const ChatInput = ({ chat }) => {
 			createdAt: timestamp.fromDate(new Date()),
 			createdBy: user.uid,
 			id: uniqueId,
+			response: query ? query : null,
 		}
 
 		if (commentToAdd.content.trim() !== '' && newComment.length < 900 && isAssignedUser) {
@@ -61,6 +61,7 @@ const ChatInput = ({ chat }) => {
 			if (!response.error) {
 				setNewComment('')
 				setSendFastEmoji(false)
+				onQuery(null)
 			}
 		}
 	}
@@ -154,6 +155,31 @@ const ChatInput = ({ chat }) => {
 
 	return (
 		<form onSubmit={handleSubmit}>
+			{query && (
+				<div className='response'>
+					<div>
+						<p className='response__to'>
+							Responding to{' '}
+							<span>{query.displayName === user.displayName ? 'yourself' : <b>{query.displayName}</b>}</span>
+						</p>
+						<p className='response__content'>
+							{query.content && (
+								<>
+									{query.content.substring(0, 70)}
+									{query.content.length > 70 ? <span>...</span> : ''}
+								</>
+							)}
+
+							{query.image && 'Image'}
+						</p>
+					</div>
+
+					<div className='response__close-btn' onClick={() => onQuery(null)}>
+						<i className='fa-solid fa-xmark'></i>
+					</div>
+				</div>
+			)}
+
 			<div className='add-comment'>
 				<label className='attach-image'>
 					<input ref={inputRef} type='file' accept='video/*, image/*' onChange={e => handleFileChange(e)} />

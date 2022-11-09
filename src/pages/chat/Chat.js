@@ -13,6 +13,7 @@ import Avatar from '../../components/Avatar'
 
 export default function Chat() {
 	const [isAssignedUser, setIsAssignedUser] = useState(false)
+	const [query, setQuery] = useState(null)
 
 	const { user } = useAuthContext()
 	const { id } = useParams()
@@ -62,8 +63,8 @@ export default function Chat() {
 
 					<div className='vertical-container'>
 						<div className='chat__comments'>
-							<Comments chat={document} />
-							<ChatInput chat={document} />
+							<Comments chat={document} onQuery={setQuery} />
+							<ChatInput chat={document} query={query} onQuery={setQuery} />
 						</div>
 					</div>
 				</div>
