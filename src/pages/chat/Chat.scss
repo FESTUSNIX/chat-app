@@ -5,9 +5,11 @@
 	flex-grow: 1;
 	&__top-bar {
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
-		padding: 1em 0.6em 0.6em 0.6em;
-		box-shadow: 0px 5px 4px -5px rgba(255, 255, 255, 0.075);
+		padding: 0.6em 2em;
+		box-shadow: 0 0 2px rgba(0, 0, 0, 1);
+		z-index: 80;
 
 		.avatar {
 			width: 36px;
@@ -16,15 +18,24 @@
 		}
 
 		h3 {
-			font-weight: 500;
-			font-size: 1.5rem;
-
+			font-weight: bold;
+			font-size: 1.8rem;
 			color: #ddd;
+		}
+
+		.chat-options {
+			padding: 0.4em 0.8em;
+			cursor: pointer;
+
+			i {
+				font-size: 2rem;
+			}
 		}
 	}
 
 	// comments list
 	&__comments {
+		position: relative;
 		height: 0;
 		display: flex;
 		flex-direction: column;
@@ -158,69 +169,72 @@
 					.toggle-emoji-picker {
 						border: none;
 						background-color: transparent;
-						color: #3e2a49;
+						cursor: pointer;
 
-						&:hover {
-							cursor: pointer;
+						i {
+							height: 100%;
+							font-size: 2.5rem;
+							color: #3e2a49;
 						}
-					}
-
-					.EmojiPickerReact {
-						position: absolute;
-						top: 0;
-						right: 0;
-						transform: translateY(-105%);
-
-						.epr-preview {
-							display: none;
-						}
-
-						.epr-body {
-							margin-right: 5px;
-							&::-webkit-scrollbar {
-								width: 4px;
-							}
-
-							&::-webkit-scrollbar-track {
-								background: transparent;
-							}
-							&::-webkit-scrollbar-thumb {
-								border-radius: 5px;
-								background: #888;
-
-								&:hover {
-									background-color: #aaaaaa;
-								}
-							}
-						}
-					}
-					.EmojiPickerReact li.epr-emoji-category > .epr-emoji-category-label {
-						top: -1px;
 					}
 				}
 
-				.input-tool {
-					max-height: 41px;
-					display: flex;
-					align-items: center;
-					margin: 0 0 0 15px;
-					padding: 8px 0;
-					background-color: transparent;
-					border: none;
+				.EmojiPickerReact {
+					position: absolute;
+					top: 0;
+					right: 0;
+					transform: translateY(-105%);
 
-					&:hover {
-						cursor: pointer;
+					.epr-preview {
+						display: none;
 					}
 
-					span {
-						font-size: 2.6rem;
-					}
+					.epr-body {
+						margin-right: 5px;
+						&::-webkit-scrollbar {
+							width: 4px;
+						}
 
-					svg {
-						width: 25px;
-						height: 25px;
-						transform: rotate(45deg);
+						&::-webkit-scrollbar-track {
+							background: transparent;
+						}
+						&::-webkit-scrollbar-thumb {
+							border-radius: 5px;
+							background: #888;
+
+							&:hover {
+								background-color: #aaaaaa;
+							}
+						}
 					}
+				}
+				.EmojiPickerReact li.epr-emoji-category > .epr-emoji-category-label {
+					top: -1px;
+				}
+			}
+
+			.input-tool {
+				max-height: 41px;
+				display: flex;
+				align-items: center;
+				margin: 0 0 0 15px;
+				padding: 8px 0;
+				background-color: transparent;
+				border: none;
+
+				&:hover {
+					cursor: pointer;
+				}
+
+				i {
+					font-size: 3rem;
+					color: $primary-color;
+				}
+
+				svg {
+					width: 25px;
+					height: 25px;
+					transform: rotate(45deg);
 				}
 			}
 		}

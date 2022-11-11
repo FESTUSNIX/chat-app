@@ -11,11 +11,10 @@ import imageCompression from 'browser-image-compression'
 // Styles && Assets
 import './ChatInput.scss'
 import ImageIcon from '../assets/image.svg'
-import { ReactComponent as SendIcon } from '../assets/send-icon.svg'
 import { ReactComponent as CloseBtn } from '../assets/x.svg'
 import { ReactComponent as SmileIcon } from '../assets/smile.svg'
 
-const ChatInput = ({ chat, query, onQuery }) => {
+const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 	const uniqueId = uuid()
 
 	const { updateDocument, response } = useFirestore('projects')
@@ -28,7 +27,12 @@ const ChatInput = ({ chat, query, onQuery }) => {
 	const [fastEmoji, setFastEmoji] = useState('👍')
 	const [sendFastEmoji, setSendFastEmoji] = useState(false)
 
+	const fileInputRef = useRef(null)
 	const inputRef = useRef(null)
+
+	useEffect(() => {
+		inputRef.current.focus()
+	}, [messageResponse])
 
 	useEffect(() => {
 		if (sendFastEmoji === true) {
@@ -42,15 +46,21 @@ const ChatInput = ({ chat, query, onQuery }) => {
 		})
 	}, [setIsAssignedUser, chat.assignedUsersId, user.uid])
 
+	const scrollToBottom = () => {
+		bottomDiv.current.scrollIntoView({
+			block: 'end',
+		})
+	}
+
 	const sendMessage = async () => {
 		const commentToAdd = {
+			id: uniqueId,
 			displayName: user.displayName,
 			photoURL: user.photoURL,
 			content: sendFastEmoji ? fastEmoji : newComment,
 			createdAt: timestamp.fromDate(new Date()),
 			createdBy: user.uid,
-			id: uniqueId,
-			response: query ? query : null,
+			response: messageResponse !== null ? messageResponse : null,
 		}
 
 		if (commentToAdd.content.trim() !== '' && newComment.length < 900 && isAssignedUser) {
@@ -59,9 +69,10 @@ const ChatInput = ({ chat, query, onQuery }) => {
 				updatedAt: timestamp.fromDate(new Date()),
 			})
 			if (!response.error) {
+				scrollToBottom()
 				setNewComment('')
 				setSendFastEmoji(false)
-				onQuery(null)
+				onMessageResponse(null)
 			}
 		}
 	}
@@ -94,6 +105,7 @@ const ChatInput = ({ chat, query, onQuery }) => {
 			uploadTask.then(snapshot => {
 				getDownloadURL(snapshot.ref).then(async downloadURL => {
 					const commentToAdd = {
+						id: uniqueId,
 						displayName: user.displayName,
 						photoURL: user.photoURL,
 						// content: newComment,
@@ -101,7 +113,7 @@ const ChatInput = ({ chat, query, onQuery }) => {
 						image: downloadURL,
 						createdAt: timestamp.fromDate(new Date()),
 						createdBy: user.uid,
-						id: uniqueId,
+						response: messageResponse !== null ? messageResponse : null,
 					}
 
 					if (isAssignedUser) {
@@ -111,6 +123,7 @@ const ChatInput = ({ chat, query, onQuery }) => {
 						})
 
 						if (!response.error) {
+							scrollToBottom()
 							setImgUpload(null)
 						}
 					}
@@ -137,44 +150,54 @@ const ChatInput = ({ chat, query, onQuery }) => {
 
 	const handleFileChange = e => {
 		handleImageUpload(e)
-		// setImgUpload(e.target.files[0])
 		setFileThumbnail(URL.createObjectURL(e.target.files[0]))
 	}
 
 	const resetFileInput = e => {
 		e.preventDefault()
-		inputRef.current.value = ''
+		fileInputRef.current.value = ''
 		setImgUpload(null)
 	}
 
-	const handleEmojis = (emojiData, event) => {
-		setNewComment(newComment => newComment + emojiData.emoji)
+	const handleEmojis = e => {
+		setNewComment(newComment => newComment + e.emoji)
 	}
 
 	const [showEmojis, setShowEmojis] = useState(false)
 
 	return (
 		<form onSubmit={handleSubmit}>
-			{query && (
+			{messageResponse !== null && (
 				<div className='response'>
 					<div>
 						<p className='response__to'>
 							Responding to{' '}
-							<span>{query.displayName === user.displayName ? 'yourself' : <b>{query.displayName}</b>}</span>
+							<span>
+								{chat.messages[messageResponse].displayName === user.displayName ? (
+									'yourself'
+								) : (
+									<b>{chat.messages[messageResponse].displayName}</b>
+								)}
+							</span>
 						</p>
 						<p className='response__content'>
-							{query.content && (
+							{chat.messages[messageResponse].content && (
 								<>
-									{query.content.substring(0, 70)}
-									{query.content.length > 70 ? <span>...</span> : ''}
+									{chat.messages[messageResponse].content.substring(0, 70)}
+									{chat.messages[messageResponse].content.length > 70 ? <span>...</span> : ''}
 								</>
 							)}
 
-							{query.image && 'Image'}
+							{chat.messages[messageResponse].image && chat.messages[messageResponse].fileType === 'image'
+								? 'Image'
+								: ''}
+							{chat.messages[messageResponse].image && chat.messages[messageResponse].fileType === 'video'
+								? 'Video'
+								: ''}
 						</p>
 					</div>
 
-					<div className='response__close-btn' onClick={() => onQuery(null)}>
+					<div className='response__close-btn' onClick={() => onMessageResponse(null)}>
 						<i className='fa-solid fa-xmark'></i>
 					</div>
 				</div>
@@ -182,7 +205,7 @@ const ChatInput = ({ chat, query, onQuery }) => {
 
 			<div className='add-comment'>
 				<label className='attach-image'>
-					<input ref={inputRef} type='file' accept='video/*, image/*' onChange={e => handleFileChange(e)} />
+					<input ref={fileInputRef} type='file' accept='video/*, image/*' onChange={e => handleFileChange(e)} />
 					<img src={ImageIcon} alt='' />
 				</label>
 
@@ -205,11 +228,17 @@ const ChatInput = ({ chat, query, onQuery }) => {
 								onChange={e => setNewComment(e.target.value)}
 								value={newComment}
 								onKeyDown={e => handleKey(e)}
+								ref={inputRef}
 							/>
 						</label>
 					</div>
-					<button className='toggle-emoji-picker' onClick={() => setShowEmojis(!showEmojis)}>
-						<SmileIcon />
+					<button
+						className='toggle-emoji-picker'
+						onClick={e => {
+							e.preventDefault()
+							setShowEmojis(!showEmojis)
+						}}>
+						<i class='fa-regular fa-face-smile'></i>
 					</button>
 
 					{showEmojis && (
@@ -219,7 +248,9 @@ const ChatInput = ({ chat, query, onQuery }) => {
 							}}>
 							<EmojiPicker
 								className='emoji-picker'
-								onEmojiClick={handleEmojis}
+								onEmojiClick={e => {
+									handleEmojis(e)
+								}}
 								theme={Theme.DARK}
 								previewConfig={{
 									defaultCaption: '',
@@ -238,13 +269,13 @@ const ChatInput = ({ chat, query, onQuery }) => {
 						onClick={() => {
 							setSendFastEmoji(true)
 						}}>
-						<span>👍</span>
+						<i class='fa-solid fa-thumbs-up'></i>
 					</button>
 				)}
 
 				{(newComment.trim() !== '' || imgUpload) && (
 					<button type='submit' className='input-tool'>
-						<SendIcon />
+						<i class='fa-solid fa-paper-plane'></i>
 					</button>
 				)}
 			</div>

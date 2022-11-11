@@ -13,11 +13,11 @@ import Avatar from '../../components/Avatar'
 
 export default function Chat() {
 	const [isAssignedUser, setIsAssignedUser] = useState(false)
-	const [query, setQuery] = useState(null)
+	const [messageResponse, onMessageResponse] = useState(null)
+	const [bottomDiv, setBottomDiv] = useState(null)
 
 	const { user } = useAuthContext()
 	const { id } = useParams()
-
 	const { error, document } = useDocument('projects', id)
 	let rightUrl = ''
 	let rightDisplayName = ''
@@ -56,15 +56,26 @@ export default function Chat() {
 				<div className='chat'>
 					{user && (
 						<div className='chat__top-bar'>
-							<Avatar src={rightUrl} />
-							<h3>{rightDisplayName}</h3>
+							<div className='flex-row'>
+								<Avatar src={rightUrl} />
+								<h3>{rightDisplayName}</h3>
+							</div>
+
+							<div className='chat-options'>
+								<i className='fa-solid fa-ellipsis-vertical'></i>
+							</div>
 						</div>
 					)}
 
 					<div className='vertical-container'>
 						<div className='chat__comments'>
-							<Comments chat={document} onQuery={setQuery} />
-							<ChatInput chat={document} query={query} onQuery={setQuery} />
+							<Comments chat={document} onMessageResponse={onMessageResponse} setBottomDiv={setBottomDiv} />
+							<ChatInput
+								chat={document}
+								messageResponse={messageResponse}
+								onMessageResponse={onMessageResponse}
+								bottomDiv={bottomDiv}
+							/>
 						</div>
 					</div>
 				</div>

@@ -52,6 +52,11 @@ body {
 	padding: 0 60px;
 }
 
+.flex-row {
+	display: flex;
+	align-items: center;
+}
+
 .vertical-container {
 	height: 100%;
 	display: flex;

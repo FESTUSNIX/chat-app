@@ -12,7 +12,7 @@
 7. Posibility of changing the quick emoji [❌]
 8. Opening image preview on click [✅]
 9. Deleting messages [✅]
-10. Answering messages [❌]
+10. Answering messages [✅]
 11. Reacting to messages (with emoji)[❌]
 12. Show unread messages [❌]
 13. Add more sign in options:

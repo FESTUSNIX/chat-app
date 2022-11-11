@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useDates } from '../hooks/useDates'
 import { useFirestore } from '../hooks/useFirestore'
@@ -9,7 +9,7 @@ import FileSaver from 'file-saver'
 import './Comments.scss'
 import Avatar from './Avatar'
 
-const Comments = ({ chat, onQuery }) => {
+const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 	const { formatDate, dates } = useDates()
 	const { user } = useAuthContext()
 	const { updateDocument } = useFirestore('projects')
@@ -18,28 +18,36 @@ const Comments = ({ chat, onQuery }) => {
 	const [messageToDelete, setMessageToDelete] = useState(null)
 
 	const history = useHistory()
+	const bottomRef = useRef()
+	const scrollDownRef = useRef()
+
+	useEffect(() => {
+		setBottomDiv(bottomRef)
+		scrollToBottom()
+	}, [])
 
 	useEffect(() => {
 		return history.listen(() => {
-			onQuery(null)
+			scrollToBottom()
+			onMessageResponse(null)
 		})
 	}, [history])
 
 	const handleMessageStyle = (comment, i, elements) => {
-		if (elements[i + 1] && comment.response && elements[i + 1].response) {
+		if (elements[i + 1] && comment.response !== null && elements[i + 1].response !== null) {
 			if (comment.createdBy === user.uid) {
 				return 'owner'
 			} else {
 				return ''
 			}
-		} else if (elements[i - 1] && comment.response && (!elements[i - 1].response || elements[i - 1].response)) {
+		} else if (elements[i - 1] && elements[i + 1] && comment.response !== null) {
 			if (comment.createdBy === user.uid) {
 				return 'owner group-top'
 			} else {
 				return 'group-top'
 			}
 		} else if (
-			!elements[i - 1] ||
+			(!elements[i - 1] && elements[i + 1] && elements[i + 1] === elements[i + 1].createdBy) ||
 			(elements[i + 1] &&
 				elements[i - 1] &&
 				comment.createdBy !== elements[i - 1].createdBy &&
@@ -50,7 +58,12 @@ const Comments = ({ chat, onQuery }) => {
 			} else {
 				return 'group-top'
 			}
-		} else if (elements[i + 1] && elements[i + 1].response) {
+		} else if (
+			comment.response !== null &&
+			elements[i + 1] &&
+			!elements[i + 1].response !== null &&
+			!elements[i - 1].response !== null
+		) {
 			if (comment.createdBy === user.uid) {
 				return 'owner group-down'
 			} else {
@@ -69,6 +82,7 @@ const Comments = ({ chat, onQuery }) => {
 			}
 		} else if (
 			elements[i - 1] &&
+			// comment.response === null &&
 			comment.createdBy === elements[i - 1].createdBy &&
 			(!elements[i + 1] || comment.createdBy !== elements[i + 1].createdBy)
 		) {
@@ -104,7 +118,13 @@ const Comments = ({ chat, onQuery }) => {
 
 	const deleteMessage = async comment => {
 		if (user.uid === comment.createdBy) {
-			chat.messages.splice(chat.messages.indexOf(comment), 1)
+			// chat.messages.splice(chat.messages.indexOf(comment), 1)
+
+			chat.messages[chat.messages.indexOf(comment)] = {
+				...chat.messages[chat.messages.indexOf(comment)],
+				content: 'Message deleted',
+				deleted: true,
+			}
 
 			try {
 				await updateDocument(chat.id, {
@@ -115,10 +135,6 @@ const Comments = ({ chat, onQuery }) => {
 				console.log(error)
 			}
 		}
-	}
-
-	const handleReply = comment => {
-		onQuery(comment)
 	}
 
 	const showFullImage = e => {
@@ -135,8 +151,37 @@ const Comments = ({ chat, onQuery }) => {
 		FileSaver.saveAs(showImage)
 	}
 
+	const scrollToBottom = () => {
+		bottomRef.current.scrollIntoView({
+			block: 'end',
+		})
+	}
+
+	const handleScrollDownBtn = e => {
+		const winScroll = e.target.scrollTop
+
+		if (-winScroll <= 500) {
+			scrollDownRef.current.classList.remove('active')
+		}
+
+		if (-winScroll >= 500) {
+			scrollDownRef.current.classList.add('active')
+		}
+	}
+
+	const scrollToResponse = id => {
+		const ref = document.getElementById(id)
+		ref.scrollIntoView({ behavior: 'smooth', block: 'center' })
+		setTimeout(() => {
+			ref.classList.add('pop')
+			setTimeout(() => {
+				ref.classList.remove('pop')
+			}, 800)
+		}, 800)
+	}
+
 	return (
-		<ul className='comments custom-scrollbar'>
+		<ul className='comments custom-scrollbar' id='comments' onScroll={e => handleScrollDownBtn(e)}>
 			{showImage && (
 				<div className='full-img'>
 					<div className='full-img__background'>
@@ -160,22 +205,44 @@ const Comments = ({ chat, onQuery }) => {
 			<div className='comments-wrapper'>
 				<div className='comments__conversation-start'>
 					<p>This is the start of your conversation with this user</p>
-					{/* <p>{dates(chat.createdAt).fullDate}</p> */}
+					<p>{dates(chat.createdAt).fullDate}</p>
 				</div>
 
 				{chat.messages.length > 0 &&
 					chat.messages.map((comment, i, elements) => (
 						<React.Fragment key={comment.id}>
 							{showSendDate(comment, elements, i) && <div className='comments__time-passed'>{formatDate(comment)}</div>}
-
-							<li className={`${handleMessageStyle(comment, i, elements)}`}>
+							<li
+								className={`${handleMessageStyle(comment, i, elements)} ${comment.deleted ? 'deleted' : ''}`}
+								id={comment.id}>
 								{comment.createdBy !== user.uid &&
 									(!elements[i - 1] || comment.createdBy !== elements[i - 1].createdBy) && (
 										<p className='comment-author'>{comment.displayName}</p>
 									)}
+								{comment.response !== null && (
+									<div
+										onClick={() => scrollToResponse(chat.messages[comment.response].id)}
+										className={`${
+											(comment.createdBy !== user.uid && !elements[i - 1]) ||
+											comment.createdBy !== elements[i - 1].createdBy
+												? 'response no-margin'
+												: 'response'
+										} ${chat.messages[comment.response].deleted ? 'deleted' : ''}`}>
+										{comment.createdBy !== user.uid && <div className='left-margin'></div>}
+										{chat.messages[comment.response].content && (
+											<div className='response__message'>{chat.messages[comment.response].content}</div>
+										)}
 
-								{comment.response && <div className='response-message'>{comment.response.content}</div>}
-
+										<div className='response__img'>
+											{chat.messages[comment.response].image &&
+												(chat.messages[comment.response].fileType === 'image' ? (
+													<img src={chat.messages[comment.response].image} alt='' />
+												) : (
+													<video src={chat.messages[comment.response].image}></video>
+												))}
+										</div>
+									</div>
+								)}
 								<div className='comment-content'>
 									{comment.createdBy !== user.uid && (
 										<div className='left-margin'>
@@ -208,19 +275,32 @@ const Comments = ({ chat, onQuery }) => {
 									</div>
 									{/* On click show options (deleting message and replying to it) */}
 
-									<div className='comment-tools'>
-										{user.uid === comment.createdBy && (
-											<i className='fa-solid fa-trash-can' onClick={() => setMessageToDelete(comment)}></i>
-										)}
-										<i className='fa-solid fa-reply' onClick={() => handleReply(comment)}></i>
-									</div>
+									{!comment.deleted && (
+										<div className='comment-tools'>
+											{user.uid === comment.createdBy && (
+												<i className='fa-solid fa-trash-can' onClick={() => setMessageToDelete(comment)}></i>
+											)}
+											<i
+												className='fa-solid fa-reply'
+												onClick={() => {
+													// const result = { ...comment }
+													// delete result[('photoURL', 'createdAt', 'createdBy', 'displayName', 'response')]
+													onMessageResponse(Number(chat.messages.indexOf(comment)))
+												}}></i>
+										</div>
+									)}
 
 									<div className='comment-createdAt'>{formatDate(comment)}</div>
 								</div>
 							</li>
 						</React.Fragment>
 					))}
+				<div ref={bottomRef} className='bottom-ref'></div>
 			</div>
+			<div className='scroll-down' onClick={() => scrollToBottom()} ref={scrollDownRef}>
+				<i className='fa-solid fa-arrow-down'></i>
+			</div>
+
 			{messageToDelete && (
 				<div className='confirm-message-delete'>
 					<div className='hero-shadow'></div>
