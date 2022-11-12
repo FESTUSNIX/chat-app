@@ -101,7 +101,7 @@ export const useLogin = () => {
 		}
 	}
 
-	const resetPassword = async email => {
+	const sendPasswordReset = async email => {
 		setError(null)
 		setIsPending(true)
 		setIsFinished(false)
@@ -126,9 +126,31 @@ export const useLogin = () => {
 		}
 	}
 
+	const resetPassword = async (code, newPassword) => {
+		setError(null)
+		setIsPending(true)
+		setIsFinished(false)
+
+		try {
+			await projectAuth.confirmPasswordReset(code, newPassword)
+
+			if (!isCancelled) {
+				setIsPending(false)
+				setError(null)
+				setIsFinished(true)
+			}
+		} catch (err) {
+			if (!isCancelled) {
+				setError(err.message)
+				setIsPending(false)
+				setIsFinished(false)
+			}
+		}
+	}
+
 	useEffect(() => {
 		return () => setIsCancelled(true)
 	}, [])
 
-	return { login, loginWithGoogle, loginWithGithub, resetPassword, isPending, error, isFinished }
+	return { login, loginWithGoogle, loginWithGithub, sendPasswordReset, resetPassword, isPending, error, isFinished }
 }

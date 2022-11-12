@@ -3,17 +3,17 @@ import { useLogin } from '../../hooks/useLogin'
 import { Link } from 'react-router-dom'
 
 // Styles & assets
-import './Login.scss'
+import '../login/Login.scss'
 import ShrekGif from '../../assets/shrek-gif.gif'
 
-export default function Login() {
+export default function ResetPassword() {
 	const [email, setEmail] = useState('')
-	const { resetPassword, isPending, error, isFinished } = useLogin()
+	const { sendPasswordReset, isPending, error, isFinished } = useLogin()
 	const [timeToRedirect, setTimeToRedirect] = useState(15)
 
 	const handlePasswordReset = e => {
 		e.preventDefault()
-		resetPassword(email)
+		sendPasswordReset(email)
 	}
 
 	useEffect(() => {
@@ -79,7 +79,7 @@ export default function Login() {
 
 						{!isPending && (
 							<button className='btn' onClick={handlePasswordReset}>
-								Reset password
+								Send reset link
 							</button>
 						)}
 						{isPending && (

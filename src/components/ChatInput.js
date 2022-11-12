@@ -11,8 +11,6 @@ import imageCompression from 'browser-image-compression'
 // Styles && Assets
 import './ChatInput.scss'
 import ImageIcon from '../assets/image.svg'
-import { ReactComponent as CloseBtn } from '../assets/x.svg'
-import { ReactComponent as SmileIcon } from '../assets/smile.svg'
 
 const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 	const uniqueId = uuid()
@@ -216,7 +214,7 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 								<div className='file-thumbnail'>
 									<img src={fileThumbnail} alt='' />
 									<button className='remove-img' onClick={e => resetFileInput(e)}>
-										<CloseBtn className='close-btn' />
+										<i class='fa-solid fa-xmark close-btn'></i>
 									</button>
 								</div>
 							</div>

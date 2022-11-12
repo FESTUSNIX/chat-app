@@ -51,7 +51,8 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 			(elements[i + 1] &&
 				elements[i - 1] &&
 				comment.createdBy !== elements[i - 1].createdBy &&
-				comment.createdBy === elements[i + 1].createdBy)
+				comment.createdBy === elements[i + 1].createdBy) ||
+			(elements[i + 1] && !elements[i - 1] && comment.createdBy === elements[i + 1].createdBy)
 		) {
 			if (comment.createdBy === user.uid) {
 				return 'owner group-top'
@@ -152,9 +153,11 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 	}
 
 	const scrollToBottom = () => {
-		bottomRef.current.scrollIntoView({
-			block: 'end',
-		})
+		if (bottomRef) {
+			bottomRef.current.scrollIntoView({
+				block: 'end',
+			})
+		}
 	}
 
 	const handleScrollDownBtn = e => {
@@ -165,7 +168,7 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 		}
 
 		if (-winScroll >= 500) {
-			scrollDownRef.current.classList.add('active')
+			scrollDownRef.current.classList.add('active') 
 		}
 	}
 

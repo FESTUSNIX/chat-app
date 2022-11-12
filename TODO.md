@@ -2,20 +2,19 @@
 <hr>
 
 1. Add the project to github !!!! [✅]
-2. Make something cool on the dashboard page [❌]
-3. Remove lags when writing a message [❌]
-4. Make infinite scrolling
+2. Remove lags when writing a message [❌]
+3. Make infinite scrolling
    - (render a specific amount of messages and render more on scroll)
    - (https://www.npmjs.com/package/react-infinite-scroller) [❌]
-5. Fix the issue with bad styling when there's a date before a message block [❌]
-6. Auto sending emoji when clicked fast emoji icon [✅]
-7. Posibility of changing the quick emoji [❌]
-8. Opening image preview on click [✅]
-9. Deleting messages [✅]
-10. Answering messages [✅]
-11. Reacting to messages (with emoji)[❌]
-12. Show unread messages [❌]
-13. Add more sign in options:
+4. Fix the issue with bad styling when there's a date before a message block [❌]
+5. Auto sending emoji when clicked fast emoji icon [✅]
+6. Posibility of changing the quick emoji [❌]
+7. Opening image preview on click [✅]
+8. Deleting messages [✅]
+9. Answering messages [✅]
+10. Reacting to messages (with emoji)[❌]
+11. Show unread messages [❌]
+12. Add more sign in options:
 
 - Github [✅]
 
@@ -33,12 +32,15 @@
 - Dark/Light modes [❌]
 - New themes [❌]
 
-0. Editing account: [❌]
+0. Make visitable profiles
 
+1. Editing account: [❌]
+
+- Delete account [❌]
 - Reset password [❌]
 - Adding bio and showing it [❌]
 - Changing profile picture [❌]
-- Changing username (once a month) [❌]
+- Changing username [❌]
 
 0. Migrate the app to windows, macOS, android, ios with use of Electron [❌]
 

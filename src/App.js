@@ -10,7 +10,8 @@ import Chat from './pages/chat/Chat'
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
 import PrivacyPolicy from './pages/privacyPolicy/privacyPolicy'
-import ResetPassword from './pages/login/ResetPassword'
+import ResetPassword from './pages/resetPassword/ResetPassword'
+import SetNewPassword from './pages/resetPassword/SetNewPassword'
 import Chats from './components/Chats'
 
 function App() {
@@ -49,6 +50,10 @@ function App() {
 						<Route path='/signup'>
 							{user && <Redirect to='/' />}
 							{!user && <Signup />}
+						</Route>
+
+						<Route path='/set-new-password'>
+							<SetNewPassword />
 						</Route>
 					</Switch>
 				</BrowserRouter>
