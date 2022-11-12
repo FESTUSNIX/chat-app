@@ -37,7 +37,7 @@ export default function ChatsList({ projects, currentChat }) {
 	}
 
 	const handleSeen = () => {
-		if (currentChat.messages[currentChat.messages.length - 1].createdBy !== user.uid) {
+		if (currentChat && currentChat.messages[currentChat.messages.length - 1].createdBy !== user.uid) {
 			updateDocument(currentChat.id, {
 				isRead: true,
 			})
