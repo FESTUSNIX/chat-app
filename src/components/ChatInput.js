@@ -65,6 +65,7 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 			await updateDocument(chat.id, {
 				messages: [...chat.messages, commentToAdd],
 				updatedAt: timestamp.fromDate(new Date()),
+				isRead: false,
 			})
 			if (!response.error) {
 				scrollToBottom()
@@ -72,21 +73,6 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 				setSendFastEmoji(false)
 				onMessageResponse(null)
 			}
-		}
-	}
-	const handleImageUpload = async e => {
-		const imageFile = e.target.files[0]
-
-		const options = {
-			maxSizeMB: 1,
-			maxWidthOrHeight: 1920,
-			useWebWorker: true,
-		}
-		try {
-			const compressedFile = await imageCompression(imageFile, options)
-			await setImgUpload(compressedFile)
-		} catch (error) {
-			console.log(error)
 		}
 	}
 
@@ -118,6 +104,7 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 						await updateDocument(chat.id, {
 							messages: [...chat.messages, commentToAdd],
 							updatedAt: timestamp.fromDate(new Date()),
+							isRead: false,
 						})
 
 						if (!response.error) {
@@ -127,6 +114,22 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 					}
 				})
 			})
+		}
+	}
+
+	const handleImageUpload = async e => {
+		const imageFile = e.target.files[0]
+
+		const options = {
+			maxSizeMB: 1,
+			maxWidthOrHeight: 1920,
+			useWebWorker: true,
+		}
+		try {
+			const compressedFile = await imageCompression(imageFile, options)
+			await setImgUpload(compressedFile)
+		} catch (error) {
+			console.log(error)
 		}
 	}
 
@@ -214,7 +217,7 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 								<div className='file-thumbnail'>
 									<img src={fileThumbnail} alt='' />
 									<button className='remove-img' onClick={e => resetFileInput(e)}>
-										<i class='fa-solid fa-xmark close-btn'></i>
+										<i className='fa-solid fa-xmark close-btn'></i>
 									</button>
 								</div>
 							</div>
@@ -236,7 +239,7 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 							e.preventDefault()
 							setShowEmojis(!showEmojis)
 						}}>
-						<i class='fa-regular fa-face-smile'></i>
+						<i className='fa-regular fa-face-smile'></i>
 					</button>
 
 					{showEmojis && (
@@ -267,13 +270,13 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 						onClick={() => {
 							setSendFastEmoji(true)
 						}}>
-						<i class='fa-solid fa-thumbs-up'></i>
+						<i className='fa-solid fa-thumbs-up'></i>
 					</button>
 				)}
 
 				{(newComment.trim() !== '' || imgUpload) && (
 					<button type='submit' className='input-tool'>
-						<i class='fa-solid fa-paper-plane'></i>
+						<i className='fa-solid fa-paper-plane'></i>
 					</button>
 				)}
 			</div>

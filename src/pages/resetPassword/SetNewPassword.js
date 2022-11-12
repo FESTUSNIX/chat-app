@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useLogin } from '../../hooks/useLogin'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useQuery } from '../../hooks/useQuery'
 
 // Styles & assets
@@ -8,10 +8,9 @@ import '../login/Login.scss'
 import ShrekGif from '../../assets/shrek-gif.gif'
 
 export default function SetNewPassword() {
-	const { sendPasswordReset, resetPassword, isPending, error, isFinished } = useLogin()
+	const { resetPassword, isPending, error, isFinished } = useLogin()
 
 	const [newPassword, setNewPassword] = useState('')
-	// const [isFinished, setIsFinished] = useState(false)
 
 	const oobCode = useQuery('oobCode')
 

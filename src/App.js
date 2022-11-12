@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
 
@@ -16,12 +17,13 @@ import Chats from './components/Chats'
 
 function App() {
 	const { user, authIsReady } = useAuthContext()
+	const [currentChat, setCurrentChat] = useState(null)
 
 	return (
 		<div className='App'>
 			{authIsReady && (
 				<BrowserRouter>
-					{user && <Chats />}
+					{user && <Chats currentChat={currentChat} />}
 
 					<Switch>
 						<Route exact path='/'>
@@ -31,7 +33,7 @@ function App() {
 
 						<Route path='/u/:id'>
 							{!user && <Redirect to='/login' />}
-							{user && <Chat />}
+							{user && <Chat setCurrentChat={setCurrentChat} />}
 						</Route>
 
 						<Route path='/privacy-policy'>

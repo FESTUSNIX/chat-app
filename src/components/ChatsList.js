@@ -1,15 +1,18 @@
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useCollection } from '../hooks/useCollection'
+import { useFirestore } from '../hooks/useFirestore'
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNow'
-import Avatar from './Avatar'
 
-// Styles
+// Styles && Assets
 import './ChatsList.scss'
+import Avatar from './Avatar'
+import { useEffect } from 'react'
 
-export default function ChatsList({ projects }) {
+export default function ChatsList({ projects, currentChat }) {
 	const { user } = useAuthContext()
 	const { documents: users } = useCollection('users')
+	const { updateDocument } = useFirestore('projects')
 
 	let onlineUsers = []
 	let rightUrl = ''
@@ -22,15 +25,6 @@ export default function ChatsList({ projects }) {
 		'less than a minute': '1 min',
 	}
 
-	// const handleOnMouseMove = e => {
-	// 	console.log(e)
-	// 	const rect = e.target.getBoundingClientRect(),
-	// 		x = e.clientX - rect.left,
-	// 		y = e.clientY - rect.top
-	// 	e.target.firstChild.style.setProperty('left', `${x}px`)
-	// 	e.target.firstChild.style.setProperty('top', `${y}px`)
-	// }
-
 	const handleOnMouseMove = e => {
 		for (const card of document.getElementsByClassName('card')) {
 			const rect = card.getBoundingClientRect(),
@@ -42,11 +36,25 @@ export default function ChatsList({ projects }) {
 		}
 	}
 
+	const handleSeen = () => {
+		if (currentChat.messages[currentChat.messages.length - 1].createdBy !== user.uid) {
+			updateDocument(currentChat.id, {
+				isRead: true,
+			})
+		}
+	}
+
 	return (
 		<div className='chat-list custom-scrollbar' onMouseMove={handleOnMouseMove}>
 			{projects.length === 0 && <p>No chats yet!</p>}
 			{projects.map(project => (
-				<Link to={`/u/${project.id}`} key={project.id} className='card'>
+				<Link
+					to={`/u/${project.id}`}
+					key={project.id}
+					className={`card ${
+						!project.isRead && project.messages[project.messages.length - 1].createdBy !== user.uid ? 'unread' : ''
+					}`}
+					onClick={() => handleSeen()}>
 					<div className='card-content'>
 						{project.assignedUsersPhotoURL.forEach(url => {
 							if (url !== user.photoURL) {

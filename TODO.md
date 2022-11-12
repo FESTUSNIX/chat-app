@@ -13,7 +13,7 @@
 8. Deleting messages [✅]
 9. Answering messages [✅]
 10. Reacting to messages (with emoji)[❌]
-11. Show unread messages [❌]
+11. Show unread messages [✅]
 12. Add more sign in options:
 
 - Github [✅]

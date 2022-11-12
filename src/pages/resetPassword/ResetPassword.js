@@ -21,7 +21,6 @@ export default function ResetPassword() {
 			countdown()
 		}
 	}, [isFinished])
-
 	const countdown = () => {
 		let redirectCountdown = setInterval(() => {
 			if (timeToRedirect <= 0) {

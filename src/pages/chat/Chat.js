@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDocument } from '../../hooks/useDocument'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { useFirestore } from '../../hooks/useFirestore'
 
 // Components
 import Comments from '../../components/Comments'
@@ -11,16 +12,24 @@ import ChatInput from '../../components/ChatInput'
 import './Chat.scss'
 import Avatar from '../../components/Avatar'
 
-export default function Chat() {
+export default function Chat({ setCurrentChat }) {
+	const { user } = useAuthContext()
+	const { id } = useParams()
+
+	const { error, document } = useDocument('projects', id)
+	const { updateDocument } = useFirestore('projects')
+
 	const [isAssignedUser, setIsAssignedUser] = useState(false)
 	const [messageResponse, onMessageResponse] = useState(null)
 	const [bottomDiv, setBottomDiv] = useState(null)
 
-	const { user } = useAuthContext()
-	const { id } = useParams()
-	const { error, document } = useDocument('projects', id)
 	let rightUrl = ''
 	let rightDisplayName = ''
+
+	useEffect(() => {
+		setCurrentChat(document)
+		// console.log(document)
+	}, [id, document])
 
 	useEffect(() => {
 		if (document) {
@@ -50,6 +59,14 @@ export default function Chat() {
 		}
 	})
 
+	const handleSeen = () => {
+		if (document.messages[document.messages.length - 1].createdBy !== user.uid) {
+			updateDocument(document.id, {
+				isRead: true,
+			})
+		}
+	}
+
 	return (
 		<>
 			{isAssignedUser && (
@@ -67,7 +84,7 @@ export default function Chat() {
 						</div>
 					)}
 
-					<div className='vertical-container'>
+					<div className='vertical-container' onClick={() => handleSeen()}>
 						<div className='chat__comments'>
 							<Comments chat={document} onMessageResponse={onMessageResponse} setBottomDiv={setBottomDiv} />
 							<ChatInput

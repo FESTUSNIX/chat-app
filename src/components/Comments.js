@@ -153,7 +153,7 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 	}
 
 	const scrollToBottom = () => {
-		if (bottomRef) {
+		if (bottomRef.current) {
 			bottomRef.current.scrollIntoView({
 				block: 'end',
 			})
@@ -168,7 +168,7 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 		}
 
 		if (-winScroll >= 500) {
-			scrollDownRef.current.classList.add('active') 
+			scrollDownRef.current.classList.add('active')
 		}
 	}
 

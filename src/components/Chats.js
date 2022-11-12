@@ -12,7 +12,7 @@ import ChatsList from './ChatsList'
 import './Chats.scss'
 import Avatar from './Avatar'
 
-export default function Chats() {
+export default function Chats({ currentChat }) {
 	const { user } = useAuthContext()
 	const { logout, isPending } = useLogout()
 	const { documents: users } = useCollection('users')
@@ -84,7 +84,9 @@ export default function Chats() {
 							</div>
 						</>
 					)}
-					<div className='chats'>{query === '' && chats && <ChatsList projects={chats} />}</div>
+					<div className='chats'>
+						{query === '' && chats && <ChatsList projects={chats} currentChat={currentChat} />}
+					</div>
 				</div>
 			</div>
 			<div className='user'>
