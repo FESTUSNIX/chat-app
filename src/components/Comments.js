@@ -4,6 +4,8 @@ import { useDates } from '../hooks/useDates'
 import { useFirestore } from '../hooks/useFirestore'
 import { useHistory } from 'react-router-dom'
 import FileSaver from 'file-saver'
+import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 // Styles && Assets
 import './Comments.scss'
@@ -16,6 +18,7 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 
 	const [showImage, setShowImage] = useState('')
 	const [messageToDelete, setMessageToDelete] = useState(null)
+	const [showEmojis, setShowEmojis] = useState(null)
 
 	const history = useHistory()
 	const bottomRef = useRef()
@@ -33,59 +36,46 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 		})
 	}, [history])
 
-	const handleMessageStyle = (comment, i, elements) => {
-		if (elements[i + 1] && comment.response !== null && elements[i + 1].response !== null) {
+	const handleMessageStyle = (comment, i, previous, next) => {
+		if (next && comment.response !== null && next.response !== null) {
 			if (comment.createdBy === user.uid) {
 				return 'owner'
 			} else {
 				return ''
 			}
-		} else if (elements[i - 1] && elements[i + 1] && comment.response !== null) {
+		} else if (previous && next && comment.response !== null) {
 			if (comment.createdBy === user.uid) {
 				return 'owner group-top'
 			} else {
 				return 'group-top'
 			}
 		} else if (
-			(!elements[i - 1] && elements[i + 1] && elements[i + 1] === elements[i + 1].createdBy) ||
-			(elements[i + 1] &&
-				elements[i - 1] &&
-				comment.createdBy !== elements[i - 1].createdBy &&
-				comment.createdBy === elements[i + 1].createdBy) ||
-			(elements[i + 1] && !elements[i - 1] && comment.createdBy === elements[i + 1].createdBy)
+			(!previous && next && next === next.createdBy) ||
+			(next && previous && comment.createdBy !== previous.createdBy && comment.createdBy === next.createdBy) ||
+			(next && !previous && comment.createdBy === next.createdBy)
 		) {
 			if (comment.createdBy === user.uid) {
 				return 'owner group-top'
 			} else {
 				return 'group-top'
 			}
-		} else if (
-			comment.response !== null &&
-			elements[i + 1] &&
-			!elements[i + 1].response !== null &&
-			!elements[i - 1].response !== null
-		) {
+		} else if (comment.response !== null && next && !next.response !== null && !previous.response !== null) {
 			if (comment.createdBy === user.uid) {
 				return 'owner group-down'
 			} else {
 				return 'group-down'
 			}
-		} else if (
-			elements[i + 1] &&
-			elements[i - 1] &&
-			comment.createdBy === elements[i - 1].createdBy &&
-			comment.createdBy === elements[i + 1].createdBy
-		) {
+		} else if (next && previous && comment.createdBy === previous.createdBy && comment.createdBy === next.createdBy) {
 			if (comment.createdBy === user.uid) {
 				return 'owner group-middle'
 			} else {
 				return 'group-middle'
 			}
 		} else if (
-			elements[i - 1] &&
+			previous &&
 			// comment.response === null &&
-			comment.createdBy === elements[i - 1].createdBy &&
-			(!elements[i + 1] || comment.createdBy !== elements[i + 1].createdBy)
+			comment.createdBy === previous.createdBy &&
+			(!next || comment.createdBy !== next.createdBy)
 		) {
 			if (comment.createdBy === user.uid) {
 				return 'owner group-down'
@@ -183,6 +173,21 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 		}, 800)
 	}
 
+	const reactWithEmoji = async (e, comment) => {
+		chat.messages[chat.messages.indexOf(comment)] = {
+			...chat.messages[chat.messages.indexOf(comment)],
+			emojiReaction: e.emoji,
+		}
+		try {
+			await updateDocument(chat.id, {
+				messages: [...chat.messages],
+			})
+			setMessageToDelete(null)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	return (
 		<ul className='comments custom-scrollbar' id='comments' onScroll={e => handleScrollDownBtn(e)}>
 			{showImage && (
@@ -197,10 +202,10 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 
 					<div className='full-img__tools'>
 						<div className='tool' onClick={() => downloadImage()}>
-							<i class='fa-solid fa-download'></i>
+							<i className='fa-solid fa-download'></i>
 						</div>
 						<div className='tool' onClick={() => hideFullImage()}>
-							<i class='fa-solid fa-xmark'></i>
+							<i className='fa-solid fa-xmark'></i>
 						</div>
 					</div>
 				</div>
@@ -216,7 +221,9 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 						<React.Fragment key={comment.id}>
 							{showSendDate(comment, elements, i) && <div className='comments__time-passed'>{formatDate(comment)}</div>}
 							<li
-								className={`${handleMessageStyle(comment, i, elements)} ${comment.deleted ? 'deleted' : ''}`}
+								className={`${handleMessageStyle(comment, i, elements[i - 1], elements[i + 1])} ${
+									comment.deleted ? 'deleted' : ''
+								} ${comment.emojiReaction ? 'emoji-response' : ''}`}
 								id={comment.id}>
 								{comment.createdBy !== user.uid &&
 									(!elements[i - 1] || comment.createdBy !== elements[i - 1].createdBy) && (
@@ -275,25 +282,67 @@ const Comments = ({ chat, onMessageResponse, setBottomDiv }) => {
 												</div>
 											</div>
 										)}
+
+										{comment.emojiReaction && (
+											<div className='emoji-reaction'>
+												<span>{comment.emojiReaction}</span>
+											</div>
+										)}
 									</div>
-									{/* On click show options (deleting message and replying to it) */}
+
+									{showEmojis === comment && (
+										<div className='react-with-emoji'>
+											<OutsideClickHandler
+												onOutsideClick={() => {
+													setShowEmojis(null)
+												}}
+												disabled={showEmojis === comment ? false : true}>
+												<EmojiPicker
+													className='emoji-picker'
+													onEmojiClick={e => {
+														reactWithEmoji(e, comment)
+													}}
+													theme={Theme.DARK}
+													previewConfig={{
+														defaultCaption: '',
+														defaultEmoji: null,
+													}}
+													width={300}
+													height={400}
+													// lazyLoadEmojis={true}
+													emojiStyle={EmojiStyle.NATIVE}
+												/>
+											</OutsideClickHandler>
+
+											<svg height='12' viewBox='0 0 25 12' width='25' data-darkreader-inline-fill=''>
+												<path d='M24.553.103c-2.791.32-5.922 1.53-7.78 3.455l-9.62 7.023c-2.45 2.54-5.78 1.645-5.78-2.487V2.085C1.373 1.191.846.422.1.102h24.453z'></path>
+											</svg>
+										</div>
+									)}
 
 									{!comment.deleted && (
-										<div className='comment-tools'>
+										<div className={`comment-tools ${showEmojis === comment ? 'visible' : ''}`}>
+											<i
+												className='fa-regular fa-face-smile'
+												onClick={() => {
+													setShowEmojis(comment)
+												}}></i>
+
 											{user.uid === comment.createdBy && (
 												<i className='fa-solid fa-trash-can' onClick={() => setMessageToDelete(comment)}></i>
 											)}
+
 											<i
 												className='fa-solid fa-reply'
 												onClick={() => {
-													// const result = { ...comment }
-													// delete result[('photoURL', 'createdAt', 'createdBy', 'displayName', 'response')]
 													onMessageResponse(Number(chat.messages.indexOf(comment)))
 												}}></i>
 										</div>
 									)}
 
-									<div className='comment-createdAt'>{formatDate(comment)}</div>
+									<div className={`comment-createdAt ${showEmojis === comment ? 'hidden' : ''}`}>
+										{formatDate(comment)}
+									</div>
 								</div>
 							</li>
 						</React.Fragment>

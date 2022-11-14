@@ -7,7 +7,6 @@ import formatDistanceToNowStrict from 'date-fns/formatDistanceToNow'
 // Styles && Assets
 import './ChatsList.scss'
 import Avatar from './Avatar'
-import { useEffect } from 'react'
 
 export default function ChatsList({ projects, currentChat }) {
 	const { user } = useAuthContext()

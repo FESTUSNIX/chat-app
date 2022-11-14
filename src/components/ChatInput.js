@@ -24,6 +24,7 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 	// setFastEmoji is left for changing fastEmoji later
 	const [fastEmoji, setFastEmoji] = useState('👍')
 	const [sendFastEmoji, setSendFastEmoji] = useState(false)
+	const [showEmojis, setShowEmojis] = useState(false)
 
 	const fileInputRef = useRef(null)
 	const inputRef = useRef(null)
@@ -163,8 +164,6 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 	const handleEmojis = e => {
 		setNewComment(newComment => newComment + e.emoji)
 	}
-
-	const [showEmojis, setShowEmojis] = useState(false)
 
 	return (
 		<form onSubmit={handleSubmit}>

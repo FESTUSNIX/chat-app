@@ -94,12 +94,12 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+	}
 
-		.bottom-ref {
-			visibility: hidden;
-			opacity: 0;
-			pointer-events: none;
-		}
+	.bottom-ref {
+		visibility: hidden;
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	&__conversation-start {
@@ -275,7 +275,9 @@
 				}
 
 				.comment-tools {
-					left: -4.5em;
+					left: -6.5em;
+					right: auto;
+					flex-direction: row-reverse;
 				}
 
 				&__text {
@@ -286,6 +288,17 @@
 
 			.created-at {
 				align-self: flex-end;
+			}
+
+			.react-with-emoji {
+				right: calc(100% + 0.5em);
+				left: unset;
+
+				svg {
+					right: 10px;
+					left: auto;
+					transform: scaleX(-1);
+				}
 			}
 		}
 
@@ -349,6 +362,10 @@
 			}
 		}
 
+		&.emoji-response {
+			margin-bottom: 1em;
+		}
+
 		.comment-author {
 			display: inline-block;
 			margin-left: 60px;
@@ -370,6 +387,27 @@
 				}
 			}
 
+			.emoji-reaction {
+				width: 15px;
+				height: 15px;
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 0.7em;
+				border-radius: 50vw;
+				box-shadow: rgba(109, 109, 109, 0.15) 0px 4px 6px -3px, rgba(255, 255, 255, 0.05) 0px 4px 6px -2px;
+				background-color: #121212;
+				transform: translate(25%, 50%);
+				z-index: 150;
+
+				span {
+					font-size: 1.3rem;
+				}
+			}
+
 			.comment-createdAt {
 				visibility: hidden;
 				opacity: 0;
@@ -388,6 +426,11 @@
 				transition: 0.1s;
 				transition-delay: 0.3s;
 				pointer-events: none;
+
+				&.hidden {
+					opacity: 0;
+					visibility: hidden;
+				}
 			}
 
 			.comment-tools {
@@ -395,7 +438,7 @@
 				opacity: 0;
 				position: absolute;
 				top: 50%;
-				right: -2.5em;
+				right: -4.5em;
 				display: flex;
 				gap: 0.4em;
 				font-size: 1.6rem;
@@ -405,6 +448,11 @@
 				transition: 0.1s;
 				transition-delay: 0.3s;
 				z-index: 100;
+
+				&.visible {
+					opacity: 1;
+					visibility: visible;
+				}
 
 				&:hover + .comment-createdAt {
 					visibility: hidden;
@@ -499,6 +547,49 @@
 						}
 					}
 				}
+			}
+		}
+		.react-with-emoji {
+			position: absolute;
+			top: calc(50% - 1.5em);
+			left: calc(100% + 0.5em);
+			right: unset;
+			z-index: 300;
+			transform: translate(0, -100%);
+
+			svg {
+				position: absolute;
+				bottom: -10px;
+				left: 10px;
+				fill: #222;
+			}
+
+			.EmojiPickerReact {
+				.epr-preview {
+					display: none;
+				}
+
+				.epr-body {
+					margin-right: 5px;
+					&::-webkit-scrollbar {
+						width: 4px;
+					}
+
+					&::-webkit-scrollbar-track {
+						background: transparent;
+					}
+					&::-webkit-scrollbar-thumb {
+						border-radius: 5px;
+						background: #888;
+
+						&:hover {
+							background-color: #aaaaaa;
+						}
+					}
+				}
+			}
+			.EmojiPickerReact li.epr-emoji-category > .epr-emoji-category-label {
+				top: -1px;
 			}
 		}
 	}
