@@ -5,7 +5,7 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import { useFirestore } from '../../hooks/useFirestore'
 
 // Components
-import Comments from '../../components/Comments'
+import Messages from '../../components/Messages'
 import ChatInput from '../../components/ChatInput'
 
 // Styles && Assets
@@ -60,7 +60,10 @@ export default function Chat({ setCurrentChat }) {
 	})
 
 	const handleSeen = () => {
-		if (document.messages[document.messages.length - 1].createdBy !== user.uid) {
+		if (
+			document.messages[document.messages.length - 1] &&
+			document.messages[document.messages.length - 1].createdBy !== user.uid
+		) {
 			updateDocument(document.id, {
 				isRead: true,
 			})
@@ -86,7 +89,7 @@ export default function Chat({ setCurrentChat }) {
 
 					<div className='vertical-container' onClick={() => handleSeen()}>
 						<div className='chat__comments'>
-							<Comments chat={document} onMessageResponse={onMessageResponse} setBottomDiv={setBottomDiv} />
+							<Messages chat={document} onMessageResponse={onMessageResponse} setBottomDiv={setBottomDiv} />
 							<ChatInput
 								chat={document}
 								messageResponse={messageResponse}

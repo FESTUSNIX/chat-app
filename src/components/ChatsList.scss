@@ -3,7 +3,6 @@
 .chat-list {
 	max-height: 80vh;
 	margin-top: 1em;
-	padding-right: 1em;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
@@ -20,7 +19,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border-radius: 6px;
+		border-radius: $border-radius;
 		text-decoration: none;
 		background-color: rgba(255, 255, 255, 0.1);
 		z-index: 1;
@@ -31,7 +30,7 @@
 					.display-name,
 					.last-chat {
 						font-weight: bold;
-						color: #d4d4d4;
+						color: $text-primary;
 					}
 				}
 			}
@@ -83,8 +82,7 @@
 			padding: 16px;
 			border-radius: inherit;
 			margin: 1px;
-			background-color: #181717;
-			background-color: $bg-color;
+			background-color: $bg-dark;
 			color: inherit;
 			z-index: 2;
 
@@ -111,7 +109,7 @@
 					justify-content: center;
 					align-items: center;
 					border-radius: 50%;
-					background-color: #1b1a1a;
+					background-color: $bg-secondary;
 					z-index: 10;
 
 					.status-circle {
@@ -130,16 +128,16 @@
 				.display-name {
 					font-weight: 500;
 					font-size: 1.6rem;
-					color: $heading-color;
+					color: $text-primary;
 
 					span {
-						color: #757575;
+						color: $text-low-contrast;
 					}
 				}
 				.last-chat {
 					display: flex;
 					align-items: center;
-					color: #888;
+					color: $text-low-contrast;
 					.last-message {
 						font-size: 1.3rem;
 						overflow: hidden;
@@ -153,7 +151,7 @@
 						height: 2px;
 						width: 2px;
 						margin: 0 5px;
-						background-color: #888;
+						background-color: $text-low-contrast;
 					}
 				}
 			}

@@ -1,15 +1,32 @@
 @use '../colors' as *;
 
 .user-list {
-	min-width: 360px;
+	min-width: max-content;
+	max-width: 40vw;
 	min-height: 100vh;
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	box-sizing: border-box;
-	background-color: #1b1a1a;
-	color: $heading-color;
+	background-color: $bg-secondary;
+	// background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8&w=1000&q=80');
+	background-size: cover;
+	background-position: center;
+	color: $text-primary;
 	overflow-y: auto;
 	z-index: 100;
+	resize: horizontal;
+
+	.blur {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		background-color: rgba(0, 0, 0, 0.7);
+		backdrop-filter: blur(40px);
+		z-index: -1;
+	}
 
 	h2 {
 		padding-bottom: 10px;
@@ -28,11 +45,11 @@
 				gap: 1em;
 				padding: 12px;
 				margin: 2em 0;
-				border: 1px solid #313131;
-				border-radius: 8px;
+				border: 1px solid $border-color;
+				border-radius: $border-radius;
 				font-size: 1.5rem;
-				background-color: #121212;
-				color: #777;
+				background-color: $bg-dark;
+				color: $text-middle-contrast;
 				outline: none;
 
 				input {
@@ -48,7 +65,7 @@
 				align-items: center;
 				gap: 10px;
 				padding: 0.5em;
-				border-radius: 5px;
+				border-radius: $border-radius;
 				cursor: pointer;
 				color: white;
 
@@ -76,38 +93,6 @@
 		}
 	}
 
-	.user-list-item {
-		// position: relative;
-		display: flex;
-		justify-content: flex-start;
-		align-items: center;
-		padding: 0.5em 0.3em;
-		border-radius: 4px;
-		// transition: background-color 0.2s;
-
-		&:hover {
-			cursor: pointer;
-			background-color: #242323;
-		}
-
-		.user-name-bio {
-			display: flex;
-			flex-direction: column;
-			.user-display-name {
-				font-size: 1.6rem;
-			}
-
-			.long-username {
-				color: #8b8b8b;
-			}
-
-			.user-bio {
-				font-size: 0.8rem;
-				color: #888a90;
-			}
-		}
-	}
-
 	.user {
 		display: flex;
 		align-items: center;
@@ -115,7 +100,7 @@
 		padding: 1em;
 		margin-top: auto;
 		margin-bottom: 0;
-		border-top: 1px solid rgba(255, 255, 255, 0.2);
+		border-top: 1px solid $border-color;
 
 		div {
 			display: flex;
@@ -124,6 +109,10 @@
 				width: 35px;
 				height: 35px;
 				margin-right: 10px;
+			}
+
+			span {
+				font-size: 1.6rem;
 			}
 		}
 	}

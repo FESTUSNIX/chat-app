@@ -206,7 +206,7 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 			<div className='add-comment'>
 				<label className='attach-image'>
 					<input ref={fileInputRef} type='file' accept='video/*, image/*' onChange={e => handleFileChange(e)} />
-					<img src={ImageIcon} alt='' />
+					<i class="fa-regular fa-image"></i>
 				</label>
 
 				<div className='message-field'>

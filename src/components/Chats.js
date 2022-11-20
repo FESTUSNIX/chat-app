@@ -51,6 +51,7 @@ export default function Chats({ currentChat }) {
 
 	return (
 		<div className='user-list'>
+			{/* <div className="blur"></div> */}
 			<div className='search'>
 				<div>
 					<div className='search-form'>
@@ -96,14 +97,16 @@ export default function Chats({ currentChat }) {
 				</div>
 
 				{!isPending && user && (
-					<button className='btn' onClick={logout}>
-						Logout
+					<button className='btn ' onClick={logout}>
+						<i class='fa-solid fa-right-from-bracket'></i>
+						<span> Log out </span>
 					</button>
 				)}
 
 				{isPending && (
 					<button className='btn' disabled>
-						Logging out...
+						<i class='fa-solid fa-right-from-bracket'></i>
+						<span> Logging out...</span>
 					</button>
 				)}
 			</div>

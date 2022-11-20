@@ -36,7 +36,11 @@ export default function ChatsList({ projects, currentChat }) {
 	}
 
 	const handleSeen = () => {
-		if (currentChat && currentChat.messages[currentChat.messages.length - 1].createdBy !== user.uid) {
+		if (
+			currentChat &&
+			currentChat.messages[currentChat.messages.length - 1] &&
+			currentChat.messages[currentChat.messages.length - 1].createdBy !== user.uid
+		) {
 			updateDocument(currentChat.id, {
 				isRead: true,
 			})
@@ -51,7 +55,12 @@ export default function ChatsList({ projects, currentChat }) {
 					to={`/u/${project.id}`}
 					key={project.id}
 					className={`card ${
-						!project.isRead && project.messages[project.messages.length - 1].createdBy !== user.uid ? 'unread' : ''
+						project.messages &&
+						project.messages[project.messages.length - 1] &&
+						!project.isRead &&
+						project.messages[project.messages.length - 1].createdBy !== user.uid
+							? 'unread'
+							: ''
 					}`}
 					onClick={() => handleSeen()}>
 					<div className='card-content'>

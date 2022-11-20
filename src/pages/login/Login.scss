@@ -15,7 +15,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: #1b1b1b;
+		background-color: $bg-secondary;
 
 		.circle {
 			width: 220px;
@@ -74,13 +74,12 @@
 
 			.redirect {
 				font-size: 1.4rem;
-				color: #777777;
+				color: $text-low-contrast;
 			}
 		}
 
 		input {
-			border: 1px solid #323232;
-			background-color: #272727;
+			border: 1px solid $border-color;
 		}
 
 		.reset-password {

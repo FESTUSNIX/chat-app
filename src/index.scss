@@ -18,8 +18,8 @@ body {
 	min-height: 100vh;
 	font-family: 'Poppins', sans-serif;
 	font-size: 1.6rem;
-	background-color: $bg-color;
-	color: $text-color;
+	background-color: $bg-dark;
+	color: $text-primary;
 	overflow: hidden;
 }
 
@@ -67,35 +67,41 @@ body {
 
 a {
 	text-decoration: none;
-	color: #ddd;
+	color: $text-primary;
 }
 
 .btn {
 	padding: 0.6em 1em;
 	border: 1px solid $primary-color;
-	border-radius: 8px;
+	border-radius: $border-radius;
 	font-size: 1.6rem;
 	text-decoration: none;
+	font-weight: bold;
 	background-color: $primary-color;
-	color: #fff;
+	color: $text-primary;
 	transition: 0.3s;
+	cursor: pointer;
 
-	&:not([disabled]) {
-		&:hover {
-			cursor: pointer;
-			filter: brightness(1.2);
-		}
-	}
+	// &:not([disabled]) {
+	// 	&:hover {
+	// 		// filter: brightness(1.2);
+
+	// 	}
+	// }
 
 	&--secondary {
-		border: 1px solid #161616;
-		background-color: #161616;
+		border: 1px solid $primary-color;
+		background-color: transparent;
+		color: $primary-color;
 		transition: 0.3s;
 
-		// &:not([disabled]) {
-		// 	&:hover {
-		// 	}
-		// }
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.02);
+		}
+
+		&:focus {
+			background-color: rgba(100, 62, 122, 0.15);
+		}
 	}
 }
 
@@ -109,12 +115,21 @@ a {
 	}
 	&::-webkit-scrollbar-thumb {
 		border-radius: 5px;
-		background: #888;
+		background: $text-low-contrast;
 
 		&:hover {
 			background-color: #aaaaaa;
 		}
 	}
+}
+
+.outside-click-handler {
+	all: inherit;
+}
+
+h2,
+h3 {
+	color: $heading-color;
 }
 
 /* forms */
@@ -123,9 +138,9 @@ textarea {
 	width: 100%;
 	padding: 12px;
 	border: 1px solid #313131;
-	border-radius: 8px;
-	background-color: #1b1a1a;
-	color: #777;
+	border-radius: $border-radius;
+	background-color: $bg-secondary;
+	color: $text-low-contrast;
 	outline: none;
 }
 
@@ -147,7 +162,7 @@ textarea {
 	color: red;
 	background: pink;
 	border: 1px solid red;
-	border-radius: 4px;
+	border-radius: $border-radius;
 	padding: 8px;
 	margin: 10px 0;
 }
