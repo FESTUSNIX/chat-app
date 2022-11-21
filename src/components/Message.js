@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useFirestore } from '../hooks/useFirestore'
@@ -27,9 +27,9 @@ export default function Message({
 
 	const [showEmojis, setShowEmojis] = useState(null)
 
-	const showSendDate = (message, elements, i) => {
-		if (message && elements[i - 1]) {
-			const value1 = message.createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+	const showSendDate = (elements, i) => {
+		if (elements[i] && elements[i - 1]) {
+			const value1 = elements[i].createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 			const value2 = elements[i - 1].createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
 			// Get miliseconds of each message.createdAt
@@ -41,6 +41,28 @@ export default function Message({
 			// Check if difference between when message was created is greater than 15 minutes
 			if (minuteDiff >= 900000) {
 				return true
+			} else {
+				return false
+			}
+		}
+	}
+
+	const showSendDate2 = (elements, i) => {
+		if (elements[i + 1] && elements[i]) {
+			const value1 = elements[i + 1].createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+			const value2 = elements[i].createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+
+			// Get miliseconds of each message.createdAt
+			const date1 = new Date('01/01/2022 ' + value1 + ':00').getTime()
+			const date2 = new Date('01/01/2022 ' + value2 + ':00').getTime()
+
+			const minuteDiff = Math.abs(date1 - date2)
+
+			// Check if difference between when message was created is greater than 15 minutes
+			if (minuteDiff >= 900000) {
+				return true
+			} else {
+				return false
 			}
 		}
 	}
@@ -103,83 +125,147 @@ export default function Message({
 		}
 	}
 
-	const handleMessageStyle = (message, i, previous, next) => {
-		if (next && message.response !== null && next.response !== null) {
+	const handleMessageStyle = (message, prev, next, prevIsDate, nextIsDate) => {
+		if (
+			next &&
+			(!prev ||
+				prev.createdBy !== message.createdBy ||
+				next.response !== null ||
+				prevIsDate ||
+				message.response !== null) &&
+			next.createdBy === message.createdBy &&
+			next.response === null &&
+			!nextIsDate
+		) {
+			if (message.createdBy === user.uid) {
+				return 'group-top owner'
+			} else {
+				return 'group-top'
+			}
+		} else if (
+			prev &&
+			next &&
+			(prev.createdBy === message.createdBy || prev.response !== null) &&
+			next.createdBy === message.createdBy &&
+			next.response === null &&
+			!prevIsDate &&
+			!nextIsDate
+		) {
+			if (message.createdBy === user.uid) {
+				return 'group-middle owner'
+			} else {
+				return 'group-middle'
+			}
+		} else if (
+			// prettier-ignore
+			prev &&
+			prev.createdBy === message.createdBy &&
+			message.response === null &&
+			(
+				(!next && message.response === null) ||
+				(
+					next && 
+					(
+						next.response !== null ||
+						next.createdBy !== message.createdBy ||
+						nextIsDate
+					)
+				)
+			) &&
+			!prevIsDate
+		) {
+			if (message.createdBy === user.uid) {
+				return 'group-bottom owner'
+			} else {
+				return 'group-bottom'
+			}
+		} else {
 			if (message.createdBy === user.uid) {
 				return 'owner'
 			} else {
 				return ''
 			}
-		} else if (previous && next && message.response !== null) {
-			if (message.createdBy === user.uid) {
-				return 'owner group-top'
-			} else {
-				return 'group-top'
-			}
-		} else if (
-			(!previous && next && next === next.createdBy) ||
-			(next && previous && message.createdBy !== previous.createdBy && message.createdBy === next.createdBy) ||
-			(next && !previous && message.createdBy === next.createdBy)
-		) {
-			if (message.createdBy === user.uid) {
-				return 'owner group-top'
-			} else {
-				return 'group-top'
-			}
-		} else if (message.response !== null && next && !next.response !== null && !previous.response !== null) {
-			if (message.createdBy === user.uid) {
-				return 'owner group-down'
-			} else {
-				return 'group-down'
-			}
-		} else if (next && previous && message.createdBy === previous.createdBy && message.createdBy === next.createdBy) {
-			if (message.createdBy === user.uid) {
-				return 'owner group-middle'
-			} else {
-				return 'group-middle'
-			}
-		} else if (
-			previous &&
-			// message.response === null &&
-			message.createdBy === previous.createdBy &&
-			(!next || message.createdBy !== next.createdBy)
-		) {
-			if (message.createdBy === user.uid) {
-				return 'owner group-down'
-			} else {
-				return 'group-down'
-			}
-		} else if (message.createdBy === user.uid) {
-			return 'owner'
-		} else {
-			return ''
 		}
 	}
 
 	return (
 		<>
-			{showSendDate(message, elements, i) && <div className='messages__time-passed'>{formatDate(message)}</div>}
+			{showSendDate(elements, i) && <div className='messages__time-passed'>{formatDate(message)}</div>}
 			<li
-				className={`${handleMessageStyle(message, i, elements[i - 1], elements[i + 1])} ${
-					message.deleted ? 'deleted' : ''
-				} ${message.emojiReactions ? 'emoji-response' : ''}`}
+				className={`${handleMessageStyle(
+					message,
+					elements[i - 1],
+					elements[i + 1],
+					showSendDate(elements, i),
+					showSendDate2(elements, i)
+				)} ${message.deleted ? 'deleted' : ''} ${message.emojiReactions ? 'emoji-response' : ''}`}
 				id={message.id}>
-				{message.createdBy !== user.uid && (!elements[i - 1] || message.createdBy !== elements[i - 1].createdBy) && (
-					<p className='message-author'>{message.displayName}</p>
-				)}
+				{
+					// prettier-ignore
+					(
+						message.createdBy !== user.uid &&
+						(
+							(
+								// top
+								elements[i + 1] &&
+								(
+									!elements[i - 1] ||
+									elements[i - 1].createdBy !== message.createdBy ||
+									elements[i + 1].response !== null ||
+									showSendDate(elements, i) ||
+									message.response !== null
+								) &&
+								elements[i + 1].createdBy === message.createdBy &&
+								elements[i + 1].response === null &&
+								!showSendDate2(elements, i)
+							) ||
+							!(	
+								(
+									// middle
+									elements[i - 1] &&
+									elements[i + 1] &&
+									(
+										elements[i - 1].createdBy === message.createdBy || 
+										elements[i - 1].response !== null
+									) &&
+									elements[i + 1].createdBy === message.createdBy &&
+									elements[i + 1].response === null &&
+									!showSendDate(elements, i) &&
+									!showSendDate2(elements, i)
+								) ||
+								(
+									// bottom									
+									elements[i - 1] &&
+									elements[i - 1].createdBy === message.createdBy &&
+									message.response === null &&
+									(
+										(!elements[i + 1] && message.response === null) ||
+										(
+											elements[i + 1] && 
+											(
+												elements[i + 1].response !== null ||
+												elements[i + 1].createdBy !== message.createdBy ||
+												showSendDate2(elements, i)
+											)
+										)
+									) &&
+									!showSendDate(elements, i)
+								)
+							)
+						)
+					) && (
+						<p className='message-author'>{message.displayName}</p>
+					)
+				}
 
 				{message.response !== null && (
 					<div
 						onClick={() => scrollToResponse(chat.messages[message.response].id)}
-						className={`${
-							(message.createdBy !== user.uid && !elements[i - 1]) || message.createdBy !== elements[i - 1].createdBy
-								? 'response no-margin'
-								: 'response'
-						} ${chat.messages[message.response].deleted ? 'deleted' : ''}`}>
+						className={`response ${chat.messages[message.response].deleted ? 'deleted' : ''}`}>
 						{message.createdBy !== user.uid && <div className='left-margin'></div>}
 
 						{chat.messages[message.response].content && (
-							<div className='response__message'>{chat.messages[message.response].content}</div>
+							<div className='response__message'>{chat.messages[message.response].content.substring(0, 55)}</div>
 						)}
 
 						<div className='response__img'>
@@ -195,9 +281,38 @@ export default function Message({
 				<div className='message-content'>
 					{message.createdBy !== user.uid && (
 						<div className='left-margin'>
-							{(!elements[i + 1] || message.createdBy !== elements[i + 1].createdBy) && (
-								<Avatar src={message.photoURL} />
-							)}
+							{
+								// prettier-ignore
+								(
+									(
+										!(
+											// middle
+											elements[i - 1] &&
+											elements[i + 1] &&
+											(elements[i - 1].createdBy === message.createdBy || elements[i - 1].response !== null) &&
+											elements[i + 1].createdBy === message.createdBy &&
+											elements[i + 1].response === null &&
+											!showSendDate(elements, i) &&
+											!showSendDate2(elements, i)
+										) &&
+										!(
+											// top
+											elements[i + 1] &&
+											(
+												!elements[i - 1] ||
+												elements[i - 1].createdBy !== message.createdBy ||
+												elements[i + 1].response !== null ||
+												showSendDate(elements, i) ||
+												message.response !== null
+											) &&
+											elements[i + 1].createdBy === message.createdBy &&
+											elements[i + 1].response === null &&
+											!showSendDate2(elements, i)
+										)
+									)
+								
+								) && <Avatar src={message.photoURL} />
+							}
 						</div>
 					)}
 					<div

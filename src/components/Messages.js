@@ -79,11 +79,11 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv }) => {
 	const handleScrollDownBtn = e => {
 		const winScroll = e.target.scrollTop
 
-		if (-winScroll <= 500) {
+		if (-winScroll <= 300) {
 			scrollDownRef.current.classList.remove('active')
 		}
 
-		if (-winScroll >= 500) {
+		if (-winScroll >= 300) {
 			scrollDownRef.current.classList.add('active')
 		}
 	}

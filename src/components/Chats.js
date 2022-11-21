@@ -98,7 +98,7 @@ export default function Chats({ currentChat }) {
 
 				{!isPending && user && (
 					<button className='btn ' onClick={logout}>
-						<i class='fa-solid fa-right-from-bracket'></i>
+						<i className='fa-solid fa-right-from-bracket'></i>
 						<span> Log out </span>
 					</button>
 				)}

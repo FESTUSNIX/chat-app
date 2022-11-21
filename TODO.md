@@ -5,7 +5,7 @@
 2. Make infinite scrolling
    - (render a specific amount of messages and render more on scroll)
    - (https://www.npmjs.com/package/react-infinite-scroller) [❌]
-3. Fix the issue with bad styling when there's a date before a message block [❌]
+3. Fix the issue with bad styling when there's a date before a message block [✅]
 4. Auto sending emoji when clicked fast emoji icon [✅]
 5. Opening image preview on click [✅]
 6. Deleting messages [✅]
@@ -15,7 +15,7 @@
 10. Add more sign in options
     - Github [✅]
 11. Make sending images and message at the same time [❌]
-12. Remind password if forgotten (login screen) [✅]
+12. Remind password if forgot (login screen) [✅]
 13. Friend invites (change the chat add/invitation system) [❌]
 14. Blocking people [❌]
 15. Sending voice messages [❌]
@@ -24,7 +24,7 @@
     - Make it responsive [❌]
     - Dark/Light modes [❌]
     - New themes [❌]
-18. Make visitable profiles
+18. Make visitable profiles [❌]
 19. Editing account
     - Delete account [❌]
     - Reset password [❌]
@@ -32,9 +32,10 @@
     - Changing profile picture [❌]
     - Changing username [❌]
 20. Customize chats:
-    - Themes
-    - Nicknames
-    - Custom emoji
+    - Themes [❌]
+    - Nicknames [❌]
+    - Custom emoji [❌]
 21. Migrate the app to windows, macOS, android and ios with use of Electron [❌]
+22. Comment the code [❌]
 
 # Celebrate 🥳🥳🥳

@@ -8,6 +8,14 @@ li {
 	margin-top: 2px;
 	background-color: transparent;
 
+	&:has(.response) {
+		margin-top: 1.5em;
+	}
+
+	&:has(.response.no-margin) {
+		margin-top: 0;
+	}
+
 	&:hover {
 		.message-content {
 			.message-tools {
@@ -19,16 +27,12 @@ li {
 
 	.left-margin {
 		position: relative;
-		min-width: 36px;
-		min-height: 36px;
-		max-width: 36px;
-		max-height: 36px;
+		width: 32px;
+		height: 32px;
 		margin-right: 10px;
 		.avatar {
-			min-width: 36px;
-			min-height: 36px;
-			max-width: 36px;
-			max-height: 36px;
+			width: 32px;
+			height: 32px;
 		}
 	}
 
@@ -37,13 +41,12 @@ li {
 		width: fit-content;
 		display: flex;
 		align-items: center;
-		margin-top: 1.5em;
 		user-select: none;
 		cursor: pointer;
 
-		&.no-margin {
-			margin-top: 0;
-		}
+		// &.no-margin {
+		// 	margin-top: 0;
+		// }
 
 		&__message {
 			max-width: 100%;
@@ -155,7 +158,7 @@ li {
 		}
 	}
 
-	&.group-down {
+	&.group-bottom {
 		.message-content {
 			&__text {
 				border-radius: 5px 25px 25px 25px;
@@ -163,7 +166,7 @@ li {
 		}
 	}
 
-	&.group-down.owner {
+	&.group-bottom.owner {
 		.message-content {
 			&__text {
 				border-radius: 25px 5px 25px 25px;
@@ -197,6 +200,7 @@ li {
 		width: fit-content;
 		max-width: 80%;
 		display: flex;
+		// align-items: center;
 		align-items: flex-end;
 
 		&:hover {
