@@ -8,7 +8,7 @@ import formatDistanceToNowStrict from 'date-fns/formatDistanceToNow'
 import './ChatsList.scss'
 import Avatar from './Avatar'
 
-export default function ChatsList({ projects, currentChat }) {
+export default function ChatsList({ chats, currentChat, inputRef }) {
 	const { user } = useAuthContext()
 	const { documents: users } = useCollection('users')
 	const { updateDocument } = useFirestore('projects')
@@ -21,6 +21,7 @@ export default function ChatsList({ projects, currentChat }) {
 		about: '',
 		minute: 'min',
 		minutes: 'min',
+		
 		'less than a minute': '1 min',
 	}
 
@@ -36,6 +37,9 @@ export default function ChatsList({ projects, currentChat }) {
 	}
 
 	const handleSeen = () => {
+		if (inputRef.current !== null) {
+			inputRef.current.focus()
+		}
 		if (
 			currentChat &&
 			currentChat.messages[currentChat.messages.length - 1] &&
@@ -49,34 +53,34 @@ export default function ChatsList({ projects, currentChat }) {
 
 	return (
 		<div className='chat-list custom-scrollbar' onMouseMove={handleOnMouseMove}>
-			{projects.length === 0 && <p>No chats yet!</p>}
-			{projects.map(project => (
+			{chats.length === 0 && <p>No chats yet!</p>}
+			{chats.map(chat => (
 				<Link
-					to={`/u/${project.id}`}
-					key={project.id}
+					to={`/u/${chat.id}`}
+					key={chat.id}
 					className={`card ${
-						project.messages &&
-						project.messages[project.messages.length - 1] &&
-						!project.isRead &&
-						project.messages[project.messages.length - 1].createdBy !== user.uid
+						chat.messages &&
+						chat.messages[chat.messages.length - 1] &&
+						!chat.isRead &&
+						chat.messages[chat.messages.length - 1].createdBy !== user.uid
 							? 'unread'
 							: ''
 					}`}
 					onClick={() => handleSeen()}>
 					<div className='card-content'>
-						{project.assignedUsersPhotoURL.forEach(url => {
+						{chat.assignedUsersPhotoURL.forEach(url => {
 							if (url !== user.photoURL) {
 								rightUrl = url
 							}
 						})}
 
-						{project.assignedUsersName.forEach(name => {
+						{chat.assignedUsersName.forEach(name => {
 							if (name !== user.displayName) {
 								rightDisplayName = name
 							}
 						})}
 
-						{project.assignedUsersId.forEach(id => {
+						{chat.assignedUsersId.forEach(id => {
 							if (id !== user.uid) {
 								rightId = id
 							}
@@ -98,8 +102,8 @@ export default function ChatsList({ projects, currentChat }) {
 								</span>
 							)}
 						</div>
-						{/* {console.log(project.messages[project.messages.length - 1].createdAt.toDate().getTime())}
-					{console.log(project)} */}
+						{/* {console.log(chat.messages[chat.messages.length - 1].createdAt.toDate().getTime())}
+					{console.log(chat)} */}
 						<div className='chat-info'>
 							<p className='display-name'>
 								{rightDisplayName.substring(0, 18)}
@@ -108,38 +112,38 @@ export default function ChatsList({ projects, currentChat }) {
 
 							<div className='last-chat'>
 								<span className='last-message'>
-									{project &&
-										project.messages[project.messages.length - 1] &&
-										project.messages[project.messages.length - 1].createdBy === user.uid &&
+									{chat &&
+										chat.messages[chat.messages.length - 1] &&
+										chat.messages[chat.messages.length - 1].createdBy === user.uid &&
 										'You: '}
 
-									{project.messages.length !== 0 &&
-										project.messages[project.messages.length - 1].content &&
-										project.messages[project.messages.length - 1].fileType === undefined &&
-										project.messages[project.messages.length - 1].content.substring(0, 15)}
+									{chat.messages.length !== 0 &&
+										chat.messages[chat.messages.length - 1].content &&
+										chat.messages[chat.messages.length - 1].fileType === undefined &&
+										chat.messages[chat.messages.length - 1].content.substring(0, 15)}
 
-									{project.messages.length !== 0 &&
-										!project.messages[project.messages.length - 1].content &&
-										project.messages[project.messages.length - 1].fileType === 'image' &&
+									{chat.messages.length !== 0 &&
+										!chat.messages[chat.messages.length - 1].content &&
+										chat.messages[chat.messages.length - 1].fileType === 'image' &&
 										`sent a photo`}
 
-									{project.messages.length !== 0 &&
-										!project.messages[project.messages.length - 1].content &&
-										project.messages[project.messages.length - 1].fileType === 'video' &&
+									{chat.messages.length !== 0 &&
+										!chat.messages[chat.messages.length - 1].content &&
+										chat.messages[chat.messages.length - 1].fileType === 'video' &&
 										`sent a video`}
 
-									{project.messages.length !== 0 &&
-										project.messages[project.messages.length - 1].content &&
-										project.messages[project.messages.length - 1].content.length >= 15 &&
+									{chat.messages.length !== 0 &&
+										chat.messages[chat.messages.length - 1].content &&
+										chat.messages[chat.messages.length - 1].content.length >= 15 &&
 										'...'}
-									{/* {console.log(project.messages[project.messages.length - 1].fileType !== undefined)} */}
-									{project.messages.length === 0 && 'No messages yet'}
+									{/* {console.log(chat.messages[chat.messages.length - 1].fileType !== undefined)} */}
+									{chat.messages.length === 0 && 'No messages yet'}
 								</span>
 
-								{project.messages.length !== 0 && <div className='dot'></div>}
+								{chat.messages.length !== 0 && <div className='dot'></div>}
 								<span className='comment-date'>
-									{project.messages.length !== 0 &&
-										formatDistanceToNowStrict(project.messages[project.messages.length - 1].createdAt.toDate(), {
+									{chat.messages.length !== 0 &&
+										formatDistanceToNowStrict(chat.messages[chat.messages.length - 1].createdAt.toDate(), {
 											addSuffix: false,
 										}).replace(/\b(?:about|less than a minute)\b/gi, matched => replaceDistanceToNow[matched])}
 								</span>

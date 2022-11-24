@@ -34,7 +34,7 @@
 20. Customize chats:
     - Themes [❌]
     - Nicknames [❌]
-    - Custom emoji [❌]
+    - Custom emoji [✅]
 21. Migrate the app to windows, macOS, android and ios with use of Electron [❌]
 22. Comment the code [❌]
 

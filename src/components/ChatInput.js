@@ -4,15 +4,14 @@ import { useAuthContext } from '../hooks/useAuthContext'
 import { useFirestore } from '../hooks/useFirestore'
 import { v4 as uuid } from 'uuid'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
+import EmojiPicker, { Emoji, EmojiStyle, Theme } from 'emoji-picker-react'
 import OutsideClickHandler from 'react-outside-click-handler'
 import imageCompression from 'browser-image-compression'
 
 // Styles && Assets
 import './ChatInput.scss'
-import ImageIcon from '../assets/image.svg'
 
-const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
+const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv, inputRef }) => {
 	const uniqueId = uuid()
 
 	const { updateDocument, response } = useFirestore('projects')
@@ -21,23 +20,15 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 	const [newComment, setNewComment] = useState('')
 	const [imgUpload, setImgUpload] = useState(null)
 	const [isAssignedUser, setIsAssignedUser] = useState(false)
-	// setFastEmoji is left for changing fastEmoji later
-	const [fastEmoji, setFastEmoji] = useState('👍')
+	const [fastEmoji, setFastEmoji] = useState(chat.chatEmoji)
 	const [sendFastEmoji, setSendFastEmoji] = useState(false)
 	const [showEmojis, setShowEmojis] = useState(false)
 
 	const fileInputRef = useRef(null)
-	const inputRef = useRef(null)
 
 	useEffect(() => {
 		inputRef.current.focus()
 	}, [messageResponse])
-
-	useEffect(() => {
-		if (sendFastEmoji === true) {
-			sendMessage()
-		}
-	}, [sendFastEmoji])
 
 	useEffect(() => {
 		chat.assignedUsersId.forEach(id => {
@@ -166,121 +157,126 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv }) => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			{messageResponse !== null && (
-				<div className='response'>
-					<div>
-						<p className='response__to'>
-							Responding to{' '}
-							<span>
-								{chat.messages[messageResponse].displayName === user.displayName ? (
-									'yourself'
-								) : (
-									<b>{chat.messages[messageResponse].displayName}</b>
+		chat && (
+			<form onSubmit={handleSubmit}>
+				{messageResponse !== null && (
+					<div className='response'>
+						<div>
+							<p className='response__to'>
+								Responding to{' '}
+								<span>
+									{chat.messages[messageResponse].displayName === user.displayName ? (
+										'yourself'
+									) : (
+										<b>{chat.messages[messageResponse].displayName}</b>
+									)}
+								</span>
+							</p>
+							<p className='response__content'>
+								{chat.messages[messageResponse].content && (
+									<>
+										{chat.messages[messageResponse].content.substring(0, 70)}
+										{chat.messages[messageResponse].content.length > 70 ? <span>...</span> : ''}
+									</>
 								)}
-							</span>
-						</p>
-						<p className='response__content'>
-							{chat.messages[messageResponse].content && (
-								<>
-									{chat.messages[messageResponse].content.substring(0, 70)}
-									{chat.messages[messageResponse].content.length > 70 ? <span>...</span> : ''}
-								</>
-							)}
 
-							{chat.messages[messageResponse].image && chat.messages[messageResponse].fileType === 'image'
-								? 'Image'
-								: ''}
-							{chat.messages[messageResponse].image && chat.messages[messageResponse].fileType === 'video'
-								? 'Video'
-								: ''}
-						</p>
+								{chat.messages[messageResponse].image && chat.messages[messageResponse].fileType === 'image'
+									? 'Image'
+									: ''}
+								{chat.messages[messageResponse].image && chat.messages[messageResponse].fileType === 'video'
+									? 'Video'
+									: ''}
+							</p>
+						</div>
+
+						<div className='response__close-btn' onClick={() => onMessageResponse(null)}>
+							<i className='fa-solid fa-xmark'></i>
+						</div>
 					</div>
+				)}
 
-					<div className='response__close-btn' onClick={() => onMessageResponse(null)}>
-						<i className='fa-solid fa-xmark'></i>
-					</div>
-				</div>
-			)}
+				<div className='add-comment'>
+					<label className='attach-image'>
+						<input ref={fileInputRef} type='file' accept='video/*, image/*' onChange={e => handleFileChange(e)} />
+						<i className='fa-regular fa-image'></i>
+					</label>
 
-			<div className='add-comment'>
-				<label className='attach-image'>
-					<input ref={fileInputRef} type='file' accept='video/*, image/*' onChange={e => handleFileChange(e)} />
-					<i className='fa-regular fa-image'></i>
-				</label>
-
-				<div className='message-field'>
-					<div className='column'>
-						{imgUpload && (
-							<div className='thumbnails'>
-								<div className='file-thumbnail'>
-									<img src={fileThumbnail} alt='' />
-									<button className='remove-img' onClick={e => resetFileInput(e)}>
-										<i className='fa-solid fa-xmark close-btn'></i>
-									</button>
+					<div className='message-field'>
+						<div className='column'>
+							{imgUpload && (
+								<div className='thumbnails'>
+									<div className='file-thumbnail'>
+										<img src={fileThumbnail} alt='' />
+										<button className='remove-img' onClick={e => resetFileInput(e)}>
+											<i className='fa-solid fa-xmark close-btn'></i>
+										</button>
+									</div>
 								</div>
-							</div>
-						)}
-						<label>
-							<input
-								maxLength='900'
-								placeholder='Aa'
-								onChange={e => setNewComment(e.target.value)}
-								value={newComment}
-								onKeyDown={e => handleKey(e)}
-								ref={inputRef}
-							/>
-						</label>
-					</div>
-					<button
-						className='toggle-emoji-picker'
-						onClick={e => {
-							e.preventDefault()
-							setShowEmojis(!showEmojis)
-						}}>
-						<i className='fa-regular fa-face-smile'></i>
-					</button>
-
-					{showEmojis && (
-						<OutsideClickHandler
-							onOutsideClick={() => {
-								setShowEmojis(false)
+							)}
+							<label>
+								<input
+									maxLength='900'
+									placeholder='Aa'
+									onChange={e => setNewComment(e.target.value)}
+									value={newComment}
+									onKeyDown={e => handleKey(e)}
+									ref={inputRef}
+								/>
+							</label>
+						</div>
+						<button
+							className='toggle-emoji-picker'
+							onClick={e => {
+								e.preventDefault()
+								setShowEmojis(!showEmojis)
 							}}>
-							<EmojiPicker
-								className='emoji-picker'
-								onEmojiClick={e => {
-									handleEmojis(e)
-								}}
-								theme={Theme.DARK}
-								previewConfig={{
-									defaultCaption: '',
-									defaultEmoji: null,
-								}}
-								// lazyLoadEmojis={true}
-								emojiStyle={EmojiStyle.NATIVE}
-							/>
-						</OutsideClickHandler>
+							<i className='fa-regular fa-face-smile'></i>
+						</button>
+
+						{showEmojis && (
+							<OutsideClickHandler
+								onOutsideClick={() => {
+									setShowEmojis(false)
+								}}>
+								<EmojiPicker
+									className='emoji-picker'
+									onEmojiClick={e => {
+										handleEmojis(e)
+									}}
+									theme={Theme.DARK}
+									previewConfig={{
+										defaultCaption: '',
+										defaultEmoji: null,
+									}}
+									// lazyLoadEmojis={true}
+									emojiStyle={EmojiStyle.NATIVE}
+								/>
+							</OutsideClickHandler>
+						)}
+					</div>
+
+					{!imgUpload && newComment.trim() === '' && (
+						<button
+							className='input-tool'
+							onClick={e => {
+								setFastEmoji(e.target.innerText)
+								console.log(fastEmoji)
+								setSendFastEmoji(true)
+								// sendMessage()
+							}}>
+							{chat.chatEmoji && <Emoji unified={chat.chatEmoji} emojiStyle={EmojiStyle.NATIVE} size={33} />}
+						</button>
+					)}
+
+					{(newComment.trim() !== '' || imgUpload) && (
+						<button type='submit' className='input-tool'>
+							<i className='fa-solid fa-paper-plane'></i>
+						</button>
 					)}
 				</div>
-
-				{!imgUpload && newComment.trim() === '' && (
-					<button
-						className='input-tool'
-						onClick={() => {
-							setSendFastEmoji(true)
-						}}>
-						<i className='fa-solid fa-thumbs-up'></i>
-					</button>
-				)}
-
-				{(newComment.trim() !== '' || imgUpload) && (
-					<button type='submit' className='input-tool'>
-						<i className='fa-solid fa-paper-plane'></i>
-					</button>
-				)}
-			</div>
-			{newComment.length >= 900 && <p className='error'>Message can't be longer than 900 characters</p>}
-		</form>
+				{newComment.length >= 900 && <p className='error'>Message can't be longer than 900 characters</p>}
+			</form>
+		)
 	)
 }
 

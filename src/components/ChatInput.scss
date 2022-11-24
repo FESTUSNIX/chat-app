@@ -63,7 +63,7 @@ form {
 			display: flex;
 			justify-content: space-between;
 			align-items: flex-end;
-			padding: 8px 12px;
+			padding: 0.8rem 1.2rem;
 			margin: 0;
 			border-radius: 20px;
 			background-color: $bg-secondary;
@@ -112,7 +112,7 @@ form {
 					all: unset;
 					input {
 						width: 100%;
-						padding: 0 0 0 6px;
+						padding: 0 0 0 0.5em;
 						border: none;
 						font-size: 1.5rem;
 						color: $text-primary;
@@ -170,11 +170,10 @@ form {
 		}
 
 		.input-tool {
+			// align-self: center;
 			max-height: 41px;
-			display: flex;
-			align-items: center;
+			padding: 4px 0;
 			margin: 0 0 0 15px;
-			padding: 8px 0;
 			background-color: transparent;
 			border: none;
 
@@ -187,10 +186,11 @@ form {
 				color: $primary-color;
 			}
 
-			svg {
-				width: 25px;
-				height: 25px;
-				transform: rotate(45deg);
+			span {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				pointer-events: none;
 			}
 		}
 	}

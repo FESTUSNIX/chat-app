@@ -21,7 +21,7 @@
 		justify-content: center;
 		border-radius: $border-radius;
 		text-decoration: none;
-		background-color: rgba(255, 255, 255, 0.1);
+		background-color: $border-color;
 		z-index: 1;
 
 		&.unread {
@@ -137,7 +137,7 @@
 				.last-chat {
 					display: flex;
 					align-items: center;
-					color: $text-low-contrast;
+					color: $text-middle-contrast;
 					.last-message {
 						font-size: 1.3rem;
 						overflow: hidden;

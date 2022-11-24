@@ -75,13 +75,13 @@ export default function Message({
 
 	const scrollToResponse = id => {
 		const ref = document.getElementById(id)
-		ref.scrollIntoView({ behavior: 'smooth', block: 'center' })
+		ref.scrollIntoView({ block: 'center' })
 		setTimeout(() => {
 			ref.classList.add('pop')
 			setTimeout(() => {
 				ref.classList.remove('pop')
 			}, 800)
-		}, 800)
+		}, 400)
 	}
 
 	const reactWithEmoji = async (e, message) => {

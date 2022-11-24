@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { setDoc, doc, getDoc } from 'firebase/firestore'
 import { projectFirestore, timestamp } from '../firebase/config'
 import { useCollection } from '../hooks/useCollection'
@@ -12,7 +12,7 @@ import ChatsList from './ChatsList'
 import './Chats.scss'
 import Avatar from './Avatar'
 
-export default function Chats({ currentChat }) {
+export default function Chats({ currentChat, inputRef }) {
 	const { user } = useAuthContext()
 	const { logout, isPending } = useLogout()
 	const { documents: users } = useCollection('users')
@@ -39,6 +39,7 @@ export default function Chats({ currentChat }) {
 					assignedUsersId: [user.uid, addUser.id],
 					assignedUsersName: [user.displayName, addUser.displayName],
 					assignedUsersPhotoURL: [user.photoURL, addUser.photoURL],
+					chatEmoji: '1f44d',
 					messages: [],
 					updatedAt: timestamp.fromDate(new Date()),
 					createdAt: timestamp.fromDate(new Date()),
@@ -53,17 +54,12 @@ export default function Chats({ currentChat }) {
 		<div className='user-list'>
 			{/* <div className="blur"></div> */}
 			<div className='search'>
+				<h2>Chats</h2>
 				<div>
 					<div className='search-form'>
 						<label>
 							<i className='fa-solid fa-magnifying-glass'></i>
-							<input
-								type='text'
-								placeholder='Find a user'
-								// onKeyUp={handleSearch}
-								onChange={e => setQuery(e.target.value)}
-								value={query}
-							/>
+							<input type='text' placeholder='Find a user' onChange={e => setQuery(e.target.value)} value={query} />
 						</label>
 					</div>
 					{query !== '' && (
@@ -86,7 +82,7 @@ export default function Chats({ currentChat }) {
 						</>
 					)}
 					<div className='chats'>
-						{query === '' && chats && <ChatsList projects={chats} currentChat={currentChat} />}
+						{query === '' && chats && <ChatsList chats={chats} currentChat={currentChat} inputRef={inputRef} />}
 					</div>
 				</div>
 			</div>
@@ -98,15 +94,17 @@ export default function Chats({ currentChat }) {
 
 				{!isPending && user && (
 					<button className='btn ' onClick={logout}>
-						<i className='fa-solid fa-right-from-bracket'></i>
-						<span> Log out </span>
+						{/* <i className='fa-solid fa-right-from-bracket'></i> */}
+						<i class='fa-solid fa-gear'></i>
+						{/* <span> Log out </span> */}
 					</button>
 				)}
 
 				{isPending && (
 					<button className='btn' disabled>
-						<i class='fa-solid fa-right-from-bracket'></i>
-						<span> Logging out...</span>
+						{/* <i class='fa-solid fa-right-from-bracket'></i> */}
+						<span>...</span>
+						{/* <span> Logging out...</span> */}
 					</button>
 				)}
 			</div>

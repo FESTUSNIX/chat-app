@@ -62,7 +62,6 @@ body {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
-	padding: 0 10px;
 }
 
 a {
@@ -169,4 +168,32 @@ textarea {
 
 .text-center {
 	text-align: center;
+}
+
+.EmojiPickerReact {
+	.epr-preview {
+		display: none !important;
+	}
+
+	.epr-body {
+		margin-right: 5px;
+		&::-webkit-scrollbar {
+			width: 4px;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: transparent;
+		}
+		&::-webkit-scrollbar-thumb {
+			border-radius: 5px;
+			background: $text-low-contrast;
+
+			&:hover {
+				background-color: #aaaaaa;
+			}
+		}
+	}
+}
+.EmojiPickerReact li.epr-emoji-category > .epr-emoji-category-label {
+	top: -1px;
 }
