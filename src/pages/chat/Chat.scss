@@ -54,6 +54,66 @@
 				}
 			}
 		}
+
+		.modal {
+			&__content {
+				.user {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					gap: 3em;
+					padding: 0.5em;
+					border-radius: $border-radius;
+					cursor: pointer;
+					transition: 0.3s;
+
+					&:hover {
+						background-color: $bg-dark-hover;
+					}
+
+					.author {
+						display: flex;
+						align-items: center;
+						gap: 0.6em;
+					}
+
+					.avatar {
+						min-width: 45px;
+						width: 45px;
+						min-height: 45px;
+						height: 45px;
+					}
+
+					&__display-name {
+						font-weight: 600;
+					}
+
+					p {
+						color: $text-primary;
+						&:nth-of-type(2) {
+							font-size: 1.3rem;
+							color: $text-middle-contrast;
+						}
+					}
+
+					input {
+						width: 100%;
+						// display: none;
+					}
+
+					i {
+						padding: 0.5em;
+						border-radius: 50vw;
+						font-size: 1.9rem;
+						transition: 0.3s;
+
+						&:hover {
+							background-color: $bg-secondary;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	&__top-bar {
@@ -65,16 +125,16 @@
 		z-index: 80;
 
 		.avatar {
-			width: 36px;
-			height: 36px;
+			width: 32px;
+			height: 32px;
 			margin-right: 0.5em;
 		}
 		.vertical-container {
 			line-height: 1em;
 
 			h3 {
-				font-weight: bold;
-				font-size: 1.8rem;
+				font-weight: 600;
+				font-size: 1.6rem;
 				color: $text-primary;
 			}
 

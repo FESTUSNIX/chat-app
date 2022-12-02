@@ -57,6 +57,11 @@ body {
 	align-items: center;
 }
 
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
 .vertical-container {
 	height: 100%;
 	display: flex;
@@ -139,7 +144,7 @@ textarea {
 	border: 1px solid #313131;
 	border-radius: $border-radius;
 	background-color: $bg-secondary;
-	color: $text-low-contrast;
+	color: $text-primary;
 	outline: none;
 }
 

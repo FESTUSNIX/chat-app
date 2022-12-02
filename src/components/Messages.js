@@ -3,25 +3,21 @@ import { useAuthContext } from '../hooks/useAuthContext'
 import { useDates } from '../hooks/useDates'
 import { useFirestore } from '../hooks/useFirestore'
 import { useHistory } from 'react-router-dom'
-import OutsideClickHandler from 'react-outside-click-handler'
 import FileSaver from 'file-saver'
 import Message from './Message'
 
 // Styles && Assets
 import './Messages.scss'
-import Avatar from './Avatar'
+import Modal from './Modal'
 
-const Messages = ({ chat, onMessageResponse, setBottomDiv }) => {
+const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUser }) => {
 	const { user } = useAuthContext()
 	const { dates } = useDates()
 	const { updateDocument } = useFirestore('projects')
 
 	const [showImage, setShowImage] = useState('')
 	const [messageToDelete, setMessageToDelete] = useState(null)
-	const [emojiReactions, setEmojiReactions] = useState({
-		message: null,
-		reactions: [],
-	})
+	const [showModal, setShowModal] = useState(false)
 
 	const history = useHistory()
 	const bottomRef = useRef()
@@ -39,6 +35,14 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv }) => {
 			onMessageResponse(null)
 		})
 	}, [history])
+
+	useEffect(() => {
+		if (messageToDelete !== null) {
+			setShowModal(true)
+		} else {
+			setShowModal(false)
+		}
+	}, [messageToDelete, showModal])
 
 	const deleteMessage = async message => {
 		if (user.uid === message.createdBy) {
@@ -88,40 +92,6 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv }) => {
 		}
 	}
 
-	const deleteEmojiReaction = async (message, reaction) => {
-		let otherUserReaction = null
-		if (reaction.id === user.uid) {
-			if (message.emojiReactions.length > 0) {
-				// otherUserReaction = message.emojiReactions.find(rec => rec.id !== user.uid)
-
-				message.emojiReactions.forEach(rec => {
-					if (rec !== null && rec.id !== user.uid) {
-						otherUserReaction = rec
-					}
-				})
-			}
-
-			const indexOfMessage = chat.messages.indexOf(message)
-
-			chat.messages[indexOfMessage] = {
-				...chat.messages[indexOfMessage],
-				emojiReactions: [otherUserReaction],
-			}
-
-			try {
-				await updateDocument(chat.id, {
-					messages: [...chat.messages],
-				})
-				setEmojiReactions({
-					message: null,
-					reactions: [],
-				})
-			} catch (error) {
-				console.log(error)
-			}
-		}
-	}
-
 	return (
 		<ul className='messages custom-scrollbar' id='messages' onScroll={e => handleScrollDownBtn(e)}>
 			{showImage && (
@@ -162,7 +132,8 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv }) => {
 							setMessageToDelete={setMessageToDelete}
 							showImage={showImage}
 							setShowImage={setShowImage}
-							setEmojiReactions={setEmojiReactions}
+							otherUser={otherUser}
+							currentUser={currentUser}
 						/>
 					))}
 				<div ref={bottomRef} className='bottom-ref'></div>
@@ -170,81 +141,36 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv }) => {
 			<div className='scroll-down' onClick={() => scrollToBottom()} ref={scrollDownRef}>
 				<i className='fa-solid fa-arrow-down'></i>
 			</div>
+			{messageToDelete !== null && (
+				<Modal
+					show={showModal}
+					setShow={() => setMessageToDelete(null)}
+					// onClose={() => {}}
+				>
+					<div className='confirm-message-delete'>
+						<h2>Delete message</h2>
+						<p>Do you really want to delete this message?</p>
 
-			{messageToDelete && (
-				<div className='confirm-message-delete'>
-					<div className='hero-shadow'></div>
-
-					<OutsideClickHandler
-						onOutsideClick={() => {
-							setMessageToDelete(null)
-						}}>
-						<div className='confirm-message-delete__content'>
-							<h2>Delete message</h2>
-							<p>Do you really want to delete this message?</p>
-
-							<p>Message to delete: </p>
-							<div className='message-to-delete custom-scrollbar'>
-								{messageToDelete.content && <span>"{messageToDelete.content}"</span>}
-								{messageToDelete.image && <img src={messageToDelete.image} alt='' />}
-							</div>
-
-							<div className='vertical-btns'>
-								<button className='btn btn--secondary' onClick={() => setMessageToDelete(null)}>
-									Cancel
-								</button>
-								<button className='btn' onClick={() => deleteMessage(messageToDelete)}>
-									Delete
-								</button>
-							</div>
+						<p>Message to delete: </p>
+						<div className='message-to-delete custom-scrollbar'>
+							{messageToDelete.content && <span>"{messageToDelete.content}"</span>}
+							{messageToDelete.image && <img src={messageToDelete.image} alt='' />}
 						</div>
-					</OutsideClickHandler>
-				</div>
-			)}
 
-			{emojiReactions.reactions.length !== 0 && (
-				<div className='show-reactions'>
-					<div className='hero-shadow'></div>
-
-					<OutsideClickHandler
-						onOutsideClick={() => {
-							setEmojiReactions({
-								message: null,
-								reactions: [],
-							})
-						}}>
-						<div className='show-reactions__content'>
-							<h3>Reactions</h3>
-							{emojiReactions.reactions.map(reaction =>
-								reaction !== null ? (
-									<div
-										className='reaction'
-										onClick={() => deleteEmojiReaction(emojiReactions.message, reaction)}
-										key={reaction.id}>
-										<div className='reaction__author'>
-											<Avatar src={reaction.photoURL} />
-											<div>
-												<p>{reaction.displayName}</p>
-												{reaction.id === user.uid && <p>Click to delete</p>}
-											</div>
-										</div>
-
-										<span className='reaction__emoji'>{reaction.content}</span>
-									</div>
-								) : null
-							)}
-
-							<i
-								className='fa-solid fa-xmark close-btn'
-								onClick={() =>
-									setEmojiReactions({
-										message: null,
-										reactions: [],
-									})
-								}></i>
+						<div className='vertical-btns'>
+							<button
+								className='btn btn--secondary'
+								onClick={() => {
+									setMessageToDelete(null)
+								}}>
+								Cancel
+							</button>
+							<button className='btn' onClick={() => deleteMessage(messageToDelete)}>
+								Delete
+							</button>
 						</div>
-					</OutsideClickHandler>
-				</div>
+					</div>
+				</Modal>
 			)}
 		</ul>
 	)

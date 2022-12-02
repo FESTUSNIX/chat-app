@@ -17,11 +17,12 @@ export default function ChatsList({ chats, currentChat, inputRef }) {
 	let rightUrl = ''
 	let rightDisplayName = ''
 	let rightId = ''
+
 	const replaceDistanceToNow = {
 		about: '',
 		minute: 'min',
 		minutes: 'min',
-		
+
 		'less than a minute': '1 min',
 	}
 
@@ -68,21 +69,11 @@ export default function ChatsList({ chats, currentChat, inputRef }) {
 					}`}
 					onClick={() => handleSeen()}>
 					<div className='card-content'>
-						{chat.assignedUsersPhotoURL.forEach(url => {
-							if (url !== user.photoURL) {
-								rightUrl = url
-							}
-						})}
-
-						{chat.assignedUsersName.forEach(name => {
-							if (name !== user.displayName) {
-								rightDisplayName = name
-							}
-						})}
-
-						{chat.assignedUsersId.forEach(id => {
-							if (id !== user.uid) {
-								rightId = id
+						{chat.assignedUsers.forEach(u => {
+							if (u.id !== user.uid) {
+								rightId = u.id
+								rightUrl = u.photoURL
+								rightDisplayName = u.nickname
 							}
 						})}
 

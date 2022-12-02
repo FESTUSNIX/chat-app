@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useState } from 'react'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useFirestore } from '../hooks/useFirestore'
@@ -9,6 +9,7 @@ import OutsideClickHandler from 'react-outside-click-handler'
 // Styles && Assets
 import './Message.scss'
 import Avatar from './Avatar'
+import Modal from './Modal'
 
 export default function Message({
 	message,
@@ -19,13 +20,15 @@ export default function Message({
 	setMessageToDelete,
 	showImage,
 	setShowImage,
-	setEmojiReactions,
+	otherUser,
 }) {
 	const { user } = useAuthContext()
 	const { updateDocument } = useFirestore('projects')
 	const { formatDate } = useDates()
 
 	const [showEmojis, setShowEmojis] = useState(null)
+	const [showModal, setShowModal] = useState(false)
+	const [emojiReactions, setEmojiReactions] = useState([])
 
 	const showSendDate = (elements, i) => {
 		if (elements[i] && elements[i - 1]) {
@@ -188,6 +191,52 @@ export default function Message({
 		}
 	}
 
+	const handleReactionNicknames = reaction => {
+		let nickname
+		chat.assignedUsers.forEach(u => {
+			if (u.id === reaction.id) {
+				if (u.nickname !== '') {
+					nickname = u.nickname
+				} else {
+					nickname = u.displayName
+				}
+			}
+		})
+		return nickname
+	}
+
+	const deleteEmojiReaction = async (message, reaction) => {
+		let otherUserReaction = null
+		if (reaction.id === user.uid) {
+			if (message.emojiReactions.length > 0) {
+				// otherUserReaction = message.emojiReactions.find(rec => rec.id !== user.uid)
+
+				message.emojiReactions.forEach(rec => {
+					if (rec !== null && rec.id !== user.uid) {
+						otherUserReaction = rec
+					}
+				})
+			}
+
+			const indexOfMessage = chat.messages.indexOf(message)
+
+			chat.messages[indexOfMessage] = {
+				...chat.messages[indexOfMessage],
+				emojiReactions: [otherUserReaction],
+			}
+
+			try {
+				await updateDocument(chat.id, {
+					messages: [...chat.messages],
+				})
+				setEmojiReactions([])
+				setShowModal(false)
+			} catch (error) {
+				console.log(error)
+			}
+		}
+	}
+
 	return (
 		<>
 			{showSendDate(elements, i) && <div className='messages__time-passed'>{formatDate(message)}</div>}
@@ -254,7 +303,8 @@ export default function Message({
 							)
 						)
 					) && (
-						<p className='message-author'>{message.displayName}</p>
+						// !! Show nickname instead
+						<p className='message-author'>{otherUser.nickname}</p>
 					)
 				}
 
@@ -339,23 +389,49 @@ export default function Message({
 						)}
 
 						{message.emojiReactions && message.emojiReactions.length > 0 && (
-							<div
-								className='emoji-reactions'
-								onClick={() =>
-									setEmojiReactions({
-										message: message,
-										reactions: message.emojiReactions,
-									})
-								}>
-								{message.emojiReactions.map(reaction =>
-									reaction !== null ? (
-										<div key={reaction.id} className='emoji-reactions__reaction'>
-											<span className='content'>{reaction.content}</span>
-											<span className='display-name'>{reaction.displayName}</span>
-										</div>
-									) : null
-								)}
-							</div>
+							<>
+								<div
+									className='emoji-reactions'
+									onClick={() => {
+										setEmojiReactions(message.emojiReactions)
+										setShowModal(true)
+									}}>
+									{message.emojiReactions.map(reaction =>
+										reaction !== null ? (
+											<div key={reaction.id} className='emoji-reactions__reaction'>
+												<span className='content'>{reaction.content}</span>
+												<span className='display-name'>{handleReactionNicknames(reaction)}</span>
+											</div>
+										) : null
+									)}
+								</div>
+
+								<Modal show={showModal} setShow={() => setShowModal(false)} onClose={() => setEmojiReactions([])}>
+									<div className='show-reactions'>
+										<h3>Reactions</h3>
+										{emojiReactions.map(reaction =>
+											reaction !== null ? (
+												<div
+													className={`reaction ${reaction.id === user.uid ? 'cursor-pointer' : ''}`}
+													onClick={() => {
+														deleteEmojiReaction(message, reaction)
+													}}
+													key={reaction.id}>
+													<div className='reaction__author'>
+														<Avatar src={reaction.photoURL} />
+														<div>
+															<p>{reaction.displayName}</p>
+															{reaction.id === user.uid && <p>Click to delete</p>}
+														</div>
+													</div>
+
+													<span className='reaction__emoji'>{reaction.content}</span>
+												</div>
+											) : null
+										)}
+									</div>
+								</Modal>
+							</>
 						)}
 					</div>
 
@@ -395,17 +471,23 @@ export default function Message({
 								className='fa-regular fa-face-smile'
 								onClick={() => {
 									setShowEmojis(message)
-								}}></i>
+								}}>
+								<div className='tool-tip'>React</div>
+							</i>
 
 							{user.uid === message.createdBy && (
-								<i className='fa-solid fa-trash-can' onClick={() => setMessageToDelete(message)}></i>
+								<i className='fa-solid fa-trash-can' onClick={() => setMessageToDelete(message)}>
+									<div className='tool-tip'>Remove</div>
+								</i>
 							)}
 
 							<i
 								className='fa-solid fa-reply'
 								onClick={() => {
 									onMessageResponse(Number(chat.messages.indexOf(message)))
-								}}></i>
+								}}>
+								<div className='tool-tip'>Reply</div>
+							</i>
 						</div>
 					)}
 

@@ -36,9 +36,21 @@ export default function Chats({ currentChat, inputRef }) {
 
 				await setDoc(doc(projectFirestore, 'projects', combinedId), {
 					id: combinedId,
+					assignedUsers: [
+						{
+							id: user.uid,
+							displayName: user.displayName,
+							nickname: user.displayName,
+							photoURL: user.photoURL,
+						},
+						{
+							id: addUser.id,
+							displayName: addUser.displayName,
+							nickname: addUser.displayName,
+							photoURL: addUser.photoURL,
+						},
+					],
 					assignedUsersId: [user.uid, addUser.id],
-					assignedUsersName: [user.displayName, addUser.displayName],
-					assignedUsersPhotoURL: [user.photoURL, addUser.photoURL],
 					chatEmoji: '1f44d',
 					messages: [],
 					updatedAt: timestamp.fromDate(new Date()),
@@ -95,7 +107,7 @@ export default function Chats({ currentChat, inputRef }) {
 				{!isPending && user && (
 					<button className='btn ' onClick={logout}>
 						{/* <i className='fa-solid fa-right-from-bracket'></i> */}
-						<i class='fa-solid fa-gear'></i>
+						<i className='fa-solid fa-gear'></i>
 						{/* <span> Log out </span> */}
 					</button>
 				)}
