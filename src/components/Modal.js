@@ -5,7 +5,7 @@ import { useEscapeKey } from '../hooks/useEscapeKey'
 // Styles
 import './Modal.scss'
 
-export default function Modal({ children, show, setShow, onClose }) {
+export default function Modal({ children, show, setShow, onClose, disableOCH }) {
 	useEffect(() => {
 		if (show === false && onClose) {
 			onClose()
@@ -24,7 +24,8 @@ export default function Modal({ children, show, setShow, onClose }) {
 				<OutsideClickHandler
 					onOutsideClick={() => {
 						setShow()
-					}}>
+					}}
+					disabled={disableOCH}>
 					<div className='modal__content'>
 						{children}
 						<i className='fa-solid fa-xmark close-btn' onClick={() => setShow()}></i>

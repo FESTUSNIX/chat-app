@@ -16,8 +16,9 @@
 	&__content {
 		position: relative;
 		padding: 1.5em 1em 1em 1em;
-		border-radius: $border-radius;
-		background-color: $bg-dark;
+		border-radius: var(--border-radius);
+		box-shadow: rgba(141, 147, 153, 0.2) 0px 8px 24px;
+		background-color: var(--bg-secondary);
 		z-index: 160;
 	}
 
@@ -36,7 +37,7 @@
 		z-index: 180;
 
 		&:hover {
-			background-color: $bg-secondary;
+			background-color: var(--bg-secondary);
 		}
 	}
 }

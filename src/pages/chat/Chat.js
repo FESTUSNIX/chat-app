@@ -8,29 +8,26 @@ import { useFirestore } from '../../hooks/useFirestore'
 import Messages from '../../components/Messages'
 import ChatInput from '../../components/ChatInput'
 import Avatar from '../../components/Avatar'
-import OutsideClickHandler from 'react-outside-click-handler'
-import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
-import Modal from '../../components/Modal'
+import ChatOptions from '../../components/ChatOptions'
 
 // Styles && Assets
 import './Chat.scss'
+import { useCollection } from '../../hooks/useCollection'
 
-export default function Chat({ setCurrentChat, inputRef }) {
+export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 	const { user } = useAuthContext()
 	const { id } = useParams()
 	const { error, document } = useDocument('projects', id)
+	const { documents: users } = useCollection('users')
 	const { updateDocument } = useFirestore('projects')
 
 	const [isAssignedUser, setIsAssignedUser] = useState(false)
 	const [messageResponse, onMessageResponse] = useState(null)
 	const [bottomDiv, setBottomDiv] = useState(null)
 	const [showChatOptions, setShowChatOptions] = useState(false)
-	const [showEmojiPicker, setShowEmojiPicker] = useState(false)
-	const [showModal, setShowModal] = useState(false)
-	const [showNicknameInput, setShowNicknameInput] = useState(null)
-	const [newNickname, setNewNickname] = useState('')
 	const [otherUser, setOtherUser] = useState(null)
 	const [currentUser, setCurrentUser] = useState(null)
+	const [otherUserActive, setOtherUserActive] = useState(null)
 
 	useEffect(() => {
 		if (document !== null) {
@@ -53,6 +50,16 @@ export default function Chat({ setCurrentChat, inputRef }) {
 		setCurrentChat(document)
 	}, [id, document])
 
+	useEffect(() => {
+		if (users !== null && otherUser !== null) {
+			users.forEach(u => {
+				if (u.id === otherUser.id) {
+					setOtherUserActive(u.online)
+				}
+			})
+		}
+	}, [id, users, otherUser])
+
 	if (error) {
 		return <div className='error'>{error}</div>
 	}
@@ -72,37 +79,6 @@ export default function Chat({ setCurrentChat, inputRef }) {
 		}
 	}
 
-	const changeChatEmoji = e => {
-		updateDocument(document.id, {
-			chatEmoji: e.unified,
-		})
-	}
-
-	const handleNicknameInput = u => {
-		setShowNicknameInput(u.id)
-	}
-
-	const changeNickname = user => {
-		if (newNickname.trim() !== '' && newNickname.trim().length < 80) {
-			document.assignedUsers.forEach(u => {
-				if (u !== user) {
-					console.log(newNickname)
-					updateDocument(document.id, {
-						assignedUsers: [
-							u,
-							{
-								id: user.id,
-								displayName: user.displayName,
-								nickname: newNickname.trim(),
-								photoURL: user.photoURL,
-							},
-						],
-					})
-					setShowModal(false)
-				}
-			})
-		}
-	}
 	return (
 		<>
 			{isAssignedUser && otherUser && (
@@ -113,7 +89,7 @@ export default function Chat({ setCurrentChat, inputRef }) {
 								<Avatar src={otherUser.photoURL} />
 								<div className='vertical-container'>
 									<h3>{otherUser.nickname}</h3>
-									{otherUser.online && <p className='isActive'>Active now</p>}
+									{otherUserActive === true && <p className='isActive'>Active now</p>}
 								</div>
 							</div>
 
@@ -150,109 +126,12 @@ export default function Chat({ setCurrentChat, inputRef }) {
 					</div>
 
 					{showChatOptions && (
-						<aside className='chat__options'>
-							<Avatar src={otherUser.photoURL} />
-
-							<h3>{otherUser.nickname}</h3>
-
-							<div className='option'>
-								<div className='option__icon'>
-									<i className='fa-solid fa-paint-roller'></i>
-								</div>
-								<div className='option__name'>Change theme</div>
-							</div>
-
-							<div
-								className='option'
-								onClick={() => {
-									setShowEmojiPicker(true)
-								}}>
-								<div className='option__icon'>
-									<i className='fa-solid fa-thumbs-up'></i>
-								</div>
-								<div className='option__name'>Change emoji icon</div>
-							</div>
-
-							<div
-								className='option'
-								onClick={() => {
-									setShowModal(true)
-								}}>
-								<div className='option__icon'>Aa</div>
-								<div className='option__name'>Edit nicknames</div>
-							</div>
-
-							<Modal
-								show={showModal}
-								setShow={() => setShowModal(false)}
-								onClose={() => {
-									setNewNickname('')
-									setShowNicknameInput(null)
-								}}>
-								{document.assignedUsers.map(u => (
-									// <OutsideClickHandler onOutsideClick={() => setShowNicknameInput(null)}>
-									<div
-										key={u.id}
-										className='user'
-										onClick={() => {
-											setNewNickname(' ')
-											handleNicknameInput(u)
-										}}>
-										<div className='author'>
-											<Avatar src={u.photoURL} />
-											{showNicknameInput !== u.id && (
-												<div className='flex-column'>
-													<p className='user__display-name'>{u.nickname}</p>
-													<p>Set nickname</p>
-												</div>
-											)}
-											{showNicknameInput === u.id && (
-												<input
-													type='text'
-													placeholder={u.nickname}
-													value={newNickname}
-													onChange={e => {
-														setNewNickname(e.target.value)
-													}}
-												/>
-											)}
-										</div>
-
-										{showNicknameInput !== u.id && <i className='fa-solid fa-pen-to-square'></i>}
-										{showNicknameInput === u.id && (
-											<i
-												className='fa-solid fa-check'
-												onClick={() => {
-													changeNickname(u)
-												}}></i>
-										)}
-									</div>
-									// </OutsideClickHandler>
-								))}
-							</Modal>
-
-							{showEmojiPicker && (
-								<OutsideClickHandler
-									onOutsideClick={() => {
-										setShowEmojiPicker(false)
-									}}>
-									<EmojiPicker
-										className='emoji-picker'
-										onEmojiClick={e => {
-											changeChatEmoji(e)
-											setShowEmojiPicker(false)
-										}}
-										theme={Theme.DARK}
-										previewConfig={{
-											defaultCaption: '',
-											defaultEmoji: null,
-										}}
-										// lazyLoadEmojis={true}
-										emojiStyle={EmojiStyle.NATIVE}
-									/>
-								</OutsideClickHandler>
-							)}
-						</aside>
+						<ChatOptions
+							onMessageResponse={onMessageResponse}
+							otherUser={otherUser}
+							chat={document}
+							currentTheme={currentTheme}
+						/>
 					)}
 				</div>
 			)}

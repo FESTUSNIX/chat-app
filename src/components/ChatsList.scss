@@ -19,9 +19,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border-radius: $border-radius;
+		border-radius: var(--border-radius);
 		text-decoration: none;
-		background-color: $border-color;
+		background-color: var(--border-color);
 		z-index: 1;
 
 		&.unread {
@@ -30,7 +30,7 @@
 					.display-name,
 					.last-chat {
 						font-weight: bold;
-						color: $text-primary;
+						color: var(--text-primary);
 					}
 				}
 			}
@@ -82,7 +82,7 @@
 			padding: 16px;
 			border-radius: inherit;
 			margin: 1px;
-			background-color: $bg-dark;
+			background-color: var(--bg-dark);
 			color: inherit;
 			z-index: 2;
 
@@ -109,7 +109,7 @@
 					justify-content: center;
 					align-items: center;
 					border-radius: 50%;
-					background-color: $bg-secondary;
+					background-color: var(--bg-secondary);
 					z-index: 10;
 
 					.status-circle {
@@ -128,16 +128,16 @@
 				.display-name {
 					font-weight: 400;
 					font-size: 1.5rem;
-					color: $text-primary;
+					color: var(--text-primary);
 
 					span {
-						color: $text-low-contrast;
+						color: var(--text-mid-contrast);
 					}
 				}
 				.last-chat {
 					display: flex;
 					align-items: center;
-					color: $text-middle-contrast;
+					color: var(--text-mid-contrast);
 					.last-message {
 						font-size: 1.3rem;
 						overflow: hidden;
@@ -151,7 +151,7 @@
 						height: 2px;
 						width: 2px;
 						margin: 0 5px;
-						background-color: $text-low-contrast;
+						background-color: var(--text-low-contrast);
 					}
 				}
 			}

@@ -3,118 +3,7 @@
 	display: flex;
 	flex-direction: row;
 	flex-grow: 1;
-
-	&__options {
-		max-width: 380px;
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		flex-basis: 100%;
-		padding: 1.5em 1em;
-		border-left: 1px solid $border-color;
-		z-index: 100;
-
-		.avatar {
-			width: 75px;
-			height: 75px;
-		}
-
-		h3 {
-			margin: 0.2em 0 1.5em 0;
-		}
-
-		.option {
-			width: 100%;
-			min-width: max-content;
-			align-self: flex-start;
-			display: flex;
-			gap: 1em;
-			margin-bottom: 0.2em;
-			padding: 0.4em 0;
-			border-radius: $border-radius;
-			cursor: pointer;
-			transition: 0.3s;
-
-			&:hover {
-				background-color: $bg-secondary;
-			}
-
-			&__icon {
-				width: 28px;
-				height: 28px;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				border-radius: 50vw;
-				font-size: 1.3rem;
-				background-color: $bg-secondary;
-
-				i {
-					pointer-events: none;
-				}
-			}
-		}
-
-		.modal {
-			&__content {
-				.user {
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-					gap: 3em;
-					padding: 0.5em;
-					border-radius: $border-radius;
-					cursor: pointer;
-					transition: 0.3s;
-
-					&:hover {
-						background-color: $bg-dark-hover;
-					}
-
-					.author {
-						display: flex;
-						align-items: center;
-						gap: 0.6em;
-					}
-
-					.avatar {
-						min-width: 45px;
-						width: 45px;
-						min-height: 45px;
-						height: 45px;
-					}
-
-					&__display-name {
-						font-weight: 600;
-					}
-
-					p {
-						color: $text-primary;
-						&:nth-of-type(2) {
-							font-size: 1.3rem;
-							color: $text-middle-contrast;
-						}
-					}
-
-					input {
-						width: 100%;
-						// display: none;
-					}
-
-					i {
-						padding: 0.5em;
-						border-radius: 50vw;
-						font-size: 1.9rem;
-						transition: 0.3s;
-
-						&:hover {
-							background-color: $bg-secondary;
-						}
-					}
-				}
-			}
-		}
-	}
+	background-color: var(--bg-dark);
 
 	&__top-bar {
 		display: flex;
@@ -135,12 +24,12 @@
 			h3 {
 				font-weight: 600;
 				font-size: 1.6rem;
-				color: $text-primary;
+				color: var(--text-heading);
 			}
 
 			.isActive {
 				font-size: 1.3rem;
-				color: $text-middle-contrast;
+				color: var(--text-middle-contrast);
 			}
 		}
 
@@ -156,7 +45,7 @@
 			transition: 0.3s;
 
 			&:hover {
-				background-color: $bg-secondary;
+				background-color: var(--bg-secondary);
 			}
 
 			&.active {
@@ -168,6 +57,7 @@
 			i {
 				font-size: 2rem;
 				pointer-events: none;
+				color: var(--text-accent);
 				transition: transform 0.3s;
 			}
 		}

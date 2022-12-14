@@ -1,5 +1,4 @@
 @use '../colors' as *;
-
 form {
 	display: flex;
 	flex-direction: column;
@@ -11,15 +10,15 @@ form {
 		align-items: flex-start;
 		justify-content: space-between;
 		padding: 0.5em 0.8em 1.5em 0.8em;
-		border-top: 1px solid $border-color;
+		border-top: 1px solid var(--border-color);
 		font-size: 1.4rem;
 
 		&__content {
-			color: $text-low-contrast;
+			color: var(--text-low-contrast);
 
 			img {
 				max-height: 150px;
-				border-radius: $border-radius;
+				border-radius: var(--border-radius);
 			}
 		}
 
@@ -52,7 +51,7 @@ form {
 
 			i {
 				font-size: 2.5rem;
-				color: $primary-color;
+				color: var(--text-accent);
 			}
 		}
 
@@ -66,7 +65,7 @@ form {
 			padding: 0.8rem 1.2rem;
 			margin: 0;
 			border-radius: 20px;
-			background-color: $bg-secondary;
+			background-color: var(--input-bg);
 
 			.column {
 				width: 100%;
@@ -92,8 +91,8 @@ form {
 							padding: 5px;
 							border: none;
 							border-radius: 50vw;
-							background-color: $bg-dark;
-							color: $text-primary;
+							background-color: var(--bg-dark);
+							color: var(--text-accent);
 
 							&:hover {
 								cursor: pointer;
@@ -115,7 +114,7 @@ form {
 						padding: 0 0 0 0.5em;
 						border: none;
 						font-size: 1.5rem;
-						color: $text-primary;
+						color: var(--input-text);
 
 						&:focus {
 							outline: none;
@@ -131,7 +130,7 @@ form {
 
 				i {
 					font-size: 2.5rem;
-					color: $primary-color;
+					color: var(--text-accent);
 				}
 			}
 		}
@@ -157,7 +156,7 @@ form {
 				}
 				&::-webkit-scrollbar-thumb {
 					border-radius: 5px;
-					background: $text-low-contrast;
+					background: var(--text-low-contrast);
 
 					&:hover {
 						background-color: #aaaaaa;
@@ -183,7 +182,7 @@ form {
 
 			i {
 				font-size: 3rem;
-				color: $primary-color;
+				color: var(--text-accent);
 			}
 
 			span {

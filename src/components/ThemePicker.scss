@@ -1,0 +1,44 @@
+.theme-picker {
+	&__themes {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1em;
+		margin-bottom: 2em;
+		&__theme {
+			position: relative;
+			width: 55px;
+			height: 55px;
+			display: flex;
+			border-radius: 50vw;
+			box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+			cursor: pointer;
+			overflow: hidden;
+		}
+	}
+
+	.create-theme {
+		position: relative;
+		width: 55px;
+		height: 55px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: none;
+		border-radius: 50vw;
+		box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+		cursor: pointer;
+		background-color: transparent;
+		color: var(--text-primary);
+		overflow: hidden;
+
+		&:hover i {
+			transform: scale(0.9);
+		}
+
+		i {
+			pointer-events: none;
+			font-size: 2.5rem;
+			transition: 0.3s;
+		}
+	}
+}

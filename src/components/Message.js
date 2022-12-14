@@ -239,104 +239,77 @@ export default function Message({
 
 	return (
 		<>
-			{showSendDate(elements, i) && <div className='messages__time-passed'>{formatDate(message)}</div>}
-			<li
-				className={`${handleMessageStyle(
-					message,
-					elements[i - 1],
-					elements[i + 1],
-					showSendDate(elements, i),
-					showSendDate2(elements, i)
-				)} ${message.deleted ? 'deleted' : ''} ${message.emojiReactions ? 'emoji-response' : ''}`}
-				id={message.id}>
-				{
-					// prettier-ignore
-					(
-						message.createdBy !== user.uid &&
-						(
-							(
-								// top
-								elements[i + 1] &&
-								(
-									!elements[i - 1] ||
+			{message.isSpecial && <div className='messages__centered mb05'>{message.content}</div>}
+			{!message.isSpecial && (
+				<>
+					{showSendDate(elements, i) && <div className='messages__centered mb1 mt2'>{formatDate(message)}</div>}
+					<li
+						className={`${handleMessageStyle(
+							message,
+							elements[i - 1],
+							elements[i + 1],
+							showSendDate(elements, i),
+							showSendDate2(elements, i)
+						)} ${message.deleted ? 'deleted' : ''} ${message.emojiReactions ? 'emoji-response' : ''}`}
+						id={message.id}>
+						{message.createdBy !== user.uid &&
+							(// top
+							(elements[i + 1] &&
+								(!elements[i - 1] ||
 									elements[i - 1].createdBy !== message.createdBy ||
 									elements[i + 1].response !== null ||
 									showSendDate(elements, i) ||
-									message.response !== null
-								) &&
+									message.response !== null) &&
 								elements[i + 1].createdBy === message.createdBy &&
 								elements[i + 1].response === null &&
-								!showSendDate2(elements, i)
-							) ||
-							!(	
-								(
+								!showSendDate2(elements, i)) ||
+								!(
 									// middle
-									elements[i - 1] &&
-									elements[i + 1] &&
-									(
-										elements[i - 1].createdBy === message.createdBy || 
-										elements[i - 1].response !== null
-									) &&
-									elements[i + 1].createdBy === message.createdBy &&
-									elements[i + 1].response === null &&
-									!showSendDate(elements, i) &&
-									!showSendDate2(elements, i)
-								) ||
-								(
-									// bottom									
-									elements[i - 1] &&
-									elements[i - 1].createdBy === message.createdBy &&
-									message.response === null &&
-									(
-										(!elements[i + 1] && message.response === null) ||
-										(
-											elements[i + 1] && 
-											(
-												elements[i + 1].response !== null ||
-												elements[i + 1].createdBy !== message.createdBy ||
-												showSendDate2(elements, i)
-											)
-										)
-									) &&
-									!showSendDate(elements, i)
-								)
-							)
-						)
-					) && (
-						// !! Show nickname instead
-						<p className='message-author'>{otherUser.nickname}</p>
-					)
-				}
+									(elements[i - 1] &&
+										elements[i + 1] &&
+										(elements[i - 1].createdBy === message.createdBy || elements[i - 1].response !== null) &&
+										elements[i + 1].createdBy === message.createdBy &&
+										elements[i + 1].response === null &&
+										!showSendDate(elements, i) &&
+										!showSendDate2(elements, i)) ||
+									// bottom
+									(elements[i - 1] &&
+										elements[i - 1].createdBy === message.createdBy &&
+										message.response === null &&
+										((!elements[i + 1] && message.response === null) ||
+											(elements[i + 1] &&
+												(elements[i + 1].response !== null ||
+													elements[i + 1].createdBy !== message.createdBy ||
+													showSendDate2(elements, i)))) &&
+										!showSendDate(elements, i))
+								)) && <p className='message-author'>{otherUser.nickname}</p>}
 
-				{message.response !== null && (
-					<div
-						onClick={() => scrollToResponse(chat.messages[message.response].id)}
-						className={`response ${chat.messages[message.response].deleted ? 'deleted' : ''}`}>
-						{message.createdBy !== user.uid && <div className='left-margin'></div>}
+						{message.response !== null && (
+							<div
+								onClick={() => scrollToResponse(chat.messages[message.response].id)}
+								className={`response ${chat.messages[message.response].deleted ? 'deleted' : ''}`}>
+								{message.createdBy !== user.uid && <div className='left-margin'></div>}
 
-						{chat.messages[message.response].content && (
-							<div className='response__message'>{chat.messages[message.response].content.substring(0, 55)}</div>
+								{chat.messages[message.response].content && (
+									<div className='response__message'>{chat.messages[message.response].content.substring(0, 55)}</div>
+								)}
+
+								<div className='response__img'>
+									{chat.messages[message.response].image &&
+										(chat.messages[message.response].fileType === 'image' ? (
+											<img src={chat.messages[message.response].image} alt='' />
+										) : (
+											<video src={chat.messages[message.response].image}></video>
+										))}
+								</div>
+							</div>
 						)}
-
-						<div className='response__img'>
-							{chat.messages[message.response].image &&
-								(chat.messages[message.response].fileType === 'image' ? (
-									<img src={chat.messages[message.response].image} alt='' />
-								) : (
-									<video src={chat.messages[message.response].image}></video>
-								))}
-						</div>
-					</div>
-				)}
-				<div className='message-content'>
-					{message.createdBy !== user.uid && (
-						<div className='left-margin'>
-							{
-								// prettier-ignore
-								(
-									(
-										!(
-											// middle
+						<div className='message-content'>
+							{message.createdBy !== user.uid && (
+								<div className='left-margin'>
+									{!(
+										// middle
+										(
 											elements[i - 1] &&
 											elements[i + 1] &&
 											(elements[i - 1].createdBy === message.createdBy || elements[i - 1].response !== null) &&
@@ -344,156 +317,155 @@ export default function Message({
 											elements[i + 1].response === null &&
 											!showSendDate(elements, i) &&
 											!showSendDate2(elements, i)
-										) &&
+										)
+									) &&
 										!(
 											// top
-											elements[i + 1] &&
 											(
-												!elements[i - 1] ||
-												elements[i - 1].createdBy !== message.createdBy ||
-												elements[i + 1].response !== null ||
-												showSendDate(elements, i) ||
-												message.response !== null
-											) &&
-											elements[i + 1].createdBy === message.createdBy &&
-											elements[i + 1].response === null &&
-											!showSendDate2(elements, i)
-										)
-									)
-								
-								) && <Avatar src={message.photoURL} />
-							}
-						</div>
-					)}
-					<div
-						className='message-content__text'
-						style={message.image ? { padding: 0, backgroundColor: 'transparent' } : null}>
-						{message.content && <p>{message.content}</p>}
-
-						{message.image && message.fileType === 'image' && (
-							<div className='file-message' onClick={e => showFullImage(e)}>
-								<img src={message.image} alt='' />
-								<div className='file-message__preview'>
-									<i className='fa-solid fa-up-right-and-down-left-from-center'></i>
+												elements[i + 1] &&
+												(!elements[i - 1] ||
+													elements[i - 1].createdBy !== message.createdBy ||
+													elements[i + 1].response !== null ||
+													showSendDate(elements, i) ||
+													message.response !== null) &&
+												elements[i + 1].createdBy === message.createdBy &&
+												elements[i + 1].response === null &&
+												!showSendDate2(elements, i)
+											)
+										) && <Avatar src={message.photoURL} />}
 								</div>
-							</div>
-						)}
+							)}
+							<div
+								className='message-content__text'
+								style={message.image ? { padding: 0, backgroundColor: 'transparent' } : null}>
+								{message.content && <p>{message.content}</p>}
 
-						{message.image && message.fileType === 'video' && (
-							<div className='file-message'>
-								<video src={message.image} controls playsInline />
-								<div className='file-message__preview'>
-									<i className='fa-solid fa-up-right-and-down-left-from-center'></i>
-								</div>
-							</div>
-						)}
-
-						{message.emojiReactions && message.emojiReactions.length > 0 && (
-							<>
-								<div
-									className='emoji-reactions'
-									onClick={() => {
-										setEmojiReactions(message.emojiReactions)
-										setShowModal(true)
-									}}>
-									{message.emojiReactions.map(reaction =>
-										reaction !== null ? (
-											<div key={reaction.id} className='emoji-reactions__reaction'>
-												<span className='content'>{reaction.content}</span>
-												<span className='display-name'>{handleReactionNicknames(reaction)}</span>
-											</div>
-										) : null
-									)}
-								</div>
-
-								<Modal show={showModal} setShow={() => setShowModal(false)} onClose={() => setEmojiReactions([])}>
-									<div className='show-reactions'>
-										<h3>Reactions</h3>
-										{emojiReactions.map(reaction =>
-											reaction !== null ? (
-												<div
-													className={`reaction ${reaction.id === user.uid ? 'cursor-pointer' : ''}`}
-													onClick={() => {
-														deleteEmojiReaction(message, reaction)
-													}}
-													key={reaction.id}>
-													<div className='reaction__author'>
-														<Avatar src={reaction.photoURL} />
-														<div>
-															<p>{reaction.displayName}</p>
-															{reaction.id === user.uid && <p>Click to delete</p>}
-														</div>
-													</div>
-
-													<span className='reaction__emoji'>{reaction.content}</span>
-												</div>
-											) : null
-										)}
+								{message.image && message.fileType === 'image' && (
+									<div className='file-message' onClick={e => showFullImage(e)}>
+										<img src={message.image} alt='' />
+										<div className='file-message__preview'>
+											<i className='fa-solid fa-up-right-and-down-left-from-center'></i>
+										</div>
 									</div>
-								</Modal>
-							</>
-						)}
-					</div>
+								)}
 
-					{showEmojis === message && (
-						<div className='react-with-emoji'>
-							<OutsideClickHandler
-								onOutsideClick={() => {
-									setShowEmojis(null)
-								}}
-								disabled={showEmojis === message ? false : true}>
-								<EmojiPicker
-									className='emoji-picker'
-									onEmojiClick={e => {
-										reactWithEmoji(e, message)
-									}}
-									theme={Theme.DARK}
-									previewConfig={{
-										defaultCaption: '',
-										defaultEmoji: null,
-									}}
-									width={300}
-									height={400}
-									// lazyLoadEmojis={true}
-									emojiStyle={EmojiStyle.NATIVE}
-								/>
-							</OutsideClickHandler>
+								{message.image && message.fileType === 'video' && (
+									<div className='file-message'>
+										<video src={message.image} controls playsInline />
+										<div className='file-message__preview'>
+											<i className='fa-solid fa-up-right-and-down-left-from-center'></i>
+										</div>
+									</div>
+								)}
 
-							<svg height='12' viewBox='0 0 25 12' width='25' data-darkreader-inline-fill=''>
-								<path d='M24.553.103c-2.791.32-5.922 1.53-7.78 3.455l-9.62 7.023c-2.45 2.54-5.78 1.645-5.78-2.487V2.085C1.373 1.191.846.422.1.102h24.453z'></path>
-							</svg>
-						</div>
-					)}
+								{message.emojiReactions && message.emojiReactions.length > 0 && (
+									<>
+										<div
+											className='emoji-reactions'
+											onClick={() => {
+												setEmojiReactions(message.emojiReactions)
+												setShowModal(true)
+											}}>
+											{message.emojiReactions.map(reaction =>
+												reaction !== null ? (
+													<div key={reaction.id} className='emoji-reactions__reaction'>
+														<span className='content'>{reaction.content}</span>
+														<span className='display-name'>{handleReactionNicknames(reaction)}</span>
+													</div>
+												) : null
+											)}
+										</div>
 
-					{!message.deleted && (
-						<div className={`message-tools ${showEmojis === message ? 'visible' : ''}`}>
-							<i
-								className='fa-regular fa-face-smile'
-								onClick={() => {
-									setShowEmojis(message)
-								}}>
-								<div className='tool-tip'>React</div>
-							</i>
+										<Modal show={showModal} setShow={() => setShowModal(false)} onClose={() => setEmojiReactions([])}>
+											<div className='show-reactions'>
+												<h3>Reactions</h3>
+												{emojiReactions.map(reaction =>
+													reaction !== null ? (
+														<div
+															className={`reaction ${reaction.id === user.uid ? 'cursor-pointer' : ''}`}
+															onClick={() => {
+																deleteEmojiReaction(message, reaction)
+															}}
+															key={reaction.id}>
+															<div className='reaction__author'>
+																<Avatar src={reaction.photoURL} />
+																<div>
+																	<p>{reaction.displayName}</p>
+																	{reaction.id === user.uid && <p>Click to delete</p>}
+																</div>
+															</div>
 
-							{user.uid === message.createdBy && (
-								<i className='fa-solid fa-trash-can' onClick={() => setMessageToDelete(message)}>
-									<div className='tool-tip'>Remove</div>
-								</i>
+															<span className='reaction__emoji'>{reaction.content}</span>
+														</div>
+													) : null
+												)}
+											</div>
+										</Modal>
+									</>
+								)}
+							</div>
+
+							{showEmojis === message && (
+								<div className='react-with-emoji'>
+									<OutsideClickHandler
+										onOutsideClick={() => {
+											setShowEmojis(null)
+										}}
+										disabled={showEmojis === message ? false : true}>
+										<EmojiPicker
+											className='emoji-picker'
+											onEmojiClick={e => {
+												reactWithEmoji(e, message)
+											}}
+											theme={Theme.DARK}
+											previewConfig={{
+												defaultCaption: '',
+												defaultEmoji: null,
+											}}
+											width={300}
+											height={400}
+											// lazyLoadEmojis={true}
+											emojiStyle={EmojiStyle.NATIVE}
+										/>
+									</OutsideClickHandler>
+
+									<svg height='12' viewBox='0 0 25 12' width='25' data-darkreader-inline-fill=''>
+										<path d='M24.553.103c-2.791.32-5.922 1.53-7.78 3.455l-9.62 7.023c-2.45 2.54-5.78 1.645-5.78-2.487V2.085C1.373 1.191.846.422.1.102h24.453z'></path>
+									</svg>
+								</div>
 							)}
 
-							<i
-								className='fa-solid fa-reply'
-								onClick={() => {
-									onMessageResponse(Number(chat.messages.indexOf(message)))
-								}}>
-								<div className='tool-tip'>Reply</div>
-							</i>
-						</div>
-					)}
+							{!message.deleted && (
+								<div className={`message-tools ${showEmojis === message ? 'visible' : ''}`}>
+									<i
+										className='fa-regular fa-face-smile'
+										onClick={() => {
+											setShowEmojis(message)
+										}}>
+										<div className='tool-tip'>React</div>
+									</i>
 
-					<div className={`message-createdAt ${showEmojis === message ? 'hidden' : ''}`}>{formatDate(message)}</div>
-				</div>
-			</li>
+									{user.uid === message.createdBy && (
+										<i className='fa-solid fa-trash-can' onClick={() => setMessageToDelete(message)}>
+											<div className='tool-tip'>Remove</div>
+										</i>
+									)}
+
+									<i
+										className='fa-solid fa-reply'
+										onClick={() => {
+											onMessageResponse(Number(chat.messages.indexOf(message)))
+										}}>
+										<div className='tool-tip'>Reply</div>
+									</i>
+								</div>
+							)}
+
+							<div className={`message-createdAt ${showEmojis === message ? 'hidden' : ''}`}>{formatDate(message)}</div>
+						</div>
+					</li>
+				</>
+			)}
 		</>
 	)
 }

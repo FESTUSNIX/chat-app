@@ -20,7 +20,7 @@
 		"react-scripts": "4.0.3",
 		"react-select": "^5.4.0",
 		"sass": "^1.55.0",
-		"uuidv4": "^6.2.13",
+		"styled-components": "^5.3.6",
 		"web-vitals": "^1.1.2"
 	},
 	"scripts": {

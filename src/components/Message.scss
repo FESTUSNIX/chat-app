@@ -1,5 +1,19 @@
 @use '../colors' as *;
 
+// @mixin define-color($title, $color) {
+// 	--#{$title}-h: #{hue($color)};
+// 	--#{$title}-l: #{lightness($color)};
+// 	--#{$title}-s: #{saturation($color)};
+// 	--#{$title}-a: #{alpha($color)};
+// }
+
+@function customLighten($color-variable, $value) {
+	$color-variable-h: var(#{$color-variable + '-h'});
+	$color-variable-s: var(#{$color-variable + '-s'});
+	$color-variable-l: calc(var(#{$color-variable + '-l'}) - #{$value+'%'});
+	@return hsl($color-variable-h, $color-variable-s, $color-variable-l);
+}
+
 li {
 	position: relative;
 	width: 100%;
@@ -57,8 +71,8 @@ li {
 			box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.05);
 			font-size: 1.5rem;
 			word-break: break-all;
-			background: $bg-low-contrast;
-			color: $text-low-contrast;
+			background-color: var(--bg-secondary);
+			opacity: 0.5;
 			overflow: hidden;
 		}
 
@@ -80,7 +94,9 @@ li {
 		&.deleted {
 			.response__message {
 				font-style: italic;
-				color: #585858;
+				border: 1px solid var(--bg-secondary);
+				background-color: var(--bg-secondary);
+				color: var(--message-color);
 			}
 		}
 	}
@@ -104,7 +120,8 @@ li {
 
 			&__text {
 				border-radius: 25px;
-				background-color: $primary-color;
+				background: var(--message-bg-owner) fixed;
+				color: var(--message-color-owner);
 			}
 		}
 
@@ -178,7 +195,8 @@ li {
 		.message-content {
 			user-select: none;
 			&__text {
-				background-color: $bg-dark;
+				background-color: var(--bg-dark);
+				background-image: none;
 				color: #585858;
 			}
 		}
@@ -221,7 +239,7 @@ li {
 			align-items: center;
 			justify-content: center;
 			box-shadow: rgba(0, 0, 0, 0.8) 0px 4px 5px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-			background-color: $bg-dark;
+			background-color: var(--bg-dark);
 			border-radius: 50vw;
 			cursor: pointer;
 			transform: translate(25%, 50%);
@@ -250,10 +268,10 @@ li {
 					position: absolute;
 					top: 0;
 					padding: 0.6em;
-					border-radius: $border-radius;
+					border-radius: var(--border-radius);
 					box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 					font-size: 1.3rem;
-					background-color: $bg-secondary;
+					background-color: var(--bg-secondary);
 					transform: translate(0, -120%);
 				}
 			}
@@ -265,14 +283,13 @@ li {
 			position: relative;
 			display: flex;
 			flex-direction: column;
-			border-radius: $border-radius;
-			background-color: $bg-dark;
+			border-radius: var(--border-radius);
+			// background-color: var(--bg-dark);
 			z-index: 160;
 
 			h3 {
 				margin-bottom: 0.5em;
 				font-size: 2.2rem;
-				color: $heading-color;
 			}
 
 			.reaction {
@@ -281,12 +298,12 @@ li {
 				justify-content: space-between;
 				gap: 3em;
 				padding: 0.5em;
-				border-radius: $border-radius;
+				border-radius: var(--border-radius);
 				transition: 0.3s;
+				background-color: customLighten(--bg-secondary, 50);
 
-				&:hover {
-					background-color: $bg-dark-hover;
-				}
+				// &:hover {
+				// }
 
 				&.cursor-pointer {
 					cursor: pointer;
@@ -303,10 +320,10 @@ li {
 					}
 
 					p {
-						color: $text-primary;
+						color: var(--text-primary);
 						&:nth-of-type(2) {
 							font-size: 1.2rem;
-							color: $text-middle-contrast;
+							color: var(--text-middle-contrast);
 						}
 					}
 				}
@@ -329,7 +346,7 @@ li {
 			margin-right: -1em;
 			border-radius: 50vw;
 			font-size: 1.2rem;
-			background-color: $bg-secondary;
+			background-color: var(--bg-secondary);
 			z-index: 50;
 			transform: translate(100%, -50%);
 			transition: 0.1s;
@@ -352,7 +369,7 @@ li {
 			gap: 0.4em;
 			font-size: 1.6rem;
 			cursor: pointer;
-			color: $text-middle-contrast;
+			color: var(--text-middle-contrast);
 			transform: translateY(-50%);
 			transition: 0.1s;
 			transition-delay: 0.3s;
@@ -383,13 +400,13 @@ li {
 					position: absolute;
 					top: -100%;
 					padding: 0.6em;
-					border-radius: $border-radius;
+					border-radius: var(--border-radius);
 					box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 					font-family: 'Poppins', sans-serif;
 					font-weight: normal;
 					text-transform: none;
 					font-size: 1.3rem;
-					background-color: $bg-secondary;
+					background-color: var(--bg-secondary);
 					transform: translateX(-50%);
 				}
 			}
@@ -398,11 +415,11 @@ li {
 		&__text {
 			padding: 8px 12px;
 			border-radius: 25px;
-			border: 1px solid $border-color;
+			border: 1px solid var(--border-color);
 			font-size: 1.5rem;
 			word-break: break-all;
-			background: $bg-secondary;
-			color: $text-primary;
+			background-color: var(--bg-secondary);
+			color: var(--message-color);
 			overflow: hidden;
 
 			&:hover + .message-tools {
@@ -430,7 +447,7 @@ li {
 						position: fixed;
 						top: 50%;
 						left: 50%;
-						border-radius: $border-radius;
+						border-radius: var(--border-radius);
 						transform: translate(-50%, -50%);
 						z-index: 200;
 					}
@@ -450,7 +467,7 @@ li {
 						position: fixed;
 						top: 50%;
 						left: 50%;
-						border-radius: $border-radius;
+						border-radius: var(--border-radius);
 						transform: translate(-50%, -50%);
 						z-index: 200;
 					}
@@ -511,7 +528,7 @@ li {
 				}
 				&::-webkit-scrollbar-thumb {
 					border-radius: 5px;
-					background: $text-low-contrast;
+					background: var(--text-low-contrast);
 
 					&:hover {
 						background-color: #aaaaaa;

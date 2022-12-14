@@ -15,14 +15,14 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: $bg-secondary;
+		background-color: var(--bg-secondary);
 
 		.circle {
 			width: 220px;
 			height: 220px;
 			position: relative;
 			border-radius: 50vw;
-			// background-color: $primary-color;
+			// background-color: var(--primary-color);
 			background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8&w=1000&q=80');
 			background-size: cover;
 			background-position: center;
@@ -74,12 +74,12 @@
 
 			.redirect {
 				font-size: 1.4rem;
-				color: $text-low-contrast;
+				color: var(--text-low-contrast);
 			}
 		}
 
 		input {
-			border: 1px solid $border-color;
+			border: 1px solid var(--border-color);
 		}
 
 		.reset-password {
@@ -89,7 +89,7 @@
 			font-size: 1.6rem;
 			text-decoration: none;
 			background-color: transparent;
-			color: $primary-color;
+			color: var(--text-accent);
 			cursor: pointer;
 		}
 
@@ -99,7 +99,7 @@
 
 			a {
 				text-decoration: none;
-				color: $primary-color;
+				color: var(--text-accent);
 				cursor: pointer;
 			}
 		}

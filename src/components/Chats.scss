@@ -8,11 +8,11 @@
 	display: flex;
 	flex-direction: column;
 	box-sizing: border-box;
-	background-color: $bg-secondary;
+	background-color: var(--bg-secondary);
 	// background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8&w=1000&q=80');
 	background-size: cover;
 	background-position: center;
-	color: $text-primary;
+	color: var(--text-primary);
 	overflow-y: auto;
 	z-index: 100;
 	resize: horizontal;
@@ -45,12 +45,12 @@
 				gap: 1em;
 				padding: 0.8rem 1.2rem;
 				margin: 0.8em 0 2em 0;
-				border: 1px solid $border-color;
-				border-radius: $border-radius;
+				border: 1px solid var(--border-color);
+				border-radius: var(--border-radius);
 				border-radius: 50vw;
 				font-size: 1.5rem;
-				background-color: $bg-dark;
-				color: $text-middle-contrast;
+				background-color: var(--bg-dark);
+				color: var(--text-middle-contrast);
 				outline: none;
 
 				input {
@@ -66,12 +66,13 @@
 				align-items: center;
 				gap: 10px;
 				padding: 0.5em;
-				border-radius: $border-radius;
+				border-radius: var(--border-radius);
 				cursor: pointer;
 				color: white;
+				transition: 0.3s;
 
 				&:hover {
-					background-color: $primary-color;
+					background-color: var(--text-accent);
 				}
 
 				img {
@@ -101,7 +102,7 @@
 		padding: 1em;
 		margin-top: auto;
 		margin-bottom: 0;
-		border-top: 1px solid $border-color;
+		border-top: 1px solid var(--border-color);
 
 		div {
 			display: flex;

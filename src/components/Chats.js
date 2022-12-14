@@ -55,6 +55,7 @@ export default function Chats({ currentChat, inputRef }) {
 					messages: [],
 					updatedAt: timestamp.fromDate(new Date()),
 					createdAt: timestamp.fromDate(new Date()),
+					customThemes: [],
 				})
 			}
 		} catch (err) {}

@@ -1,4 +1,5 @@
-<h1 style="color: #ff0000">TODO:</h1>
+# TODO:
+
 <hr>
 
 1. Add the project to github !!!! [✅]
@@ -14,7 +15,7 @@
 9. Show unread messages [✅]
 10. Add more sign in options
     - Github [✅]
-11. Make sending images and message at the same time [❌]
+11. Sending images and message at the same time [❌]
 12. Remind password if forgot (login screen) [✅]
 13. Friend invites (change the chat add/invitation system) [❌]
 14. Blocking people [❌]
@@ -32,7 +33,15 @@
     - Changing profile picture [❌]
     - Changing username [❌]
 20. Customize chats:
+    <!-- THEMESSSS -->
+    <!-- THEMESSSS -->
+    <!-- THEMESSSS -->
+    <!-- THEMESSSS -->
     - Themes [❌]
+      <!-- THEMESSSS -->
+      <!-- THEMESSSS -->
+      <!-- THEMESSSS -->
+      <!-- THEMESSSS -->
     - Nicknames [✅]
     - Custom emoji [✅]
 21. Migrate the app to windows, macOS, android and ios with use of Electron [❌]

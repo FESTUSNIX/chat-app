@@ -30,7 +30,7 @@
 			max-width: 100%;
 			max-height: 100%;
 			position: relative;
-			border-radius: $border-radius;
+			border-radius: var(--border-radius);
 			z-index: 80;
 		}
 
@@ -109,14 +109,13 @@
 
 		p:nth-of-type(2) {
 			font-size: 1.3rem;
-			color: $text-middle-contrast;
+			color: var(--text-middle-contrast);
 		}
 	}
-	&__time-passed {
+	&__centered {
 		align-self: center;
-		padding: 2em 0 1em 0;
 		font-size: 1.3rem;
-		color: $text-low-contrast;
+		color: var(--text-low-contrast);
 	}
 
 	.confirm-message-delete {
@@ -125,8 +124,8 @@
 		display: flex;
 		flex-direction: column;
 		padding: 1.5em;
-		border-radius: $border-radius;
-		background-color: $bg-dark;
+		border-radius: var(--border-radius);
+		// background-color: var(--bg-dark);
 		z-index: 160;
 
 		p:nth-of-type(2) {
@@ -152,7 +151,7 @@
 
 			img {
 				max-height: 250px;
-				border-radius: $border-radius;
+				border-radius: var(--border-radius);
 			}
 		}
 
@@ -180,14 +179,14 @@
 		border-radius: 50vw;
 		box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
 		cursor: pointer;
-		background-color: $bg-dark;
+		background-color: var(--bg-dark);
 		transform: translate(-50%, -10%);
 		z-index: 100;
 		opacity: 0;
 		transition: 0.5s;
 
 		&:hover {
-			background-color: $bg-secondary;
+			background-color: var(--bg-secondary);
 		}
 
 		&.active {
@@ -196,7 +195,7 @@
 		}
 
 		i {
-			color: $primary-color;
+			color: var(--text-accent);
 		}
 	}
 }
@@ -207,6 +206,6 @@
 
 @keyframes pop {
 	50% {
-		background-color: $bg-secondary;
+		background-color: var(--bg-secondary);
 	}
 }
