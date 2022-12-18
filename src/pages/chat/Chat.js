@@ -14,6 +14,7 @@ import ChatOptions from '../../components/ChatOptions'
 import './Chat.scss'
 import { useCollection } from '../../hooks/useCollection'
 
+
 export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 	const { user } = useAuthContext()
 	const { id } = useParams()
@@ -102,6 +103,7 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 								<i className='fa-solid fa-ellipsis-vertical'></i>
 							</div>
 						</div>
+
 						<div
 							className='chat__comments'
 							onClick={() => {

@@ -1,17 +1,29 @@
-@use '../../colors' as *;
 .chat {
+	position: relative;
 	display: flex;
 	flex-direction: row;
 	flex-grow: 1;
 	background-color: var(--bg-dark);
 
 	&__top-bar {
+		position: relative;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 0.6em 2em;
-		box-shadow: 0 0 2px rgba(0, 0, 0, 1);
+		background-color: var(--bg-dark);
 		z-index: 80;
+
+		&::after {
+			content: '';
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			height: 1px;
+			background-color: var(--border-color);
+			z-index: 90;
+		}
 
 		.avatar {
 			width: 32px;
@@ -29,7 +41,7 @@
 
 			.isActive {
 				font-size: 1.3rem;
-				color: var(--text-middle-contrast);
+				color: var(--text-mid-contrast);
 			}
 		}
 
@@ -45,7 +57,7 @@
 			transition: 0.3s;
 
 			&:hover {
-				background-color: var(--bg-secondary);
+				background-color: var(--bg-dark-lighten10);
 			}
 
 			&.active {

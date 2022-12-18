@@ -1,4 +1,4 @@
-@use '../colors' as *;
+
 
 .chat-options {
 	max-width: 380px;
@@ -31,9 +31,10 @@
 		border-radius: var(--border-radius);
 		cursor: pointer;
 		transition: 0.3s;
+		color: var(--text-primary);
 
 		&:hover {
-			background-color: var(--bg-secondary);
+			background-color: var(--bg-dark-lighten15);
 		}
 
 		&__icon {
@@ -44,7 +45,7 @@
 			align-items: center;
 			border-radius: 50vw;
 			font-size: 1.3rem;
-			background-color: var(--bg-secondary);
+			background-color: var(--bg-dark-lighten15);
 
 			i {
 				pointer-events: none;
@@ -99,7 +100,7 @@
 					color: var(--text-primary);
 					&:nth-of-type(2) {
 						font-size: 1.3rem;
-						color: var(--text-middle-contrast);
+						color: var(--text-mid-contrast);
 					}
 				}
 

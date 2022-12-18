@@ -260,7 +260,6 @@ const ChatInput = ({ chat, messageResponse, onMessageResponse, bottomDiv, inputR
 							className='input-tool'
 							onClick={e => {
 								setFastEmoji(e.target.innerText)
-								console.log(fastEmoji)
 								setSendFastEmoji(true)
 								// sendMessage()
 							}}>

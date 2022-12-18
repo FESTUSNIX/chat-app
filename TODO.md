@@ -33,15 +33,7 @@
     - Changing profile picture [❌]
     - Changing username [❌]
 20. Customize chats:
-    <!-- THEMESSSS -->
-    <!-- THEMESSSS -->
-    <!-- THEMESSSS -->
-    <!-- THEMESSSS -->
     - Themes [❌]
-      <!-- THEMESSSS -->
-      <!-- THEMESSSS -->
-      <!-- THEMESSSS -->
-      <!-- THEMESSSS -->
     - Nicknames [✅]
     - Custom emoji [✅]
 21. Migrate the app to windows, macOS, android and ios with use of Electron [❌]

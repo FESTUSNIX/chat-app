@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { setDoc, doc, getDoc } from 'firebase/firestore'
 import { projectFirestore, timestamp } from '../firebase/config'
 import { useCollection } from '../hooks/useCollection'
@@ -23,6 +23,27 @@ export default function Chats({ currentChat, inputRef }) {
 	)
 
 	const [query, setQuery] = useState('')
+
+	const eyes = useRef([])
+
+	useEffect(() => {
+		const handleMouseMove = event => {
+			eyes.current.forEach(eye => {
+				let x = eye.getBoundingClientRect().left + eye.clientWidth / 2
+				let y = eye.getBoundingClientRect().top + eye.clientHeight / 2
+
+				let radian = Math.atan2(event.pageX - x, event.pageY - y)
+				let rotation = radian * (180 / Math.PI) * -1
+
+				eye.style.transform = `rotate(${rotation}deg)`
+			})
+		}
+
+		window.addEventListener('mousemove', handleMouseMove)
+		return () => {
+			window.removeEventListener('mousemove', handleMouseMove)
+		}
+	}, [])
 
 	const handleSelect = async addUser => {
 		// Check whether the group(chats in firestore) exists, if not create
@@ -99,8 +120,27 @@ export default function Chats({ currentChat, inputRef }) {
 					</div>
 				</div>
 			</div>
+
 			<div className='user'>
-				<div>
+				<div className='character'>
+					<div className='character__eyes'>
+						<div
+							className='eye'
+							ref={e => {
+								eyes.current[0] = e
+							}}>
+							<div className='pupil'></div>
+						</div>
+						<div
+							className='eye'
+							ref={e => {
+								eyes.current[1] = e
+							}}>
+							<div className='pupil'></div>
+						</div>
+					</div>
+				</div>
+				<div className='flex-row'>
 					<Avatar src={user.photoURL} />
 					<span>{user.displayName}</span>
 				</div>

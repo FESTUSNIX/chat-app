@@ -1,0 +1,136 @@
+.theme-picker {
+	&__themes {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.2em;
+		margin-bottom: 2em;
+
+		&__theme {
+			display: flex;
+			padding: 0.4em;
+			border-radius: var(--border-radius);
+			cursor: pointer;
+			transition: 0.3s;
+
+			&:hover {
+				// background-color: var(--bg-secondary-lighten10);
+				transform: scale(0.93);
+
+				.theme-tools {
+					opacity: 1;
+					visibility: visible;
+				}
+			}
+
+			&.current {
+				position: relative;
+				// transform: scale(0.93);
+				// opacity: 0.6;
+				z-index: 10;
+
+				&::after {
+					content: '';
+					width: 100%;
+					height: 100%;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					border-radius: 50vw;
+					backdrop-filter: blur(3px);
+					transform: translate(-50%, -50%);
+				}
+
+				.theme-tick {
+					display: block;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					font-size: 3rem;
+					background-color: #fff;
+					background-clip: text;
+					-webkit-background-clip: text;
+					-webkit-text-fill-color: transparent;
+					transform: translate(-50%, -50%);
+					z-index: 10;
+					filter: invert(100%);
+				}
+			}
+
+			.theme-tick {
+				display: none;
+			}
+
+			.theme-bg {
+				position: relative;
+				width: 55px;
+				height: 55px;
+				border-radius: 50vw;
+			}
+
+			.theme-tools {
+				opacity: 0;
+				visibility: hidden;
+
+				&__remove,
+				&__edit {
+					width: 18px;
+					height: 18px;
+					position: absolute;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border-radius: 50vw;
+					background-color: var(--bg-dark);
+					transition: 0.3s;
+					z-index: 20;
+
+					&:hover {
+						background-color: rgba(0, 0, 0, 0.6);
+					}
+
+					i {
+						font-size: 0.9rem;
+						color: var(--text-primary);
+					}
+				}
+
+				&__remove {
+					bottom: -0.5em;
+					right: 0.5em;
+				}
+
+				&__edit {
+					bottom: 0.5em;
+					right: -0.5em;
+				}
+			}
+		}
+	}
+
+	.create-theme {
+		position: relative;
+		width: 55px;
+		height: 55px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 0.4em;
+		border: none;
+		border-radius: 50vw;
+		box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+		cursor: pointer;
+		background-color: var(--bg-secondary-lighten5);
+		color: var(--text-primary);
+		overflow: hidden;
+
+		&:hover i {
+			transform: scale(0.9);
+		}
+
+		i {
+			pointer-events: none;
+			font-size: 2.5rem;
+			transition: 0.3s;
+		}
+	}
+}

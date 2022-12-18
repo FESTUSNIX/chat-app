@@ -35,7 +35,7 @@ function App() {
 				currentChat.customThemes.forEach(theme => {
 					if (theme.id === themeToSet.name) filteredTheme = theme
 				})
-			}
+			} 
 		} else {
 			if (themes) {
 				themes.forEach(theme => {

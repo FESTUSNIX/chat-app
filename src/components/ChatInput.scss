@@ -1,4 +1,4 @@
-@use '../colors' as *;
+
 form {
 	display: flex;
 	flex-direction: column;
@@ -64,6 +64,7 @@ form {
 			align-items: flex-end;
 			padding: 0.8rem 1.2rem;
 			margin: 0;
+			border: 1px solid var(--input-border);
 			border-radius: 20px;
 			background-color: var(--input-bg);
 
@@ -173,8 +174,9 @@ form {
 			max-height: 41px;
 			padding: 4px 0;
 			margin: 0 0 0 15px;
-			background-color: transparent;
 			border: none;
+			background-color: transparent;
+			user-select: none;
 
 			&:hover {
 				cursor: pointer;
