@@ -4,19 +4,4 @@
 	justify-content: center;
 	align-items: center;
 	background-color: var(--bg-dark);
-
-	.wise-mystical-tree {
-		width: 400px;
-		height: 400px;
-		// position: relative;
-		// top: 50%;
-		// left: 50%;
-		border-radius: 50vw;
-		// background-color: $primary-color;
-		background-image: url('https://i.ytimg.com/vi/QVui_0B3-4Q/hqdefault.jpg');
-		background-size: cover;
-		background-position: center;
-		animation: spin 120s linear infinite;
-		transition: 4s;
-	}
 }

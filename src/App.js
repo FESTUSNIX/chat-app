@@ -16,7 +16,8 @@ import Signup from './pages/signup/Signup'
 import PrivacyPolicy from './pages/privacyPolicy/privacyPolicy'
 import ResetPassword from './pages/resetPassword/ResetPassword'
 import SetNewPassword from './pages/resetPassword/SetNewPassword'
-import Chats from './components/Chats'
+import Chats from './components/Chats/Chats'
+import ToolBar from './components/ToolBar/ToolBar'
 
 function App() {
 	const inputRef = useRef(null)
@@ -35,7 +36,7 @@ function App() {
 				currentChat.customThemes.forEach(theme => {
 					if (theme.id === themeToSet.name) filteredTheme = theme
 				})
-			} 
+			}
 		} else {
 			if (themes) {
 				themes.forEach(theme => {
@@ -63,6 +64,7 @@ function App() {
 				<GlobalStyles />
 				<div className='App'>
 					<BrowserRouter>
+						{user && <ToolBar />}
 						{user && <Chats currentChat={currentChat} inputRef={inputRef} />}
 
 						<Switch>

@@ -55,9 +55,10 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 1.5em;
+	gap: 1em;
 
 	.btn {
+		width: 100%;
 		text-transform: uppercase;
 
 		&--50 {
@@ -89,15 +90,6 @@ body {
 	align-items: center;
 	margin-bottom: 0.5em;
 
-	span {
-		min-width: max-content;
-		margin: 0 1em;
-		opacity: 0.4;
-		font-size: 1.4rem;
-		font-weight: 300;
-		color: #fff;
-	}
-
 	&::before,
 	&::after {
 		content: '';
@@ -105,6 +97,26 @@ body {
 		width: 100%;
 		background-color: #fff;
 		opacity: 0.1;
+	}
+
+	span {
+		min-width: max-content;
+		margin: 0 1em;
+		opacity: 0.4;
+		font-size: 1.4rem;
+		font-weight: 300;
+		color: var(--text-primary);
+	}
+
+	&.no-text {
+		&::before,
+		&::after {
+			content: '';
+			height: 1px;
+			width: 100%;
+			background-color: var(--text-primary);
+			opacity: 0.1;
+		}
 	}
 }
 
@@ -193,6 +205,11 @@ h3 {
 	color: var(--text-heading);
 }
 
+a {
+	color: var(--text-primary);
+	text-decoration: none;
+}
+
 /* forms */
 input,
 textarea {
@@ -234,6 +251,7 @@ textarea {
 }
 
 .EmojiPickerReact {
+	z-index: 200;
 	.epr-preview {
 		display: none !important;
 	}

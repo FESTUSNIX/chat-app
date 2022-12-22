@@ -3,17 +3,16 @@ import { useParams } from 'react-router-dom'
 import { useDocument } from '../../hooks/useDocument'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useFirestore } from '../../hooks/useFirestore'
+import { useCollection } from '../../hooks/useCollection'
 
 // Components
-import Messages from '../../components/Messages'
-import ChatInput from '../../components/ChatInput'
-import Avatar from '../../components/Avatar'
-import ChatOptions from '../../components/ChatOptions'
+import Messages from './Messages/Messages'
+import ChatInput from './MessageField/MessageField'
+import Avatar from '../../components/Avatar/Avatar'
+import ChatOptions from './ChatOptions/ChatOptions'
 
 // Styles && Assets
 import './Chat.scss'
-import { useCollection } from '../../hooks/useCollection'
-
 
 export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 	const { user } = useAuthContext()

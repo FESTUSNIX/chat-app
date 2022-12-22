@@ -1,0 +1,173 @@
+.user-list {
+	min-width: max-content;
+	max-width: 40vw;
+	min-height: 100vh;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--border-color);
+	background-color: var(--bg-secondary);
+	color: var(--text-primary);
+	overflow-y: auto;
+	z-index: 100;
+	resize: horizontal;
+
+	.blur {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		background-color: rgba(0, 0, 0, 0.7);
+		backdrop-filter: blur(40px);
+		z-index: -1;
+	}
+
+	h2 {
+		margin: 0.5em 0;
+		font-size: 2.4rem;
+	}
+
+	.search {
+		position: relative;
+		padding: 0 1em;
+
+		.search-form {
+			label {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				gap: 1em;
+				padding: 0.8rem 1.2rem;
+				margin: 0.8em 0 1.2em 0;
+				border: 1px solid var(--border-color);
+				border-radius: var(--border-radius);
+				border-radius: 50vw;
+				font-size: 1.5rem;
+				background-color: var(--bg-dark);
+				color: var(--text-mid-contrast);
+				outline: none;
+
+				input {
+					all: unset;
+					cursor: text;
+					flex-grow: 1;
+				}
+			}
+		}
+		.add-users {
+			.user-chat {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				padding: 0.5em;
+				border-radius: var(--border-radius);
+				cursor: pointer;
+				color: white;
+				transition: 0.3s;
+
+				&:hover {
+					background-color: var(--bg-secondary-lighten10);
+				}
+
+				img {
+					width: 35px;
+					height: 35px;
+					border-radius: 50%;
+					object-fit: cover;
+				}
+
+				.user-chat-info {
+					span {
+						font-size: 1.6rem;
+					}
+					p {
+						font-size: 1.4rem;
+						color: lightgray;
+					}
+				}
+			}
+		}
+	}
+
+	.user {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1em;
+		margin-top: auto;
+		margin-bottom: 0;
+		border-top: 1px solid var(--border-color);
+		background-color: var(--bg-secondary);
+		z-index: 100;
+
+		.flex-row {
+			.avatar {
+				width: 35px;
+				height: 35px;
+				margin-right: 10px;
+			}
+
+			span {
+				font-size: 1.6rem;
+				color: var(--text-primary);
+			}
+		}
+	}
+
+	.character {
+		width: 70px;
+		height: 80px;
+		position: absolute;
+		top: -100%;
+		right: 1em;
+		display: flex;
+		justify-content: center;
+		border-radius: 16px 16px 0 0;
+		background-image: url('../../assets/om-nom.png');
+		background-size: cover;
+		background-position: center center;
+		pointer-events: none;
+		user-select: none;
+		z-index: 80;
+
+		&__eyes {
+			position: absolute;
+			top: 40%;
+			left: 50%;
+			display: flex;
+			transform: translate(-50%, -50%);
+
+			.eye {
+				width: 20px;
+				height: 20px;
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border-radius: 50vw;
+				background-color: #fff;
+
+				// &:hover {
+				// 	.pupil {
+				// 		left: 50%;
+				// 		transform: translate(-50%, -50%);
+				// 	}
+				// }
+
+				.pupil {
+					width: 9px;
+					height: 9px;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					border-radius: 50vw;
+					background-color: #000;
+					transform: translate(-50%, 0);
+					transition: 0.3s;
+				}
+			}
+		}
+	}
+}

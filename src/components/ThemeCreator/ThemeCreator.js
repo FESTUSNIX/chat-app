@@ -188,7 +188,7 @@ export default function ThemeCreator({
 				</Field>
 
 				<Field
-					title={'Input colorsr'}
+					title={'Input colors'}
 					setShow={() => setInputColors({ ...inputColors, show: !inputColors.show })}
 					show={inputColors.show}>
 					<ColorPicker

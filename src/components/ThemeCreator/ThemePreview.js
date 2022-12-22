@@ -1,9 +1,9 @@
 // Components
-import Avatar from '../Avatar'
+import Avatar from '../Avatar/Avatar'
 
 // Styles && Assets
 import britImg from '../../assets/british-person.jpg'
-import Modal from '../Modal'
+import Modal from '../Modal/Modal'
 
 const ThemePreview = ({
 	otherUserMessage,

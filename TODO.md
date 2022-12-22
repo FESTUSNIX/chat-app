@@ -21,19 +21,22 @@
 14. Blocking people [❌]
 15. Sending voice messages [❌]
 16. Audio/Video Calls [❌]
-17. Make the UI prettier
-    - Make it responsive [❌]
-    - Dark/Light modes [❌]
-    - New themes [❌]
+17. Mobile version
 18. Make visitable profiles [❌]
+
+<!-- !! ACCOUNT !! -->
+<!-- !! Show read profile picture yk what i mean -->
 19. Editing account
     - Delete account [❌]
     - Reset password [❌]
     - Adding bio and showing it [❌]
     - Changing profile picture [❌]
     - Changing username [❌]
+
+<!-- !! ACCOUNT !! -->
+
 20. Customize chats:
-    - Themes [❌]
+    - Themes [✅]
     - Nicknames [✅]
     - Custom emoji [✅]
 21. Migrate the app to windows, macOS, android and ios with use of Electron [❌]

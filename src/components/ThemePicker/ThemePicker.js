@@ -1,5 +1,5 @@
 import { useFirestore } from '../../hooks/useFirestore'
-import Modal from '../Modal'
+import Modal from '../Modal/Modal'
 
 // Styles
 import './ThemePicker.scss'
@@ -43,7 +43,7 @@ const ThemePicker = ({
 
 	const removeCustomTheme = async theme => {
 		try {
-			if (chat.theme.name === theme.id) {
+			if (chat.theme && chat.theme.name === theme.id) {
 				changeTheme({ id: 'frosty', isCustom: false })
 			}
 			await updateDocument(chat.id, {
@@ -68,7 +68,7 @@ const ThemePicker = ({
 					themes.map(theme => (
 						<div
 							className={`theme-picker__themes__theme ${
-								theme.id === chat.theme.name && !theme.isCustom ? 'current' : ''
+								chat.theme && theme.id === chat.theme.name && !theme.isCustom ? 'current' : ''
 							}`}
 							key={theme.id}
 							onClick={() => {
@@ -94,7 +94,7 @@ const ThemePicker = ({
 						<div
 							key={theme.id}
 							className={`theme-picker__themes__theme ${
-								theme.id === chat.theme.name && theme.isCustom === chat.theme.isCustom ? 'current' : ''
+								chat.theme && theme.id === chat.theme.name && theme.isCustom === chat.theme.isCustom ? 'current' : ''
 							}`}
 							onClick={() => {
 								changeTheme(theme)

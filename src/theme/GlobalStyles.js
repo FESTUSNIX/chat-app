@@ -107,6 +107,7 @@ export const GlobalStyles = createGlobalStyle`
 	--bg-secondary-lighten5: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 5)};
 	--bg-secondary-lighten10: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 10)};
 	--bg-secondary-lighten15: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 15)};
+	--bg-secondary-lighten50: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 50)};
 
     --input-bg: ${({ theme }) => theme.colors.inputBg};
     --input-text: ${({ theme }) => theme.colors.inputText};
@@ -127,8 +128,9 @@ export const GlobalStyles = createGlobalStyle`
     --border-radius: ${({ theme }) => theme.borderRadius}px;
     --border-color: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 15)};
 
-    --text-primary:  #ff0000;
     --text-primary:  ${({ theme }) => theme.colors.textPrimary};
+    --text-primary-darken100:  ${({ theme }) => adjustBrightness(theme.colors.textPrimary, -100)};
+
     --text-heading: ${({ theme }) => adjustBrightness(theme.colors.textPrimary, 30)};
     --text-low-contrast: ${({ theme }) => theme.colors.textLowContrast}; 
     --text-mid-contrast: ${({ theme }) => adjustBrightness(theme.colors.textLowContrast, 40)}; 
