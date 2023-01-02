@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
 import { GlobalStyles } from './theme/GlobalStyles'
-import styled, { ThemeProvider } from 'styled-components'
 import { useCollection } from './hooks/useCollection'
+import styled, { ThemeProvider } from 'styled-components'
 
 // Styles
 import './App.scss'
@@ -18,6 +18,7 @@ import ResetPassword from './pages/resetPassword/ResetPassword'
 import SetNewPassword from './pages/resetPassword/SetNewPassword'
 import Chats from './components/Chats/Chats'
 import ToolBar from './components/ToolBar/ToolBar'
+import Profile from './pages/profile/Profile'
 
 function App() {
 	const inputRef = useRef(null)
@@ -65,7 +66,6 @@ function App() {
 				<div className='App'>
 					<BrowserRouter>
 						{user && <ToolBar />}
-						{user && <Chats currentChat={currentChat} inputRef={inputRef} />}
 
 						<Switch>
 							<Route exact path='/'>
@@ -75,7 +75,13 @@ function App() {
 
 							<Route path='/u/:id'>
 								{!user && <Redirect to='/login' />}
+								{user && <Chats currentChat={currentChat} inputRef={inputRef} />}
 								{user && <Chat setCurrentChat={setCurrentChat} inputRef={inputRef} currentTheme={theme} />}
+							</Route>
+
+							<Route path='/profile/:id'>
+								{!user && <Redirect to='/login' />}
+								{user && <Profile />}
 							</Route>
 
 							<Route path='/privacy-policy'>

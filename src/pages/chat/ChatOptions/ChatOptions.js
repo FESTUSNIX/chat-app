@@ -3,6 +3,7 @@ import { useFirestore } from '../../../hooks/useFirestore'
 import { timestamp } from '../../../firebase/config'
 import { useCollection } from '../../../hooks/useCollection'
 import { v4 as uuid } from 'uuid'
+import { useDocument } from '../../../hooks/useDocument'
 
 // Components
 import OutsideClickHandler from 'react-outside-click-handler'
@@ -14,7 +15,7 @@ import ThemePicker from '../../../components/ThemePicker/ThemePicker'
 
 // Styles && Assets
 import './ChatOptions.scss'
-import { useDocument } from '../../../hooks/useDocument'
+import AvatarWithStatus from '../../../components/AvatarWithStatus/AvatarWithStatus'
 
 export default function ChatOptions({ onMessageResponse, otherUser, chat, currentTheme }) {
 	const uniqueId = uuid()
@@ -22,6 +23,7 @@ export default function ChatOptions({ onMessageResponse, otherUser, chat, curren
 	const { updateDocument, response } = useFirestore('projects')
 	const { documents: themes } = useCollection('themes')
 	const { document: defaultThemeDoc } = useDocument('themes', 'frosty')
+	const { documents: users } = useCollection('users')
 
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 	const [showNicknameModal, setShowNicknameModal] = useState(false)
@@ -107,13 +109,9 @@ export default function ChatOptions({ onMessageResponse, otherUser, chat, curren
 
 	return (
 		<aside className='chat-options'>
-			<Avatar src={otherUser.photoURL} />
+			{otherUser && <AvatarWithStatus userId={otherUser.id} linkToProfile={true} />}
 
 			<h3>{otherUser.nickname}</h3>
-
-			{/* <button className='btn' onClick={() => addDoc()}>
-				add doc
-			</button> */}
 
 			<div
 				className='option'

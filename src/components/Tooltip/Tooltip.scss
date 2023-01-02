@@ -1,0 +1,75 @@
+.tooltip {
+	width: max-content;
+	display: none;
+	position: absolute;
+	padding: 0.6em;
+	border-radius: 8px;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+	font-size: 1.3rem;
+	font-family: 'Poppins', sans-serif;
+	background-color: var(--bg-dark-lighten20);
+	z-index: 1000;
+	overflow: hidden;
+	transition: scale 0.3s, opacity 0.3s;
+
+	&:not(.top, .bottom, .right, .left) {
+		top: 0;
+		left: 50%;
+		transform: translate(-50%, calc(-100% - 8px));
+	}
+
+	&.top {
+		top: 0;
+		left: 50%;
+		transform: translate(-50%, calc(-100% - 8px));
+
+		&.end {
+			left: 50%;
+			transform: translateY(calc(-100% - 8px));
+		}
+
+		&.start {
+			left: 0;
+			right: 50%;
+			transform: translateY(calc(-100% - 8px));
+		}
+	}
+
+	&.bottom {
+		bottom: 0;
+		left: 50%;
+		transform: translate(-50%, calc(100% + 8px));
+
+		&.end {
+			left: 50%;
+			transform: translateY(calc(100% + 8px));
+		}
+
+		&.start {
+			left: 0;
+			right: 50%;
+			transform: translateY(calc(100% + 8px));
+		}
+	}
+
+	&.left,
+	&.right {
+		&.end {
+			top: 50%;
+		}
+
+		&.start {
+			bottom: 50%;
+		}
+	}
+
+	&.left {
+		left: 0;
+		transform: translateX(calc(-100% - 8px));
+	}
+
+	&.right {
+		right: 0;
+		transform: translateX(calc(100% + 8px));
+	}
+}

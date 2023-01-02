@@ -2,14 +2,19 @@ import React from 'react'
 import { useState } from 'react'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
 import { useFirestore } from '../../../../hooks/useFirestore'
-import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
 import { useDates } from '../../../../hooks/useDates'
+import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
 import OutsideClickHandler from 'react-outside-click-handler'
 
-// Styles && Assets
+// Styles
 import './Message.scss'
+
+// Components
 import Avatar from '../../../../components/Avatar/Avatar'
 import Modal from '../../../../components/Modal/Modal'
+import Tooltip from '../../../../components/Tooltip/Tooltip'
+import AvatarWithStatus from '../../../../components/AvatarWithStatus/AvatarWithStatus'
+import ProfilePreview from '../../../../components/ProfilePreview/ProfilePreview'
 
 export default function Message({
 	message,
@@ -29,6 +34,7 @@ export default function Message({
 	const [showEmojis, setShowEmojis] = useState(null)
 	const [showModal, setShowModal] = useState(false)
 	const [emojiReactions, setEmojiReactions] = useState([])
+	const [showProfilePrev, setShowProfilePrev] = useState(false)
 
 	const showSendDate = (elements, i) => {
 		if (elements[i] && elements[i - 1]) {
@@ -333,12 +339,23 @@ export default function Message({
 												elements[i + 1].response === null &&
 												!showSendDate2(elements, i)
 											)
-										) && <Avatar src={message.photoURL} />}
+										) && (
+											<div className='cursor-pointer' onClick={() => setShowProfilePrev(message.id)}>
+												<AvatarWithStatus userId={message.createdBy} noStatus={true} />
+												{
+													<ProfilePreview
+														show={showProfilePrev === message.id}
+														setShow={setShowProfilePrev}
+														userId={message.createdBy}
+														pos='right'
+														align='end'
+													/>
+												}
+											</div>
+										)}
 								</div>
 							)}
-							<div
-								className='message-content__text'
-								style={message.image ? { padding: 0, backgroundColor: 'transparent' } : null}>
+							<div className='message-content__text'>
 								{message.content && <p>{message.content}</p>}
 
 								{message.image && message.fileType === 'image' && (
@@ -443,12 +460,12 @@ export default function Message({
 										onClick={() => {
 											setShowEmojis(message)
 										}}>
-										<div className='tool-tip'>React</div>
+										<Tooltip>React</Tooltip>
 									</i>
 
 									{user.uid === message.createdBy && (
 										<i className='fa-solid fa-trash-can' onClick={() => setMessageToDelete(message)}>
-											<div className='tool-tip'>Remove</div>
+											<Tooltip>Remove</Tooltip>
 										</i>
 									)}
 
@@ -457,12 +474,18 @@ export default function Message({
 										onClick={() => {
 											onMessageResponse(Number(chat.messages.indexOf(message)))
 										}}>
-										<div className='tool-tip'>Reply</div>
+										<Tooltip>Reply</Tooltip>
 									</i>
 								</div>
 							)}
 
 							<div className={`message-createdAt ${showEmojis === message ? 'hidden' : ''}`}>{formatDate(message)}</div>
+						</div>
+
+						<div className='seen'>
+							{chat.assignedUsers.map(
+								u => u.lastRead === message.id && u.id !== user.uid && <Avatar src={u.photoURL} key={u.id} />
+							)}
 						</div>
 					</li>
 				</>

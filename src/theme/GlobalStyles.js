@@ -99,6 +99,7 @@ export const GlobalStyles = createGlobalStyle`
     --bg-dark-lighten10: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 10)};
     --bg-dark-lighten15: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 15)};
     --bg-dark-lighten20: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 20)};
+    --bg-dark-lighten25: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 25)};
     --bg-dark-lighten90: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 90)};
     --bg-dark-lighten120: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 120)};
     --bg-dark-darken80: #0000ff;
@@ -129,6 +130,8 @@ export const GlobalStyles = createGlobalStyle`
     --border-color: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 15)};
 
     --text-primary:  ${({ theme }) => theme.colors.textPrimary};
+    --text-primary-darken20:  ${({ theme }) => adjustBrightness(theme.colors.textPrimary, -20)};
+    --text-primary-darken50:  ${({ theme }) => adjustBrightness(theme.colors.textPrimary, -50)};
     --text-primary-darken100:  ${({ theme }) => adjustBrightness(theme.colors.textPrimary, -100)};
 
     --text-heading: ${({ theme }) => adjustBrightness(theme.colors.textPrimary, 30)};

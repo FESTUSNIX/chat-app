@@ -8,7 +8,6 @@
 	border: 1px solid var(--border-color);
 	background-color: var(--bg-secondary);
 	color: var(--text-primary);
-	overflow-y: auto;
 	z-index: 100;
 	resize: horizontal;
 
@@ -90,37 +89,11 @@
 		}
 	}
 
-	.user {
-		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 1em;
-		margin-top: auto;
-		margin-bottom: 0;
-		border-top: 1px solid var(--border-color);
-		background-color: var(--bg-secondary);
-		z-index: 100;
-
-		.flex-row {
-			.avatar {
-				width: 35px;
-				height: 35px;
-				margin-right: 10px;
-			}
-
-			span {
-				font-size: 1.6rem;
-				color: var(--text-primary);
-			}
-		}
-	}
-
-	.character {
+	.nom-nom {
 		width: 70px;
 		height: 80px;
 		position: absolute;
-		top: -100%;
+		bottom: -10px;
 		right: 1em;
 		display: flex;
 		justify-content: center;

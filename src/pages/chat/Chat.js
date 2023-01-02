@@ -7,7 +7,7 @@ import { useCollection } from '../../hooks/useCollection'
 
 // Components
 import Messages from './Messages/Messages'
-import ChatInput from './MessageField/MessageField'
+import MessageField from './MessageField/MessageField'
 import Avatar from '../../components/Avatar/Avatar'
 import ChatOptions from './ChatOptions/ChatOptions'
 
@@ -27,7 +27,6 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 	const [showChatOptions, setShowChatOptions] = useState(false)
 	const [otherUser, setOtherUser] = useState(null)
 	const [currentUser, setCurrentUser] = useState(null)
-	const [otherUserActive, setOtherUserActive] = useState(null)
 
 	useEffect(() => {
 		if (document !== null) {
@@ -36,9 +35,7 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 					setOtherUser(u)
 				}
 			})
-		}
 
-		if (document) {
 			document.assignedUsers.forEach(u => {
 				if (u.id === user.uid) {
 					setCurrentUser(u)
@@ -50,15 +47,21 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 		setCurrentChat(document)
 	}, [id, document])
 
-	useEffect(() => {
-		if (users !== null && otherUser !== null) {
-			users.forEach(u => {
-				if (u.id === otherUser.id) {
-					setOtherUserActive(u.online)
-				}
-			})
-		}
-	}, [id, users, otherUser])
+	const handleSeen = async () => {
+		await updateDocument(document.id, {
+			isRead: true,
+			assignedUsers: [
+				otherUser,
+				{
+					displayName: currentUser.displayName,
+					id: currentUser.id,
+					nickname: currentUser.nickname,
+					photoURL: currentUser.photoURL,
+					lastRead: document.messages[document.messages.length - 1].id,
+				},
+			],
+		})
+	}
 
 	if (error) {
 		return <div className='error'>{error}</div>
@@ -68,15 +71,16 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 		return <div className='loading'>Loading...</div>
 	}
 
-	const handleSeen = () => {
-		if (
-			document.messages[document.messages.length - 1] &&
-			document.messages[document.messages.length - 1].createdBy !== user.uid
-		) {
-			updateDocument(document.id, {
-				isRead: true,
-			})
+	const getUserDoc = user => {
+		let res = null
+
+		if (users && user && user !== null) {
+			res = users.filter(u => {
+				return u.id === user.id
+			})[0]
 		}
+
+		return res
 	}
 
 	return (
@@ -89,7 +93,7 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 								<Avatar src={otherUser.photoURL} />
 								<div className='vertical-container'>
 									<h3>{otherUser.nickname}</h3>
-									{otherUserActive === true && <p className='isActive'>Active now</p>}
+									{<p className='isActive'>{getUserDoc(otherUser) && otherUser && getUserDoc(otherUser).status}</p>}
 								</div>
 							</div>
 
@@ -107,7 +111,6 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 							className='chat__comments'
 							onClick={() => {
 								handleSeen()
-								inputRef.current.focus()
 							}}>
 							<Messages
 								chat={document}
@@ -116,12 +119,15 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 								otherUser={otherUser}
 								currentUser={currentUser}
 							/>
-							<ChatInput
+							<MessageField
 								chat={document}
 								messageResponse={messageResponse}
 								onMessageResponse={onMessageResponse}
 								bottomDiv={bottomDiv}
 								inputRef={inputRef}
+								handleSeen={handleSeen}
+								otherUser={otherUser}
+								currentUser={currentUser}
 							/>
 						</div>
 					</div>

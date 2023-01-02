@@ -95,7 +95,7 @@ body {
 		content: '';
 		height: 1px;
 		width: 100%;
-		background-color: #fff;
+		background-color: var(--text-primary);
 		opacity: 0.1;
 	}
 
@@ -250,6 +250,10 @@ textarea {
 	text-align: center;
 }
 
+.cursor-pointer {
+	cursor: pointer;
+}
+
 .EmojiPickerReact {
 	z-index: 200;
 	.epr-preview {
@@ -275,6 +279,7 @@ textarea {
 		}
 	}
 }
+
 .EmojiPickerReact li.epr-emoji-category > .epr-emoji-category-label {
 	top: -1px;
 }

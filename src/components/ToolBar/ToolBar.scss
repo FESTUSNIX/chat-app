@@ -11,6 +11,7 @@
 		gap: 0.5em;
 
 		a {
+			position: relative;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -250,10 +251,11 @@
 	&__profile-menu {
 		width: 40px;
 		height: 40px;
+		position: relative;
 		margin-top: auto;
 		cursor: pointer;
 
-		.avatar {
+		> .avatar-container {
 			width: 100%;
 			height: 100%;
 		}

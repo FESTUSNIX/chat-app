@@ -5,14 +5,16 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import { useCollection } from '../../hooks/useCollection'
 import { useFirestore } from '../../hooks/useFirestore'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { useDocument } from '../../hooks/useDocument'
 
 // Components
 import Avatar from '../Avatar/Avatar'
+import Modal from '../Modal/Modal'
 
 // Styles
 import './ToolBar.scss'
-import Modal from '../Modal/Modal'
-import { useDocument } from '../../hooks/useDocument'
+import AvatarWithStatus from '../AvatarWithStatus/AvatarWithStatus'
+import ProfilePreview from '../ProfilePreview/ProfilePreview'
 
 const ToolBar = () => {
 	const history = useHistory()
@@ -32,7 +34,7 @@ const ToolBar = () => {
 	const [showFavs, setShowFavs] = useState(false)
 	const [searchValue, setSearchValue] = useState('')
 	const [favsCopy, setFavsCopy] = useState(favs)
-	const [chatsCopy, setChatsCopy] = useState(chats)
+	const [showProfile, setShowProfile] = useState(false)
 
 	useEffect(() => {
 		if (chats && chats !== null && chats.length !== 0) {
@@ -42,12 +44,11 @@ const ToolBar = () => {
 				setFavs([null, null, null, null])
 			}
 
-			setChatsCopy(chats)
 			setLatestChat(chats[0])
 		} else {
 			setLatestChat('')
 		}
-	}, [chats])
+	}, [chats, userDoc])
 
 	useEffect(() => {
 		setCurrentPath(window.location.pathname)
@@ -259,12 +260,12 @@ const ToolBar = () => {
 													{favsCopy.map(
 														(f, index) =>
 															f === null && (
-																<>
-																	<div className='fav fav--empty' key={index}>
+																<React.Fragment key={index}>
+																	<div className='fav fav--empty'>
 																		<i className='fa-regular fa-star'></i>
 																		{provided.placeholder}
 																	</div>
-																</>
+																</React.Fragment>
 															)
 													)}
 												</div>
@@ -366,10 +367,17 @@ const ToolBar = () => {
 				</div>
 			</Modal>
 
-			<div className='tool-bar__profile-menu'>
-				{/* <Link to='/profile-menu'> */}
-				<Avatar src={user.photoURL} />
-				{/* </Link> */}
+			<div
+				className='tool-bar__profile-menu'
+				onClick={() => {
+					setShowProfile(true)
+				}}>
+				{userDoc && (
+					<>
+						<AvatarWithStatus userId={userDoc.id} linkToProfile={false} noTooltip={true} />
+						<ProfilePreview show={showProfile} setShow={setShowProfile} userId={userDoc.id} />
+					</>
+				)}
 			</div>
 		</div>
 	)

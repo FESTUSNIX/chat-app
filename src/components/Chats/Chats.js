@@ -1,22 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-import { setDoc, doc, getDoc } from 'firebase/firestore'
-import { projectFirestore, timestamp } from '../../firebase/config'
 import { useCollection } from '../../hooks/useCollection'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useLogout } from '../../hooks/useLogout'
+import { Link } from 'react-router-dom'
 
 // Compontents
 import ChatsList from './ChatsList'
 
 // Styles
 import './Chats.scss'
-import Avatar from '../Avatar/Avatar'
-import { Link } from 'react-router-dom'
 
 export default function Chats({ currentChat, inputRef }) {
 	const { user } = useAuthContext()
-	const { logout, isPending } = useLogout()
-	const { documents: users } = useCollection('users')
 	const { documents: chats } = useCollection(
 		'projects',
 		['assignedUsersId', 'array-contains', user.uid],
@@ -29,15 +24,19 @@ export default function Chats({ currentChat, inputRef }) {
 
 	useEffect(() => {
 		const handleMouseMove = event => {
-			eyes.current.forEach(eye => {
-				let x = eye.getBoundingClientRect().left + eye.clientWidth / 2
-				let y = eye.getBoundingClientRect().top + eye.clientHeight / 2
+			if (eyes.current) {
+				eyes.current.forEach(eye => {
+					if (eye) {
+						let x = eye.getBoundingClientRect().left + eye.clientWidth / 2
+						let y = eye.getBoundingClientRect().top + eye.clientHeight / 2
 
-				let radian = Math.atan2(event.pageX - x, event.pageY - y)
-				let rotation = radian * (180 / Math.PI) * -1
+						let radian = Math.atan2(event.pageX - x, event.pageY - y)
+						let rotation = radian * (180 / Math.PI) * -1
 
-				eye.style.transform = `rotate(${rotation}deg)`
-			})
+						eye.style.transform = `rotate(${rotation}deg)`
+					}
+				})
+			}
 		}
 
 		window.addEventListener('mousemove', handleMouseMove)
@@ -121,7 +120,7 @@ export default function Chats({ currentChat, inputRef }) {
 											chat.assignedUsers.map(
 												u =>
 													u.id !== user.uid && (
-														<Link to={chat.id} key={u.id} className='user-chat' onClick={() => setQuery('')}>
+														<Link to={`/u/${chat.id}`} key={u.id} className='user-chat' onClick={() => setQuery('')}>
 															<img src={u.photoURL} alt='' />
 															<div className='user-chat-info'>
 																<span>{u.displayName}</span>
@@ -139,45 +138,23 @@ export default function Chats({ currentChat, inputRef }) {
 				</div>
 			</div>
 
-			<div className='user'>
-				<div className='character'>
-					<div className='character__eyes'>
-						<div
-							className='eye'
-							ref={e => {
-								eyes.current[0] = e
-							}}>
-							<div className='pupil'></div>
-						</div>
-						<div
-							className='eye'
-							ref={e => {
-								eyes.current[1] = e
-							}}>
-							<div className='pupil'></div>
-						</div>
+			<div className='nom-nom'>
+				<div className='nom-nom__eyes'>
+					<div
+						className='eye'
+						ref={e => {
+							eyes.current[0] = e
+						}}>
+						<div className='pupil'></div>
+					</div>
+					<div
+						className='eye'
+						ref={e => {
+							eyes.current[1] = e
+						}}>
+						<div className='pupil'></div>
 					</div>
 				</div>
-				<div className='flex-row'>
-					<Avatar src={user.photoURL} />
-					<span>{user.displayName}</span>
-				</div>
-
-				{!isPending && user && (
-					<button className='btn ' onClick={logout}>
-						{/* <i className='fa-solid fa-right-from-bracket'></i> */}
-						<i className='fa-solid fa-gear'></i>
-						{/* <span> Log out </span> */}
-					</button>
-				)}
-
-				{isPending && (
-					<button className='btn' disabled>
-						{/* <i class='fa-solid fa-right-from-bracket'></i> */}
-						<span>...</span>
-						{/* <span> Logging out...</span> */}
-					</button>
-				)}
 			</div>
 		</div>
 	)

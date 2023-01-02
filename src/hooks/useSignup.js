@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react'
 import { projectAuth, projectFirestore, projectStorage, projectGoogle, projectGitHub } from '../firebase/config'
 import { useAuthContext } from './useAuthContext'
+import randomColor from 'randomcolor'
 
 export const useSignup = () => {
 	const [isCancelled, setIsCancelled] = useState(false)
 	const [error, setError] = useState(null)
 	const [isPending, setIsPending] = useState(false)
 	const { dispatch } = useAuthContext()
+
+	const randColor = randomColor()
 
 	const signup = async (email, password, displayName, thumbnail) => {
 		setError(null)
@@ -30,11 +33,21 @@ export const useSignup = () => {
 			await res.user.updateProfile({ displayName, photoURL: imgUrl })
 
 			// Create a user document
-			await projectFirestore.collection('users').doc(res.user.uid).set({
-				online: true,
-				displayName: displayName,
-				photoURL: imgUrl,
-			})
+			await projectFirestore
+				.collection('users')
+				.doc(res.user.uid)
+				.set({
+					online: true,
+					displayName: displayName,
+					photoURL: imgUrl,
+					createdAt: `${new Date(res.user.metadata.creationTime).toLocaleString('default', {
+						day: '2-digit',
+						month: 'short',
+						year: 'numeric',
+					})}`,
+					status: 'invisible',
+					banner: `${randColor}`,
+				})
 
 			// Dispatch login action
 			dispatch({ type: 'LOGIN', payload: res.user })

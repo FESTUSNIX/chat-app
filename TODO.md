@@ -21,11 +21,11 @@
 14. Blocking people [❌]
 15. Sending voice messages [❌]
 16. Audio/Video Calls [❌]
-17. Mobile version
+17. Mobile version [❌]
 18. Make visitable profiles [❌]
 
 <!-- !! ACCOUNT !! -->
-<!-- !! Show read profile picture yk what i mean -->
+
 19. Editing account
     - Delete account [❌]
     - Reset password [❌]
@@ -41,5 +41,11 @@
     - Custom emoji [✅]
 21. Migrate the app to windows, macOS, android and ios with use of Electron [❌]
 22. Comment the code [❌]
+
+<!-- !! -->
+
+change pinned in users doc to only user ID, and then search through users and display these users by id on the toolbar, cuz when the users profile changes then the changes won't be visible
+
+<!-- !! -->
 
 # Celebrate 🥳🥳🥳

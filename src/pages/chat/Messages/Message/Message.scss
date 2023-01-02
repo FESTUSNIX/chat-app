@@ -14,6 +14,16 @@
 		margin-top: 0;
 	}
 
+	&:has(.file-message),
+	&.owner:has(.file-message) {
+		.message-content {
+			&__text {
+				padding: 0;
+				background: transparent;
+			}
+		}
+	}
+
 	&:hover {
 		.message-content {
 			.message-tools {
@@ -28,7 +38,8 @@
 		width: 32px;
 		height: 32px;
 		margin-right: 10px;
-		.avatar {
+
+		.avatar-container {
 			width: 32px;
 			height: 32px;
 		}
@@ -71,7 +82,7 @@
 				max-height: 150px;
 				margin-bottom: -1em;
 				border-radius: 15px;
-				z-index: -10;
+				z-index: 0;
 			}
 		}
 
@@ -372,28 +383,23 @@
 			}
 
 			i {
+				position: relative;
 				padding: 0.4em;
 
 				&:hover {
-					.tool-tip {
-						display: block;
+					.tooltip {
+						visibility: visible;
+						opacity: 1;
+						scale: 1;
 					}
 				}
 
-				.tool-tip {
-					width: max-content;
-					display: none;
-					position: absolute;
-					top: -100%;
-					padding: 0.6em;
-					border-radius: var(--border-radius);
-					box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-					font-family: 'Poppins', sans-serif;
+				.tooltip {
+					display: block;
+					visibility: hidden;
+					opacity: 0;
+					scale: 0;
 					font-weight: normal;
-					text-transform: none;
-					font-size: 1.3rem;
-					background-color: var(--bg-dark-lighten20);
-					transform: translateX(-50%);
 				}
 			}
 		}
@@ -525,6 +531,23 @@
 		}
 		.EmojiPickerReact li.epr-emoji-category > .epr-emoji-category-label {
 			top: -1px;
+		}
+	}
+
+	.seen {
+		display: inline-block;
+		align-self: flex-end;
+		display: flex;
+		gap: 0.5em;
+		margin: 0.3em 0;
+
+		&:empty {
+			display: none;
+		}
+
+		.avatar {
+			width: 16px;
+			height: 16px;
 		}
 	}
 }

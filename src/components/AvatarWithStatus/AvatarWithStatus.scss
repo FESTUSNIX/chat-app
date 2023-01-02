@@ -1,0 +1,144 @@
+.avatar-container {
+	width: 45px;
+	height: 45px;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50vw;
+	z-index: 100;
+	overflow: visible;
+
+	> a {
+		width: 100%;
+		height: 100%;
+		border-radius: 50vw;
+	}
+
+	.avatar {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		z-index: 0;
+	}
+
+	a > .avatar {
+		&:hover {
+			&::before {
+				opacity: 1;
+				visibility: visible;
+			}
+		}
+
+		&::before {
+			content: 'view profile';
+			opacity: 0;
+			visibility: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 0.9rem;
+			font-weight: bold;
+			text-align: center;
+			text-transform: uppercase;
+			background-color: rgba(0, 0, 0, 0.5);
+			transition: opacity 0.2s;
+		}
+	}
+
+	.status {
+		width: 34%;
+		height: 34%;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		background-color: var(--bg-secondary);
+		z-index: 10;
+
+		&__dot {
+			width: 68%;
+			height: 68%;
+			position: relative;
+			border-radius: 50vw;
+
+			.tooltip {
+				display: block;
+				visibility: hidden;
+				opacity: 0;
+				text-transform: capitalize;
+				font-size: 1.2rem;
+				scale: 0;
+			}
+
+			&:hover {
+				.tooltip {
+					visibility: visible;
+					opacity: 1;
+					scale: 1;
+				}
+			}
+
+			&::before {
+				transition: background-color 0.3s;
+				background-color: var(--bg-secondary);
+			}
+
+			&--online {
+				background-color: #3ba55d;
+			}
+
+			&--idle {
+				position: relative;
+				background-color: #faa81a;
+				clip-path: circle(60%);
+
+				&::before {
+					content: '';
+					width: 90%;
+					height: 90%;
+					position: absolute;
+					top: -25%;
+					left: -25%;
+					border-radius: 50vw;
+					z-index: 0;
+				}
+			}
+
+			&--do-not-disturb {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: #ed4245;
+
+				&::before {
+					content: '';
+					width: 70%;
+					height: 20%;
+				}
+			}
+
+			&--invisible {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: #747f8d;
+
+				&::before {
+					content: '';
+					width: 50%;
+					height: 50%;
+					border-radius: 50vw;
+				}
+			}
+		}
+	}
+}

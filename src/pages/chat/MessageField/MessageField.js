@@ -11,7 +11,7 @@ import imageCompression from 'browser-image-compression'
 // Styles && Assets
 import './MessageField.scss'
 
-const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inputRef }) => {
+const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inputRef, otherUser, currentUser }) => {
 	const uniqueId = uuid()
 
 	const { updateDocument, response } = useFirestore('projects')
@@ -23,6 +23,7 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 	const [fastEmoji, setFastEmoji] = useState(chat.chatEmoji)
 	const [sendFastEmoji, setSendFastEmoji] = useState(false)
 	const [showEmojis, setShowEmojis] = useState(false)
+	const [seen, setSeen] = useState(false)
 
 	const fileInputRef = useRef(null)
 
@@ -57,9 +58,9 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 			await updateDocument(chat.id, {
 				messages: [...chat.messages, commentToAdd],
 				updatedAt: timestamp.fromDate(new Date()),
-				isRead: false,
 			})
 			if (!response.error) {
+				setSeen(!seen)
 				scrollToBottom()
 				setNewComment('')
 				setSendFastEmoji(false)
@@ -67,6 +68,22 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 			}
 		}
 	}
+
+	useEffect(() => {
+		updateDocument(chat.id, {
+			isRead: true,
+			assignedUsers: [
+				otherUser,
+				{
+					displayName: currentUser.displayName,
+					id: currentUser.id,
+					nickname: currentUser.nickname,
+					photoURL: currentUser.photoURL,
+					lastRead: chat.messages[chat.messages.length - 1].id,
+				},
+			],
+		})
+	}, [seen])
 
 	const sendImage = async () => {
 		const acceptedFileTypes = ['image', 'video']
@@ -100,6 +117,7 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 						})
 
 						if (!response.error) {
+							setSeen(!seen)
 							scrollToBottom()
 							setImgUpload(null)
 						}
