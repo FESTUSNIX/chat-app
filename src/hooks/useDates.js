@@ -19,7 +19,7 @@ export const useDates = () => {
 
 		fullDate = `${dayOfMonth}.${month}.${year}, ${hour}`
 
-		return { weekday, dayOfWeek, year, month, dayOfMonth, curDate, hour, fullDate }
+		return { dayOfWeek, year, month, dayOfMonth, curDate, hour, fullDate }
 	}
 
 	const isCurrentWeek = dateToFormat => {
@@ -33,15 +33,15 @@ export const useDates = () => {
 		return res
 	}
 
-	const formatDate = comment => {
-		const date = comment.createdAt.toDate()
+	const formatDate = createdAt => {
+		const date = createdAt.toDate()
 
 		weekday = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 		dayOfWeek = weekday[date.getDay()]
 
 		year = date.getFullYear()
 
-		month = date.getMonth() + 1 < 10 ? '0' + date.getMonth() + 1 : date.getMonth() + 1
+		month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
 
 		dayOfMonth = date.getDate() < 10 ? '0' + date.getDate().toString() : date.getDate().toString()
 

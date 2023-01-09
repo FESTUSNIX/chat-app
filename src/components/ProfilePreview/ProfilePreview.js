@@ -50,7 +50,7 @@ export default function ProfilePreview({ show, setShow, userId, pos, align }) {
 							<div className='cards'>
 								<div className='cards__card'>
 									<h4>About me</h4>
-									<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+									{userDoc.bio && <p className='bio'>{userDoc.bio}</p>}
 								</div>
 
 								<div className='cards__card'>

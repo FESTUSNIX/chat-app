@@ -3,9 +3,9 @@
 <hr>
 
 1. Add the project to github !!!! [✅]
-2. Make infinite scrolling
+2. Infinite scrolling [❌]
    - (render a specific amount of messages and render more on scroll)
-   - (https://www.npmjs.com/package/react-infinite-scroller) [❌]
+   - (https://www.npmjs.com/package/react-infinite-scroller)
 3. Fix the issue with bad styling when there's a date before a message block [✅]
 4. Auto sending emoji when clicked fast emoji icon [✅]
 5. Opening image preview on click [✅]

@@ -248,7 +248,9 @@ export default function Message({
 			{message.isSpecial && <div className='messages__centered mb05'>{message.content}</div>}
 			{!message.isSpecial && (
 				<>
-					{showSendDate(elements, i) && <div className='messages__centered mb1 mt2'>{formatDate(message)}</div>}
+					{showSendDate(elements, i) && (
+						<div className='messages__centered mb1 mt2'>{formatDate(message.createdAt)}</div>
+					)}
 					<li
 						className={`${handleMessageStyle(
 							message,
@@ -479,7 +481,9 @@ export default function Message({
 								</div>
 							)}
 
-							<div className={`message-createdAt ${showEmojis === message ? 'hidden' : ''}`}>{formatDate(message)}</div>
+							<div className={`message-createdAt ${showEmojis === message ? 'hidden' : ''}`}>
+								{formatDate(message.createdAt)}
+							</div>
 						</div>
 
 						<div className='seen'>
