@@ -59,7 +59,7 @@ body {
 
 	.btn {
 		width: 100%;
-		text-transform: uppercase;
+		text-transform: capitalize;
 
 		&--50 {
 			width: 50%;
@@ -149,11 +149,12 @@ body {
 .btn {
 	min-width: max-content;
 	display: block;
-	padding: 0.6em 1em;
+	padding: 0.5em 1em;
 	border: 1px solid var(--text-accent);
 	border-radius: var(--border-radius);
 	font-size: 1.6rem;
 	text-decoration: none;
+	font-family: 'Poppins', sans-serif;
 	font-weight: bold;
 	text-align: center;
 	background-color: var(--text-accent);

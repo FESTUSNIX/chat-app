@@ -70,19 +70,21 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 	}
 
 	useEffect(() => {
-		updateDocument(chat.id, {
-			isRead: true,
-			assignedUsers: [
-				otherUser,
-				{
-					displayName: currentUser.displayName,
-					id: currentUser.id,
-					nickname: currentUser.nickname,
-					photoURL: currentUser.photoURL,
-					lastRead: chat.messages[chat.messages.length - 1].id,
-				},
-			],
-		})
+		if (document.messages && document.messages.length > 0) {
+			updateDocument(chat.id, {
+				isRead: true,
+				assignedUsers: [
+					otherUser,
+					{
+						displayName: currentUser.displayName,
+						id: currentUser.id,
+						nickname: currentUser.nickname,
+						photoURL: currentUser.photoURL,
+						lastRead: chat.messages[chat.messages.length - 1].id,
+					},
+				],
+			})
+		}
 	}, [seen])
 
 	const sendImage = async () => {

@@ -25,7 +25,7 @@ export default function ProfilePreview({ show, setShow, userId, pos, align }) {
 		})
 	}
 
-	if (show && setShow && userDoc) {
+	if (show === true && setShow && userDoc) {
 		return (
 			<OutsideClickHandler onOutsideClick={() => setShow(false)}>
 				<Tooltip pos={pos ? pos : 'top'} align={align ? align : 'end'} className='profile-preview-tooltip'>
@@ -33,10 +33,21 @@ export default function ProfilePreview({ show, setShow, userId, pos, align }) {
 						<div className='banner'></div>
 
 						<div className='profile-preview__header'>
-							{userDoc && <AvatarWithStatus userId={userDoc.id} linkToProfile={true} />}
+							{userDoc && (
+								<div
+									onClick={() => {
+										setShow(false)
+									}}>
+									<AvatarWithStatus userId={userDoc.id} linkToProfile={true} />
+								</div>
+							)}
 
 							{userId === user.uid && (
-								<Link to='/profile-menu'>
+								<Link
+									to='/settings'
+									onClick={() => {
+										setShow(false)
+									}}>
 									<i className='fa-solid fa-gear'></i>
 								</Link>
 							)}

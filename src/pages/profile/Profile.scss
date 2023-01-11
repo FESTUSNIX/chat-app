@@ -57,7 +57,7 @@
 	&__header {
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
+		align-items: flex-end;
 		margin-bottom: 2em;
 
 		> .flex-row {
@@ -68,6 +68,11 @@
 			gap: 1em;
 			align-self: flex-end;
 			margin-bottom: 1em;
+
+			&:has(> .account-status) {
+				align-self: flex-start;
+				align-items: flex-end;
+			}
 
 			.name {
 				font-size: 3rem;
@@ -100,6 +105,75 @@
 						gap: 0.5em;
 					}
 				}
+			}
+		}
+
+		.account-status {
+			display: flex;
+			align-items: center;
+			gap: 0.5em;
+			padding: 0.5em 0.8em;
+			margin-top: 1.5em;
+			border-radius: 4px;
+			background-color: var(--bg-dark-lighten15);
+
+			&--premium {
+				span {
+					background-image: linear-gradient(
+						to right,
+						#ff0018,
+						#ff0417,
+						#ff310e,
+						#ff5d06,
+						#ff7a01,
+						#ff8701,
+						#ffb001,
+						#d9c507,
+						#79c718,
+						#01c92d,
+						#01be69,
+						#01b3aa,
+						#0ba1df,
+						#3f77e6,
+						#724cec,
+						#8a39ef,
+						#8a39ef
+					);
+				}
+			}
+
+			&--classic {
+				span {
+					background-image: linear-gradient(to right, #582612, #7e3315, #83371a, #974113);
+				}
+
+				i {
+					background-image: linear-gradient(to right, #441f10, #582612);
+				}
+			}
+
+			img {
+				width: 25px;
+				height: 25px;
+			}
+
+			span,
+			i {
+				-webkit-background-clip: text;
+				background-clip: text;
+				font-weight: bold;
+				color: transparent;
+			}
+		}
+
+		.btn-group {
+			.action-btn {
+				padding: 0.4em 0.8em;
+				border-radius: 4px;
+				font-weight: normal;
+				font-size: 1.3rem;
+				text-transform: capitalize;
+				font-weight: 500;
 			}
 		}
 

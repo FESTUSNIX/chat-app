@@ -48,19 +48,21 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 	}, [id, document])
 
 	const handleSeen = async () => {
-		await updateDocument(document.id, {
-			isRead: true,
-			assignedUsers: [
-				otherUser,
-				{
-					displayName: currentUser.displayName,
-					id: currentUser.id,
-					nickname: currentUser.nickname,
-					photoURL: currentUser.photoURL,
-					lastRead: document.messages[document.messages.length - 1].id,
-				},
-			],
-		})
+		if (document.messages && document.messages.length > 0) {
+			await updateDocument(document.id, {
+				isRead: true,
+				assignedUsers: [
+					otherUser,
+					{
+						displayName: currentUser.displayName,
+						id: currentUser.id,
+						nickname: currentUser.nickname,
+						photoURL: currentUser.photoURL,
+						lastRead: document.messages[document.messages.length - 1].id,
+					},
+				],
+			})
+		}
 	}
 
 	if (error) {

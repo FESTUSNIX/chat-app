@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Redirect, Routes, Navigate } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
 import { GlobalStyles } from './theme/GlobalStyles'
 import { useCollection } from './hooks/useCollection'
@@ -19,6 +19,8 @@ import SetNewPassword from './pages/resetPassword/SetNewPassword'
 import Chats from './components/Chats/Chats'
 import ToolBar from './components/ToolBar/ToolBar'
 import Profile from './pages/profile/Profile'
+import Settings from './pages/settings/Settings'
+import AccountDetails from './pages/settings/subpages/AccountDetails'
 
 function App() {
 	const inputRef = useRef(null)
@@ -66,46 +68,29 @@ function App() {
 				<div className='App'>
 					<BrowserRouter>
 						{user && <ToolBar />}
-
-						<Switch>
-							<Route exact path='/'>
-								{!user && <Redirect to='/login' />}
-								{user && <Dashboard />}
-							</Route>
-
-							<Route path='/u/:id'>
-								{!user && <Redirect to='/login' />}
-								{user && <Chats currentChat={currentChat} inputRef={inputRef} />}
-								{user && <Chat setCurrentChat={setCurrentChat} inputRef={inputRef} currentTheme={theme} />}
-							</Route>
-
-							<Route path='/profile/:id'>
-								{!user && <Redirect to='/login' />}
-								{user && <Profile />}
-							</Route>
-
-							<Route path='/privacy-policy'>
-								<PrivacyPolicy />
-							</Route>
-
-							<Route path='/recover-password'>
-								<ResetPassword />
-							</Route>
-
-							<Route path='/login'>
-								{user && <Redirect to='/' />}
-								{!user && <Login />}
-							</Route>
-
-							<Route path='/signup'>
-								{user && <Redirect to='/' />}
-								{!user && <Signup />}
-							</Route>
-
-							<Route path='/set-new-password'>
-								<SetNewPassword />
-							</Route>
-						</Switch>
+						<Routes>
+							<Route path='/' element={user ? <Dashboard /> : <Navigate to='/' />} />
+							<Route
+								path='/u/:id'
+								element={
+									user ? (
+										[
+											<Chats currentChat={currentChat} inputRef={inputRef} key='chats' />,
+											<Chat setCurrentChat={setCurrentChat} inputRef={inputRef} currentTheme={theme} key='chat' />,
+										]
+									) : (
+										<Navigate to='/' />
+									)
+								}
+							/>
+							<Route path='/profile/:id' element={user ? <Profile /> : <Navigate to='/' />} />
+							<Route path='/settings/*' element={user ? <Settings /> : <Navigate to='/' />} />
+							<Route path='/privacy-policy' element={<PrivacyPolicy />} />
+							<Route path='/recover-password' element={<ResetPassword />} />
+							<Route path='/login' element={user ? <Navigate to='/' /> : <Login />} />
+							<Route path='/signup' element={user ? <Navigate to='/' /> : <Signup />} />
+							<Route path='/set-new-password' element={<SetNewPassword />} />
+						</Routes>
 					</BrowserRouter>
 				</div>
 			</ThemeProvider>

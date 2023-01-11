@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useAuthContext } from '../../../hooks/useAuthContext'
 import { useDates } from '../../../hooks/useDates'
 import { useFirestore } from '../../../hooks/useFirestore'
-import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import FileSaver from 'file-saver'
 import Message from './Message/Message'
 
@@ -19,7 +19,7 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUse
 	const [messageToDelete, setMessageToDelete] = useState(null)
 	const [showModal, setShowModal] = useState(false)
 
-	const history = useHistory()
+	const location = useLocation()
 	const bottomRef = useRef()
 	const scrollDownRef = useRef()
 
@@ -29,12 +29,10 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUse
 	}, [])
 
 	useEffect(() => {
-		return history.listen(() => {
-			setBottomDiv(bottomRef)
-			scrollToBottom()
-			onMessageResponse(null)
-		})
-	}, [history])
+		setBottomDiv(bottomRef)
+		scrollToBottom()
+		onMessageResponse(null)
+	}, [location])
 
 	useEffect(() => {
 		if (messageToDelete !== null) {

@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { projectAuth, projectFirestore, projectGitHub, projectGoogle } from '../firebase/config'
 import { useAuthContext } from './useAuthContext'
 
 export const useLogin = () => {
+	const navigate = useNavigate()
+
+	const { dispatch } = useAuthContext()
+
 	const [isCancelled, setIsCancelled] = useState(false)
 	const [error, setError] = useState(null)
 	const [isPending, setIsPending] = useState(false)
-	const { dispatch } = useAuthContext()
 	const [isFinished, setIsFinished] = useState(false)
-
-	let history = useHistory()
 
 	const login = async (email, password) => {
 		setError(null)
@@ -114,7 +115,7 @@ export const useLogin = () => {
 				setIsFinished(true)
 
 				setTimeout(() => {
-					history.push('/login')
+					navigate('/login')
 				}, 15000)
 			}
 		} catch (err) {

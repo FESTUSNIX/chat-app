@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useDocument } from '../../hooks/useDocument'
@@ -9,8 +9,9 @@ import { useDates } from '../../hooks/useDates'
 import { v4 as uuid } from 'uuid'
 import ReactCountryFlag from 'react-country-flag'
 
-// Styles
+// Styles && Assets
 import './Profile.scss'
+import premiumIcon from '../../assets/premium-account.png'
 
 // Components
 import AvatarWithStatus from '../../components/AvatarWithStatus/AvatarWithStatus'
@@ -20,12 +21,10 @@ import Avatar from '../../components/Avatar/Avatar'
 import Modal from '../../components/Modal/Modal'
 import OutsideClickHandler from 'react-outside-click-handler'
 import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
-import { useRef } from 'react'
 
 export default function Profile() {
 	const randColor = randomColor()
 	const uniqueId = uuid()
-	const commentInput = useRef()
 
 	const { id } = useParams()
 	const { user } = useAuthContext()
@@ -33,6 +32,7 @@ export default function Profile() {
 	const { documents } = useCollection('users')
 	const { updateDocument } = useFirestore('users')
 	const { formatDate } = useDates()
+	const { documents: chats } = useCollection('projects')
 
 	const [confirmDelete, setConfirmDelete] = useState(null)
 	const [comment, setComment] = useState('')
@@ -106,6 +106,27 @@ export default function Profile() {
 		setComment(comment => comment + e.emoji)
 	}
 
+	const getChatId = id => {
+		let res = ''
+
+		if (chats) {
+			chats.filter(chat => {
+				if (
+					!chat.isGroup &&
+					(chat.assignedUsersId[0] === id || chat.assignedUsersId[0] === user.uid) &&
+					(chat.assignedUsersId[1] === id || chat.assignedUsersId[1] === user.uid)
+				) {
+					res = chat.id
+					return true
+				} else {
+					return false
+				}
+			})
+		}
+
+		return res
+	}
+
 	if (error !== null) {
 		return <div className='error'>{error}</div>
 	}
@@ -157,8 +178,40 @@ export default function Profile() {
 							</div>
 						</div>
 
-						<button className='action-btn btn'>Add friend</button>
+						<div className='flex-column'>
+							<div className='account-status account-status--premium'>
+								<img src={premiumIcon} alt='Icon for premium account' />
+								<span>Diznats Pro</span>
+							</div>
+							{/* <div className='account-status account-status--classic'>
+								<i class='fa-solid fa-poo'></i>
+								<span>Diznats Classic</span>
+							</div> */}
+
+							<div className='btn-group'>
+								{id === user.uid && (
+									<Link to='/settings'>
+										<button className='action-btn btn'>edit profile</button>
+									</Link>
+								)}
+
+								{id !== user.uid && (
+									<>
+										{/* // ! Show When User ISN'T Friend */}
+										{/* <button className='action-btn btn'>add friend</button> */}
+
+										{/* // ! Show When User IS Friend */}
+										<Link to={`/u/${getChatId(userDoc.id)}`}>
+											<button className='action-btn btn'>send message</button>
+										</Link>
+									</>
+								)}
+							</div>
+						</div>
 					</div>
+
+					<div className='separator'></div>
+					<h3>someday there will be something</h3>
 
 					<div className='profile__comments'>
 						<div className='separator'></div>
@@ -170,7 +223,6 @@ export default function Profile() {
 								placeholder='Add a comment'
 								value={comment}
 								onChange={e => setComment(e.target.value)}
-								ref={commentInput}
 								onClick={() => {
 									setShowInputControls(true)
 								}}
