@@ -77,6 +77,28 @@ body {
 	flex-direction: column;
 }
 
+.align-start {
+	align-items: start;
+	align-items: flex-start;
+}
+.align-center {
+	align-items: center;
+}
+.align-end {
+	align-items: flex-end;
+	align-items: end;
+}
+
+.justify-start {
+	justify-content: start;
+}
+.justify-center {
+	justify-content: center;
+}
+.justify-end {
+	justify-content: end;
+}
+
 .vertical-container {
 	height: 100%;
 	display: flex;
@@ -119,7 +141,9 @@ body {
 		}
 	}
 }
-
+.mb0 {
+	margin-bottom: 0;
+}
 .mb05 {
 	margin-bottom: 0.5em;
 }
@@ -133,6 +157,9 @@ body {
 	margin-bottom: 3em;
 }
 
+.mt0 {
+	margin-top: 0;
+}
 .mt05 {
 	margin-top: 0.5em;
 }
@@ -146,6 +173,22 @@ body {
 	margin-top: 3em;
 }
 
+.gap0 {
+	gap: 0;
+}
+.gap05 {
+	gap: 0.5em;
+}
+.gap1 {
+	gap: 1em;
+}
+.gap2 {
+	gap: 2em;
+}
+.gap3 {
+	gap: 3em;
+}
+
 .btn {
 	min-width: max-content;
 	display: block;
@@ -155,7 +198,7 @@ body {
 	font-size: 1.6rem;
 	text-decoration: none;
 	font-family: 'Poppins', sans-serif;
-	font-weight: bold;
+	font-weight: 500;
 	text-align: center;
 	background-color: var(--text-accent);
 	color: var(--btn-text);
@@ -179,7 +222,7 @@ body {
 	}
 }
 
-.custom-scrollbar {
+@mixin custom-scrollbar {
 	&::-webkit-scrollbar {
 		width: 2px;
 	}
@@ -197,10 +240,24 @@ body {
 	}
 }
 
+.custom-scrollbar {
+	@include custom-scrollbar;
+}
+
 .outside-click-handler {
 	all: inherit;
 }
 
+button {
+	font-family: 'Poppins', sans-serif;
+}
+
+ul,
+li {
+	list-style-type: none;
+}
+
+h1,
 h2,
 h3 {
 	color: var(--text-heading);
@@ -213,15 +270,17 @@ a {
 
 /* forms */
 input,
-textarea {
+textarea,
+.input {
 	width: 100%;
-	padding: 12px;
+	padding: 0.8em;
 	border: 1px solid var(--border-color);
 	border-radius: var(--border-radius);
 	background-color: var(--input-bg);
 	font-family: inherit;
 	color: var(--input-text);
 	outline: none;
+	@include custom-scrollbar;
 }
 
 label {
@@ -238,17 +297,23 @@ textarea {
 	min-height: 160px;
 }
 
+
 .error {
-	color: red;
-	background: pink;
-	border: 1px solid red;
-	border-radius: var(--border-radius);
+	max-width: 40ch;
 	padding: 8px;
 	margin: 10px 0;
+	border: 1px solid red;
+	border-radius: var(--border-radius);
+	color: red;
+	background: pink;
 }
 
 .text-center {
 	text-align: center;
+}
+
+.text-capitalize {
+	text-transform: capitalize;
 }
 
 .cursor-pointer {

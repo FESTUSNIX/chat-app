@@ -1,3 +1,4 @@
+import { PhoneAuthProvider, RecaptchaVerifier } from 'firebase/auth'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { projectAuth, projectFirestore, projectGitHub, projectGoogle } from '../firebase/config'
@@ -149,9 +150,35 @@ export const useLogin = () => {
 		}
 	}
 
+	const setUpRecaptcha = async number => {
+		// user.unlink(provider.providerId)
+
+		const provider = new PhoneAuthProvider(projectAuth)
+		const recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, projectAuth)
+
+		recaptchaVerifier.render()
+
+		const verificationId = await provider.verifyPhoneNumber(number, recaptchaVerifier)
+
+		return verificationId
+
+		// const credential = PhoneAuthProvider.credential(verificationId, OTPCode)
+		// return signInWithPhoneNumber(projectAuth, number, recaptchaVerifier)
+	}
+
 	useEffect(() => {
 		return () => setIsCancelled(true)
 	}, [])
 
-	return { login, loginWithGoogle, loginWithGithub, sendPasswordReset, resetPassword, isPending, error, isFinished }
+	return {
+		login,
+		loginWithGoogle,
+		loginWithGithub,
+		sendPasswordReset,
+		resetPassword,
+		setUpRecaptcha,
+		isPending,
+		error,
+		isFinished,
+	}
 }

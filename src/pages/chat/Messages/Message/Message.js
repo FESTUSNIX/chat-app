@@ -3,8 +3,7 @@ import { useState } from 'react'
 import { useAuthContext } from '../../../../hooks/useAuthContext'
 import { useFirestore } from '../../../../hooks/useFirestore'
 import { useDates } from '../../../../hooks/useDates'
-import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
-import OutsideClickHandler from 'react-outside-click-handler'
+import { useCollection } from '../../../../hooks/useCollection'
 
 // Styles
 import './Message.scss'
@@ -15,6 +14,8 @@ import Modal from '../../../../components/Modal/Modal'
 import Tooltip from '../../../../components/Tooltip/Tooltip'
 import AvatarWithStatus from '../../../../components/AvatarWithStatus/AvatarWithStatus'
 import ProfilePreview from '../../../../components/ProfilePreview/ProfilePreview'
+import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 export default function Message({
 	message,
@@ -30,6 +31,7 @@ export default function Message({
 	const { user } = useAuthContext()
 	const { updateDocument } = useFirestore('projects')
 	const { formatDate } = useDates()
+	const { documents: users } = useCollection('users')
 
 	const [showEmojis, setShowEmojis] = useState(null)
 	const [showModal, setShowModal] = useState(false)
@@ -241,6 +243,21 @@ export default function Message({
 				console.log(error)
 			}
 		}
+	}
+
+	const getDoc = id => {
+		let res = null
+
+		if (users) {
+			res = users.filter(doc => {
+				if (doc.id === id) {
+					return true
+				}
+				return false
+			})[0]
+		}
+
+		return res
 	}
 
 	return (
@@ -488,7 +505,13 @@ export default function Message({
 
 						<div className='seen'>
 							{chat.assignedUsers.map(
-								u => u.lastRead === message.id && u.id !== user.uid && <Avatar src={u.photoURL} key={u.id} />
+								u =>
+									u.lastRead === message.id &&
+									u.id !== user.uid && (
+										<>
+											<Avatar src={getDoc(u.id) !== null ? getDoc(u.id).photoURL : ''} key={u.id} />
+										</>
+									)
 							)}
 						</div>
 					</li>

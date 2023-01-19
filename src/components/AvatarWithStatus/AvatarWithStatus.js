@@ -9,7 +9,7 @@ import './AvatarWithStatus.scss'
 import Avatar from '../Avatar/Avatar'
 import Tooltip from '../Tooltip/Tooltip'
 
-const AvatarWithStatus = ({ userId, linkToProfile, noTooltip, noStatus }) => {
+const AvatarWithStatus = ({ userId, linkToProfile, noTooltip, noStatus, src }) => {
 	const { documents: users } = useCollection('users')
 
 	const [user, setUser] = useState(null)
@@ -29,11 +29,11 @@ const AvatarWithStatus = ({ userId, linkToProfile, noTooltip, noStatus }) => {
 			<div className='avatar-container'>
 				{linkToProfile && (
 					<Link to={`/profile/${user.id}`}>
-						<Avatar src={user.photoURL} />
+						<Avatar src={src || src === '' ? src : user.photoURL} />
 					</Link>
 				)}
 
-				{!linkToProfile && <Avatar src={user.photoURL} />}
+				{!linkToProfile && <Avatar src={src || src === '' ? src : user.photoURL} />}
 
 				{user && user.status && !noStatus && (
 					<span className={`status`}>

@@ -1,0 +1,217 @@
+.profile-settings {
+	&__container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 3em;
+	}
+
+	&__fields {
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
+
+		&-field {
+			.field-title {
+				margin-bottom: 0.3em;
+				font-size: 1.3rem;
+				text-transform: uppercase;
+				color: var(--text-primary-darken20);
+			}
+			.btn-group {
+				justify-content: start;
+			}
+			.btn {
+				width: max-content;
+				font-size: 1.4rem;
+			}
+
+			.modal:has(.dropzone-container) .modal {
+				&__content {
+					padding: 0.8em 0.8em 0.8em 0.8em;
+
+					.dropzone-container {
+						position: relative;
+						flex: 1;
+						display: flex;
+						align-items: center;
+						flex-direction: column;
+						gap: 0.8em;
+						padding: 5em 7em;
+						border: 2px dashed var(--bg-secondary-lighten50);
+						border-radius: var(--border-radius);
+						background-color: transparent;
+						transition: border 0.24s ease-in-out;
+
+						&.accepted {
+							border: 2px dashed var(--text-accent);
+						}
+						&.rejected {
+							border: 2px dashed #ec4245;
+						}
+
+						.btn {
+							padding: 0.8em 1em;
+							font-size: 1.7rem;
+							color: var(--text-primary);
+						}
+
+						p {
+							font-size: 1.5rem;
+							color: var(--text-primary-darken50);
+						}
+					}
+				}
+			}
+			.crop-container {
+				.modal__content-padding {
+					padding: 2.5em 1em 1em 1em;
+
+					section {
+						position: relative;
+						display: flex;
+						align-items: center;
+						flex-direction: column;
+						background-color: transparent;
+
+						h3 {
+							align-self: flex-start;
+							margin-bottom: 0.5em;
+							font-size: 2.4rem;
+						}
+					}
+
+					.reactEasyCrop_Container {
+						position: relative;
+						padding: 9em 16em;
+					}
+
+					.controls {
+						width: 70%;
+						margin-top: 1em;
+					}
+				}
+
+				.btn-group {
+					.btn {
+						width: max-content;
+					}
+				}
+			}
+
+			.color-picker {
+				margin-bottom: 0;
+			}
+
+			.textarea-container {
+				width: 100%;
+				max-width: 450px;
+				position: relative;
+				margin-bottom: 0.5em;
+
+				textarea {
+					font-size: 1.4rem;
+					resize: none;
+				}
+
+				&__char-counter {
+					position: absolute;
+					bottom: 0.5em;
+					right: 0.5em;
+					color: var(--text-primary-darken50);
+
+					&.limit {
+						color: #ec4245;
+					}
+				}
+			}
+		}
+	}
+
+	.profile-preview {
+		width: 100%;
+		border-radius: var(--border-radius);
+		background-color: var(--bg-dark-lighten10);
+
+		&__banner {
+			height: 80px;
+		}
+
+		&__header {
+			.avatar-container {
+				--size: 120px;
+				background-color: var(--bg-dark-lighten10);
+
+				&:hover {
+					.avatar::before {
+						opacity: 1;
+						visibility: visible;
+					}
+				}
+
+				.avatar::before {
+					content: 'change avatar';
+					opacity: 0;
+					visibility: hidden;
+					position: absolute;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 1.1rem;
+					font-weight: bold;
+					text-align: center;
+					text-transform: uppercase;
+					background-color: rgba(0, 0, 0, 0.5);
+					transition: opacity 0.2s;
+					cursor: pointer;
+				}
+
+				.status {
+					background-color: var(--bg-dark-lighten10);
+				}
+			}
+		}
+
+		&__info {
+			background-color: var(--bg-dark-lighten5);
+
+			.bio {
+				width: 100%;
+			}
+		}
+	}
+
+	.reset-toast {
+		display: flex;
+		align-items: center;
+		gap: 1.5em;
+
+		button {
+			margin-right: 0.5em;
+			border: none;
+			font-weight: bold;
+			font-size: 1.7rem;
+			background-color: transparent;
+			color: var(--text-accent);
+			cursor: pointer;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.Toastify {
+		&__toast-container {
+			width: max-content;
+		}
+
+		&__toast {
+			cursor: default;
+		}
+	}
+}

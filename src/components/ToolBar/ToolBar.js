@@ -25,6 +25,7 @@ const ToolBar = () => {
 		['assignedUsersId', 'array-contains', user.uid],
 		['updatedAt', 'desc']
 	)
+	const { documents: users } = useCollection('users')
 	const { updateDocument } = useFirestore('users')
 	const { document: userDoc } = useDocument('users', user.uid)
 
@@ -95,8 +96,7 @@ const ToolBar = () => {
 					if (u.id !== user.uid) {
 						userToAdd = {
 							id: chatToAdd.id,
-							displayName: u.displayName,
-							thumb: u.photoURL,
+							uid: u.id,
 						}
 					}
 				})
@@ -125,13 +125,15 @@ const ToolBar = () => {
 
 	const filterChats = chat => {
 		let result = false
-		favsCopy.forEach(fav => {
-			if (fav !== null) {
-				if (fav.id === chat.id) {
-					result = true
+		if (favsCopy) {
+			favsCopy.forEach(fav => {
+				if (fav !== null) {
+					if (fav.id === chat.id) {
+						result = true
+					}
 				}
-			}
-		})
+			})
+		}
 		return result
 	}
 
@@ -145,8 +147,7 @@ const ToolBar = () => {
 				if (u.id !== user.uid) {
 					userToAdd = {
 						id: chat.id,
-						displayName: u.displayName,
-						thumb: u.photoURL,
+						uid: u.id,
 					}
 				}
 			})
@@ -162,6 +163,21 @@ const ToolBar = () => {
 		setFavsCopy(items)
 	}
 
+	const getDoc = id => {
+		let res = null
+
+		if (users) {
+			res = users.filter(doc => {
+				if (doc.id === id) {
+					return true
+				}
+				return false
+			})
+		}
+
+		return res[0]
+	}
+
 	return (
 		userDoc && (
 			<div className='tool-bar'>
@@ -175,7 +191,22 @@ const ToolBar = () => {
 					<NavLink to='/friends'>
 						<i className='fa-solid fa-address-book'></i>
 					</NavLink>
-					<NavLink to='/settings'>
+
+					<NavLink
+						to='/settings/account-details'
+						className={`${
+							[
+								'/settings/account-details',
+								'/settings/profile',
+								'/settings/theme',
+								'/settings',
+								'/settings/',
+								'/settings/become-cool',
+								'/settings/privacy-and-security',
+							].includes(location.pathname)
+								? 'active'
+								: ''
+						}`}>
 						<i className='fa-solid fa-gear'></i>
 					</NavLink>
 				</nav>
@@ -198,7 +229,7 @@ const ToolBar = () => {
 															{...provided.draggableProps}
 															{...provided.dragHandleProps}
 															ref={provided.innerRef}>
-															<Avatar src={f.thumb} />
+															<Avatar src={getDoc(f.uid) ? getDoc(f.uid).photoURL : ''} />
 														</Link>
 													)}
 												</Draggable>
@@ -238,7 +269,7 @@ const ToolBar = () => {
 																	{...provided.dragHandleProps}
 																	draggable='true'
 																	ref={provided.innerRef}>
-																	<Avatar src={f.thumb} />
+																	<Avatar src={getDoc(f.uid) ? getDoc(f.uid).photoURL : ''} />
 																	<div
 																		className='fav__remove'
 																		onClick={() => {
@@ -312,8 +343,9 @@ const ToolBar = () => {
 																chat.assignedUsers.map(
 																	u =>
 																		u.id !== user.uid &&
-																		u.displayName
-																			.toLowerCase()
+																		getDoc(u.id) !== null &&
+																		getDoc(u.id)
+																			.displayName.toLowerCase()
 																			.trim()
 																			.replace(/\s+/g, '')
 																			.includes(searchValue.toLowerCase()) && (
@@ -329,12 +361,18 @@ const ToolBar = () => {
 																						{...provided.draggableProps}
 																						ref={provided.innerRef}>
 																						<div className='flex-row'>
-																							{!snapshot.isDragging && <Avatar src={u.photoURL} />}
-																							{!snapshot.isDragging && <p>{u.displayName}</p>}
+																							{!snapshot.isDragging && (
+																								<Avatar src={getDoc(u.id) ? getDoc(u.id).photoURL : ''} />
+																							)}
+																							{!snapshot.isDragging && (
+																								<p>{getDoc(u.id) ? getDoc(u.id).displayName : ''}</p>
+																							)}
 																						</div>
 																						<div className='handle' {...provided.dragHandleProps}>
 																							{!snapshot.isDragging && <i className='fa-solid fa-grip-vertical'></i>}
-																							{snapshot.isDragging && <Avatar src={u.photoURL} />}
+																							{snapshot.isDragging && (
+																								<Avatar src={getDoc(u.id) ? getDoc(u.id).photoURL : ''} />
+																							)}
 																						</div>
 																					</li>
 																				)}

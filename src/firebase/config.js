@@ -24,6 +24,7 @@ const projectGoogle = new firebase.auth.GoogleAuthProvider()
 const projectGitHub = new firebase.auth.GithubAuthProvider()
 
 projectGoogle.setCustomParameters({ prompt: 'select_account' })
+
 // Timestamp
 const timestamp = firebase.firestore.Timestamp
 

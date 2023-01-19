@@ -1,12 +1,14 @@
 .avatar-container {
-	width: 45px;
-	height: 45px;
+	--size: 45px;
+	min-width: var(--size);
+	max-width: var(--size);
+	min-height: var(--size);
+	max-height: var(--size);
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: 50vw;
-	z-index: 100;
 	overflow: visible;
 
 	> a {
@@ -62,7 +64,6 @@
 		align-items: center;
 		border-radius: 50%;
 		background-color: var(--bg-secondary);
-		z-index: 10;
 
 		&__dot {
 			width: 68%;

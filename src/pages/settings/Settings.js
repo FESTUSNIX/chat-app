@@ -11,57 +11,55 @@ import premiumIcon from '../../assets/premium-account.png'
 import AvatarWithStatus from '../../components/AvatarWithStatus/AvatarWithStatus'
 import Modal from '../../components/Modal/Modal'
 import Loader from '../../components/Loader/Loader'
-import AccountDetails from './subpages/AccountDetails'
-import Profile from './subpages/Profile'
-import Theme from './subpages/Theme'
-import Premium from './subpages/Premium'
-import PrivacyAndSecurity from './subpages/PrivacyAndSecurity'
+import AccountDetails from './subpages/AccountDetails/AccountDetails'
+import Profile from './subpages/Profile/Profile'
+import Theme from './subpages/Theme/Theme'
+import Premium from './subpages/Premium/Premium'
+import PrivacyAndSecurity from './subpages/PrivacyAndSecurity/PrivacyAndSecurity'
 
 export default function Settings() {
 	const { user } = useAuthContext()
 	const { logout, error, isPending } = useLogout()
 
 	const [confirmLogout, setConfirmLogout] = useState(false)
-
 	return (
 		<div className='settings'>
 			<div className='wrapper'>
 				<aside className='settings__sidebar'>
-					<Link to='/settings/account-details' className='settings__sidebar-user'>
+					<Link to={`/profile/${user.uid}`} className='settings__sidebar-user'>
 						<AvatarWithStatus userId={user.uid} />
 						<div className='flex-column'>
 							<h3>{user.displayName}</h3>
-							<p>
-								{user.email.substring(0, 15)}
-								{user.email.length > 15 && <span>...</span>}
-							</p>
+							<p>{user.email && user.email}</p>
 						</div>
 					</Link>
 
-					<NavLink to='/settings/account-details' className='settings__sidebar-link'>
-						<i className='fa-solid fa-circle-user'></i>
-						<span>account details</span>
-					</NavLink>
-					<NavLink to='/settings/profile' className='settings__sidebar-link'>
-						<i className='fa-solid fa-address-card'></i>
-						<span>profile</span>
-					</NavLink>
-					<NavLink to='/settings/theme' className='settings__sidebar-link'>
-						<i className='fa-solid fa-paintbrush'></i>
-						<span>theme</span>
-					</NavLink>
-					<NavLink to='/settings/become-cool' className='settings__sidebar-link'>
-						<img src={premiumIcon} alt='Icon for premium account' />
-						<span>diznats pro</span>
-					</NavLink>
-					<NavLink to='/settings/privacy-and-security' className='settings__sidebar-link'>
-						<i className='fa-solid fa-shield-halved'></i>
-						<span>privacy & security</span>
-					</NavLink>
+					<div className='custom-scrollbar flex-column gap05'>
+						<NavLink to='/settings/account-details' className='settings__sidebar-link'>
+							<i className='fa-solid fa-circle-user'></i>
+							<span>account details</span>
+						</NavLink>
+						<NavLink to='/settings/profile' className='settings__sidebar-link'>
+							<i className='fa-solid fa-address-card'></i>
+							<span>profile</span>
+						</NavLink>
+						<NavLink to='/settings/theme' className='settings__sidebar-link'>
+							<i className='fa-solid fa-paintbrush'></i>
+							<span>theme</span>
+						</NavLink>
+						<NavLink to='/settings/become-cool' className='settings__sidebar-link'>
+							<img src={premiumIcon} alt='Icon for premium account' />
+							<span>plenvy pro</span>
+						</NavLink>
+						<NavLink to='/settings/privacy-and-security' className='settings__sidebar-link'>
+							<i className='fa-solid fa-shield-halved'></i>
+							<span>privacy & security</span>
+						</NavLink>
 
-					<div className='settings__sidebar-link logout' onClick={() => setConfirmLogout(true)}>
-						<span>log out</span>
-						<i className='fa-solid fa-arrow-right-from-bracket'></i>
+						<div className='settings__sidebar-link logout' onClick={() => setConfirmLogout(true)}>
+							<span>log out</span>
+							<i className='fa-solid fa-arrow-right-from-bracket'></i>
+						</div>
 					</div>
 
 					<Modal show={confirmLogout} setShow={() => setConfirmLogout(false)}>
@@ -73,11 +71,11 @@ export default function Settings() {
 						<p>Are you sure you want to Log Out?</p>
 
 						<div className='btn-group'>
-							<button className='btn' onClick={() => logout()}>
-								logout
-							</button>
 							<button className='btn btn--secondary' onClick={() => setConfirmLogout(false)}>
 								cancel
+							</button>
+							<button className='btn' onClick={() => logout()}>
+								logout
 							</button>
 						</div>
 
@@ -85,7 +83,7 @@ export default function Settings() {
 					</Modal>
 				</aside>
 
-				<div className='settings__content'>
+				<div className='settings__content custom-scrollbar'>
 					<Routes>
 						<Route path='account-details' element={<AccountDetails />} />
 						<Route path='profile' element={<Profile />} />

@@ -80,7 +80,10 @@
 			}
 
 			.bio {
-				font-size: 1.6rem;
+				margin-top: -0.3em;
+				word-wrap: break-word;
+				line-height: 1.1em;
+				font-size: 1.5rem;
 				color: var(--text-primary-darken20);
 				font-style: italic;
 			}
@@ -109,6 +112,7 @@
 		}
 
 		.account-status {
+			min-width: max-content;
 			display: flex;
 			align-items: center;
 			gap: 0.5em;
@@ -119,6 +123,9 @@
 
 			&--premium {
 				span {
+					-webkit-background-clip: text;
+					background-clip: text;
+					font-weight: bold;
 					background-image: linear-gradient(
 						to right,
 						#ff0018,
@@ -139,30 +146,20 @@
 						#8a39ef,
 						#8a39ef
 					);
+					color: transparent;
 				}
 			}
 
 			&--classic {
 				span {
-					background-image: linear-gradient(to right, #582612, #7e3315, #83371a, #974113);
-				}
-
-				i {
-					background-image: linear-gradient(to right, #441f10, #582612);
+					font-weight: bold;
+					color: #354167;
 				}
 			}
 
 			img {
 				width: 25px;
 				height: 25px;
-			}
-
-			span,
-			i {
-				-webkit-background-clip: text;
-				background-clip: text;
-				font-weight: bold;
-				color: transparent;
 			}
 		}
 
@@ -178,8 +175,10 @@
 		}
 
 		.avatar-container {
-			width: 180px;
-			height: 180px;
+			min-width: 180px;
+			max-width: 180px;
+			min-height: 180px;
+			max-height: 180px;
 			background-color: var(--bg-dark-lighten5);
 
 			.status {
@@ -197,7 +196,9 @@
 	}
 
 	&__comments {
+		max-height: 300px;
 		margin-top: auto;
+		overflow-y: auto;
 
 		.avatar {
 			min-width: 40px;

@@ -55,7 +55,6 @@ export default function ChatsList({ chats, inputRef }) {
 							u.id !== user.uid && (
 								<React.Fragment key={u.id}>
 									<AvatarWithStatus userId={u.id} />
-
 									<div className='chat-info'>
 										<p className='display-name'>
 											{u.nickname.substring(0, 18)}

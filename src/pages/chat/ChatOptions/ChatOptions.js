@@ -17,7 +17,7 @@ import ThemePicker from '../../../components/ThemePicker/ThemePicker'
 import './ChatOptions.scss'
 import AvatarWithStatus from '../../../components/AvatarWithStatus/AvatarWithStatus'
 
-export default function ChatOptions({ onMessageResponse, otherUser, chat, currentTheme }) {
+export default function ChatOptions({ onMessageResponse, otherUser, chat, currentTheme, otherUserLocal }) {
 	const uniqueId = uuid()
 
 	const { updateDocument, response } = useFirestore('projects')
@@ -72,22 +72,20 @@ export default function ChatOptions({ onMessageResponse, otherUser, chat, curren
 	const changeNickname = user => {
 		if (newNickname.trim() !== '' && newNickname.trim().length < 80) {
 			chat.assignedUsers.forEach(u => {
-				if (u !== user) {
+				if (u.id !== user.id) {
 					updateDocument(chat.id, {
 						assignedUsers: [
 							u,
 							{
 								id: user.id,
-								displayName: user.displayName,
 								nickname: newNickname.trim(),
-								photoURL: user.photoURL,
 							},
 						],
 					})
 					setShowNicknameModal(false)
 				}
-				if (u === user) {
-					sendMessage(`Set nickname of user ${u.displayName} to ${newNickname.trim()}`, newNickname.trim())
+				if (u.id === user.id) {
+					sendMessage(`Set nickname of user ${getDoc(u.id).displayName} to ${newNickname.trim()}`, newNickname.trim())
 				}
 			})
 		}
@@ -107,11 +105,26 @@ export default function ChatOptions({ onMessageResponse, otherUser, chat, curren
 		}
 	}
 
+	const getDoc = id => {
+		let res = null
+
+		if (users) {
+			res = users.filter(doc => {
+				if (doc.id === id) {
+					return true
+				}
+				return false
+			})[0]
+		}
+
+		return res
+	}
+
 	return (
 		<aside className='chat-options'>
 			{otherUser && <AvatarWithStatus userId={otherUser.id} linkToProfile={true} />}
 
-			<h3>{otherUser.nickname}</h3>
+			<h3>{otherUserLocal.nickname}</h3>
 
 			<div
 				className='option'
@@ -218,7 +231,7 @@ export default function ChatOptions({ onMessageResponse, otherUser, chat, curren
 							handleNicknameInput(u)
 						}}>
 						<div className='author'>
-							<Avatar src={u.photoURL} />
+							<Avatar src={getDoc(u.id) !== null ? getDoc(u.id).photoURL : ''} />
 							{showNicknameInput !== u.id && (
 								<div className='flex-column'>
 									<p className='user__display-name'>{u.nickname}</p>

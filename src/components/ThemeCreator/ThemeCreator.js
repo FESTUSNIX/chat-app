@@ -4,7 +4,7 @@ import { useFirestore } from '../../hooks/useFirestore'
 // Components
 import ThemePreview from './ThemePreview'
 import Field from './Field.js'
-import ColorPicker from './ColorPicker'
+import ColorPicker from '../ColorPicker/ColorPicker'
 
 // Styles && Assets
 import './ThemeCreator.scss'

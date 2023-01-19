@@ -1,5 +1,7 @@
 .settings {
 	width: 100%;
+	min-height: 100%;
+	max-height: 100vh;
 	display: flex;
 	padding: 1em;
 
@@ -7,9 +9,10 @@
 		width: 100%;
 		max-width: calc(100vw - 8em);
 		min-height: 100%;
+		max-height: calc(100vh - 2em);
 		position: relative;
 		display: flex;
-		margin: 0 auto;
+		flex-direction: column;
 		border-radius: 8px;
 		background-color: var(--bg-dark-lighten5);
 		overflow: hidden;
@@ -18,38 +21,58 @@
 
 	@media screen and (min-width: 576px) {
 		.wrapper {
-			max-width: calc(100vw - 12em);
+			max-width: calc(100vw - 10em);
 		}
 	}
 
 	@media screen and (min-width: 992px) {
 		.wrapper {
-			max-width: 800px;
+			max-width: calc(100vw - 8em);
+			flex-direction: row;
+		}
+
+		.settings {
+			&__sidebar {
+				width: max-content;
+
+				> .custom-scrollbar {
+					height: 100%;
+					max-height: unset;
+					padding: 0;
+					overflow-y: auto;
+				}
+			}
 		}
 	}
 
 	@media screen and (min-width: 1200px) {
 		.wrapper {
-			max-width: 900px;
+			max-width: 1100px;
 		}
 	}
 
 	@media screen and (min-width: 1600px) {
 		.wrapper {
-			max-width: 1000px;
+			max-width: 1400px;
 		}
 	}
 
 	&__sidebar {
-		width: max-content;
-		height: 100%;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		gap: 0.3em;
 		padding: 2em 1em 0.8em 1em;
 		background-color: var(--bg-dark-lighten15);
 
+		> .custom-scrollbar {
+			max-height: 150px;
+			padding: 0 0.5em;
+			overflow-y: auto;
+		}
+
 		&-link {
+			min-width: max-content;
 			display: flex;
 			align-items: center;
 			gap: 0.8em;
@@ -92,14 +115,14 @@
 				font-weight: bold;
 				background-color: var(--bg-dark-lighten25);
 				cursor: pointer;
-				color: #ad5649;
+				color: #f53649;
 
 				i {
-					color: #ad5649;
+					color: #f53649;
 				}
 
 				&:hover {
-					background-color: #9c2820;
+					background-color: #f53649;
 					color: var(--text-primary);
 
 					i {
@@ -123,15 +146,15 @@
 			.btn-group {
 				.btn {
 					&:nth-child(2) {
-						border: 1px solid #9c2820;
-						background-color: #9c2820;
+						border: 1px solid #f53649;
+						background-color: #f53649;
 						color: var(--text-primary);
 					}
 
 					&:nth-child(1) {
-						border: 1px solid #9c2820;
+						border: 1px solid #f53649;
 						background-color: transparent;
-						color: #9c2820;
+						color: #f53649;
 					}
 				}
 			}
@@ -151,11 +174,11 @@
 			}
 
 			.avatar-container {
-				width: 55px;
-				height: 55px;
+				--size: 55px;
 			}
 
 			h3 {
+				min-width: max-content;
 				font-weight: 500;
 				font-size: 1.6rem;
 			}
@@ -167,6 +190,25 @@
 	}
 
 	&__content {
-		padding: 2em 1.6em 0.8em 1.6em;
+		flex-grow: 1;
+		width: 100%;
+		height: 100%;
+		position: relative;
+		padding: 2.6em 3.2em;
+		overflow: hidden scroll;
+
+		.loader {
+			--size: 120px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.setting-title {
+			font-weight: 500;
+			text-transform: capitalize;
+			margin-bottom: 2em;
+		}
 	}
 }

@@ -96,13 +96,13 @@ export const GlobalStyles = createGlobalStyle`
 #root {
     --bg-dark: ${({ theme }) => theme.colors.bgDark};
     --bg-dark-lighten5: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 5)};
+    --bg-dark-lighten7: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 7)};
     --bg-dark-lighten10: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 10)};
     --bg-dark-lighten15: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 15)};
     --bg-dark-lighten20: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 20)};
     --bg-dark-lighten25: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 25)};
     --bg-dark-lighten90: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 90)};
     --bg-dark-lighten120: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 120)};
-    --bg-dark-darken80: #0000ff;
 
     --bg-secondary: ${({ theme }) => theme.colors.bgSecondary};
 	--bg-secondary-lighten5: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 5)};

@@ -5,40 +5,43 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import { useFirestore } from '../../hooks/useFirestore'
 import { useCollection } from '../../hooks/useCollection'
 
+// Styles && Assets
+import './Chat.scss'
+
 // Components
 import Messages from './Messages/Messages'
 import MessageField from './MessageField/MessageField'
 import Avatar from '../../components/Avatar/Avatar'
 import ChatOptions from './ChatOptions/ChatOptions'
 
-// Styles && Assets
-import './Chat.scss'
-
 export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 	const { user } = useAuthContext()
 	const { id } = useParams()
 	const { error, document } = useDocument('projects', id)
-	const { documents: users } = useCollection('users')
 	const { updateDocument } = useFirestore('projects')
 
 	const [isAssignedUser, setIsAssignedUser] = useState(false)
 	const [messageResponse, onMessageResponse] = useState(null)
 	const [bottomDiv, setBottomDiv] = useState(null)
 	const [showChatOptions, setShowChatOptions] = useState(false)
-	const [otherUser, setOtherUser] = useState(null)
-	const [currentUser, setCurrentUser] = useState(null)
+
+	const [otherUserLocal, setOtherUserLocal] = useState(null)
+	const [currentUserLocal, setCurrentUserLocal] = useState(null)
+
+	const { document: otherUserDoc } = useDocument('users', otherUserLocal ? otherUserLocal.id : null)
+	const { document: currentUserDoc } = useDocument('users', currentUserLocal ? currentUserLocal.id : null)
 
 	useEffect(() => {
 		if (document !== null) {
 			document.assignedUsers.forEach(u => {
 				if (u.id !== user.uid) {
-					setOtherUser(u)
+					setOtherUserLocal({ ...u })
 				}
 			})
 
 			document.assignedUsers.forEach(u => {
 				if (u.id === user.uid) {
-					setCurrentUser(u)
+					setCurrentUserLocal({ ...u })
 					setIsAssignedUser(true)
 				}
 			})
@@ -52,12 +55,10 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 			await updateDocument(document.id, {
 				isRead: true,
 				assignedUsers: [
-					otherUser,
+					otherUserLocal,
 					{
-						displayName: currentUser.displayName,
-						id: currentUser.id,
-						nickname: currentUser.nickname,
-						photoURL: currentUser.photoURL,
+						id: currentUserDoc.id,
+						nickname: currentUserLocal.nickname,
 						lastRead: document.messages[document.messages.length - 1].id,
 					},
 				],
@@ -73,29 +74,17 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 		return <div className='loading'>Loading...</div>
 	}
 
-	const getUserDoc = user => {
-		let res = null
-
-		if (users && user && user !== null) {
-			res = users.filter(u => {
-				return u.id === user.id
-			})[0]
-		}
-
-		return res
-	}
-
 	return (
 		<>
-			{isAssignedUser && otherUser && (
+			{isAssignedUser && otherUserDoc && currentUserDoc && (
 				<div className='chat'>
 					<div className='vertical-container'>
 						<div className='chat__top-bar'>
 							<div className='flex-row'>
-								<Avatar src={otherUser.photoURL} />
+								<Avatar src={otherUserDoc.photoURL} />
 								<div className='vertical-container'>
-									<h3>{otherUser.nickname}</h3>
-									{<p className='isActive'>{getUserDoc(otherUser) && otherUser && getUserDoc(otherUser).status}</p>}
+									<h3>{otherUserLocal.nickname}</h3>
+									{<p className='isActive'>{currentUserDoc.status ? currentUserDoc.status : ''}</p>}
 								</div>
 							</div>
 
@@ -118,8 +107,8 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 								chat={document}
 								onMessageResponse={onMessageResponse}
 								setBottomDiv={setBottomDiv}
-								otherUser={otherUser}
-								currentUser={currentUser}
+								otherUser={otherUserDoc}
+								currentUser={currentUserDoc}
 							/>
 							<MessageField
 								chat={document}
@@ -128,8 +117,8 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 								bottomDiv={bottomDiv}
 								inputRef={inputRef}
 								handleSeen={handleSeen}
-								otherUser={otherUser}
-								currentUser={currentUser}
+								otherUser={otherUserDoc}
+								currentUser={currentUserDoc}
 							/>
 						</div>
 					</div>
@@ -137,9 +126,10 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 					{showChatOptions && (
 						<ChatOptions
 							onMessageResponse={onMessageResponse}
-							otherUser={otherUser}
+							otherUser={otherUserDoc}
 							chat={document}
 							currentTheme={currentTheme}
+							otherUserLocal={otherUserLocal}
 						/>
 					)}
 				</div>

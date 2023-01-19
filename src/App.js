@@ -7,6 +7,7 @@ import styled, { ThemeProvider } from 'styled-components'
 
 // Styles
 import './App.scss'
+import 'react-toastify/dist/ReactToastify.css'
 
 // Components && Pages
 import Dashboard from './pages/dashboard/Dashboard'
@@ -20,7 +21,7 @@ import Chats from './components/Chats/Chats'
 import ToolBar from './components/ToolBar/ToolBar'
 import Profile from './pages/profile/Profile'
 import Settings from './pages/settings/Settings'
-import AccountDetails from './pages/settings/subpages/AccountDetails'
+
 
 function App() {
 	const inputRef = useRef(null)
@@ -69,7 +70,7 @@ function App() {
 					<BrowserRouter>
 						{user && <ToolBar />}
 						<Routes>
-							<Route path='/' element={user ? <Dashboard /> : <Navigate to='/' />} />
+							<Route path='/' element={user ? <Dashboard /> : <Navigate to='/login' />} />
 							<Route
 								path='/u/:id'
 								element={

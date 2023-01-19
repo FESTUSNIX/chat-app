@@ -12,6 +12,7 @@ import ReactCountryFlag from 'react-country-flag'
 // Styles && Assets
 import './Profile.scss'
 import premiumIcon from '../../assets/premium-account.png'
+import classicAccIcon from '../../assets/logo-default.png'
 
 // Components
 import AvatarWithStatus from '../../components/AvatarWithStatus/AvatarWithStatus'
@@ -39,21 +40,15 @@ export default function Profile() {
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 	const [showInputControls, setShowInputControls] = useState(false)
 
-	const handleStatus = async status => {
-		await updateDocument(user.uid, {
-			status: status,
-		})
-	}
-
 	const getDoc = id => {
 		let res = null
 		if (documents) {
-			documents.filter(doc => {
+			res = documents.filter(doc => {
 				if (doc.id === id) {
-					res = doc
 					return true
 				}
-			})
+				return false
+			})[0]
 		}
 
 		return res
@@ -179,18 +174,21 @@ export default function Profile() {
 						</div>
 
 						<div className='flex-column'>
-							<div className='account-status account-status--premium'>
-								<img src={premiumIcon} alt='Icon for premium account' />
-								<span>Diznats Pro</span>
-							</div>
-							{/* <div className='account-status account-status--classic'>
-								<i class='fa-solid fa-poo'></i>
-								<span>Diznats Classic</span>
-							</div> */}
-
+							{userDoc.premium && (
+								<div className='account-status account-status--premium'>
+									<img src={premiumIcon} alt='Icon for premium account' />
+									<span>Plenvy Pro</span>
+								</div>
+							)}
+							{!userDoc.premium && (
+								<div className='account-status account-status--classic'>
+									<img src={classicAccIcon} alt='Icon for classic account' />
+									<span>Plenvy Classic</span>
+								</div>
+							)}
 							<div className='btn-group'>
 								{id === user.uid && (
-									<Link to='/settings'>
+									<Link to='/settings/profile'>
 										<button className='action-btn btn'>edit profile</button>
 									</Link>
 								)}
@@ -213,10 +211,10 @@ export default function Profile() {
 					<div className='separator'></div>
 					<h3>someday there will be something</h3>
 
-					<div className='profile__comments'>
+					<div className='profile__comments custom-scrollbar'>
 						<div className='separator'></div>
 						<div className='comment-input'>
-							<Avatar src={user.photoURL} />
+							<Avatar src={userDoc.photoURL} />
 
 							<input
 								type='text'
