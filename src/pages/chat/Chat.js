@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import { useDocument } from '../../hooks/useDocument'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useFirestore } from '../../hooks/useFirestore'
-import { useCollection } from '../../hooks/useCollection'
 
 // Styles && Assets
 import './Chat.scss'

@@ -130,8 +130,6 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUse
 							setMessageToDelete={setMessageToDelete}
 							showImage={showImage}
 							setShowImage={setShowImage}
-							otherUser={otherUser}
-							currentUser={currentUser}
 						/>
 					))}
 				<div ref={bottomRef} className='bottom-ref'></div>

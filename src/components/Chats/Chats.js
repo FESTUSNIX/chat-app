@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useCollection } from '../../hooks/useCollection'
 import { useAuthContext } from '../../hooks/useAuthContext'
-import { useLogout } from '../../hooks/useLogout'
 import { Link } from 'react-router-dom'
 
 // Compontents
@@ -9,9 +8,11 @@ import ChatsList from './ChatsList'
 
 // Styles
 import './Chats.scss'
+import Avatar from '../Avatar/Avatar'
 
 export default function Chats({ currentChat, inputRef }) {
 	const { user } = useAuthContext()
+	const { documents: users } = useCollection('users')
 	const { documents: chats } = useCollection(
 		'projects',
 		['assignedUsersId', 'array-contains', user.uid],
@@ -22,62 +23,19 @@ export default function Chats({ currentChat, inputRef }) {
 
 	const eyes = useRef([])
 
-	useEffect(() => {
-		const handleMouseMove = event => {
-			if (eyes.current) {
-				eyes.current.forEach(eye => {
-					if (eye) {
-						let x = eye.getBoundingClientRect().left + eye.clientWidth / 2
-						let y = eye.getBoundingClientRect().top + eye.clientHeight / 2
+	const getDoc = id => {
+		let res = null
 
-						let radian = Math.atan2(event.pageX - x, event.pageY - y)
-						let rotation = radian * (180 / Math.PI) * -1
-
-						eye.style.transform = `rotate(${rotation}deg)`
-					}
-				})
-			}
+		if (users) {
+			res = users.filter(doc => {
+				if (doc.id === id) {
+					return true
+				}
+				return false
+			})[0]
 		}
 
-		window.addEventListener('mousemove', handleMouseMove)
-		return () => {
-			window.removeEventListener('mousemove', handleMouseMove)
-		}
-	}, [])
-
-	const handleSelect = async addUser => {
-		// // Check whether the group(chats in firestore) exists, if not create
-		// const combinedId = user.uid > addUser.id ? user.uid + addUser.id : addUser.id + user.uid
-		// try {
-		// 	const res = await getDoc(doc(projectFirestore, 'projects', combinedId))
-		// 	if (!res.exists() && user.uid !== addUser.id) {
-		// 		// Create a chat in chats collection
-		// 		await setDoc(doc(projectFirestore, 'projects', combinedId), {
-		// 			id: combinedId,
-		// 			assignedUsers: [
-		// 				{
-		// 					id: user.uid,
-		// 					displayName: user.displayName,
-		// 					nickname: user.displayName,
-		// 					photoURL: user.photoURL,
-		// 				},
-		// 				{
-		// 					id: addUser.id,
-		// 					displayName: addUser.displayName,
-		// 					nickname: addUser.displayName,
-		// 					photoURL: addUser.photoURL,
-		// 				},
-		// 			],
-		// 			assignedUsersId: [user.uid, addUser.id],
-		// 			chatEmoji: '1f44d',
-		// 			messages: [],
-		// 			updatedAt: timestamp.fromDate(new Date()),
-		// 			createdAt: timestamp.fromDate(new Date()),
-		// 			customThemes: [],
-		// 		})
-		// 	}
-		// } catch (err) {}
-		// setQuery('')
+		return res
 	}
 
 	const filterChats = chat => {
@@ -86,9 +44,10 @@ export default function Chats({ currentChat, inputRef }) {
 
 		chat.assignedUsers.forEach(u => {
 			if (u.id !== user.uid) {
+				console.log(u)
 				if (
-					u.displayName.toLowerCase().trim().replace(/\s+/g, '').includes(query.toLowerCase()) ||
-					u.nickname.toLowerCase().trim().replace(/\s+/g, '').includes(query.toLowerCase())
+					getDoc(u.id).displayName.toLowerCase().trim().replace(/\s+/g, '').includes(query.toLowerCase()) ||
+					(u.nickname && u.nickname.toLowerCase().trim().replace(/\s+/g, '').includes(query.toLowerCase()))
 				) {
 					result = true
 				}
@@ -121,9 +80,9 @@ export default function Chats({ currentChat, inputRef }) {
 												u =>
 													u.id !== user.uid && (
 														<Link to={`/u/${chat.id}`} key={u.id} className='user-chat' onClick={() => setQuery('')}>
-															<img src={u.photoURL} alt='' />
+															<Avatar src={getDoc(u.id).photoURL} />
 															<div className='user-chat-info'>
-																<span>{u.displayName}</span>
+																<span>{getDoc(u.id).displayName}</span>
 															</div>
 														</Link>
 													)
@@ -134,25 +93,6 @@ export default function Chats({ currentChat, inputRef }) {
 					)}
 					<div className='chats'>
 						{query === '' && chats && <ChatsList chats={chats} currentChat={currentChat} inputRef={inputRef} />}
-					</div>
-				</div>
-			</div>
-
-			<div className='nom-nom'>
-				<div className='nom-nom__eyes'>
-					<div
-						className='eye'
-						ref={e => {
-							eyes.current[0] = e
-						}}>
-						<div className='pupil'></div>
-					</div>
-					<div
-						className='eye'
-						ref={e => {
-							eyes.current[1] = e
-						}}>
-						<div className='pupil'></div>
 					</div>
 				</div>
 			</div>

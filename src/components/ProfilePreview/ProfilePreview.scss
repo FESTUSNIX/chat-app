@@ -29,8 +29,7 @@
 		justify-content: space-between;
 
 		.avatar-container {
-			width: 75px;
-			height: 75px;
+			--size: 75px;
 			background-color: var(--bg-dark-lighten20);
 
 			.status {
@@ -45,6 +44,7 @@
 		> a {
 			height: max-content;
 			padding: 0.2em;
+			z-index: 10;
 		}
 	}
 

@@ -40,14 +40,12 @@
 		margin-right: 10px;
 
 		.avatar-container {
-			width: 32px;
-			height: 32px;
+			--size: 32px;
 		}
 
 		.profile-preview-tooltip {
 			.avatar-container {
-				width: 75px;
-				height: 75px;
+				--size: 75px;
 			}
 		}
 	}
@@ -197,7 +195,7 @@
 			&__text {
 				border: 1px solid var(--bg-dark-lighten10);
 				background-image: none;
-				background-color: transparent;
+				background-color: var(--bg-dark);
 				color: var(--bg-dark-lighten90);
 			}
 		}

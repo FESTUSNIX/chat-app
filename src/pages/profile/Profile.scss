@@ -198,7 +198,7 @@
 	&__comments {
 		max-height: 300px;
 		margin-top: auto;
-		overflow-y: auto;
+		z-index: 50;
 
 		.avatar {
 			min-width: 40px;
@@ -270,8 +270,10 @@
 		}
 
 		.comments-container {
+			max-height: 500px;
 			display: flex;
 			flex-direction: column;
+			overflow-y: auto;
 
 			&__comment {
 				position: relative;

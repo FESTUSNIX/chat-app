@@ -17,6 +17,8 @@ const AccountDetails = () => {
 	const { user } = useAuthContext()
 	const { document: userDoc, error: docError } = useDocument('users', user.uid)
 
+	const [copyBtnText, setCopyBtnText] = useState('copy')
+
 	const isPasswordProvider = () => {
 		let res = false
 
@@ -29,6 +31,15 @@ const AccountDetails = () => {
 		return res
 	}
 
+	const copyInviteCode = () => {
+		navigator.clipboard.writeText(user.uid)
+		setCopyBtnText('copied')
+
+		setTimeout(() => {
+			setCopyBtnText('copy')
+		}, 1000)
+	}
+
 	if (docError) {
 		return <div className='error'>{docError}</div>
 	}
@@ -37,6 +48,17 @@ const AccountDetails = () => {
 			<div className='account-details'>
 				<h2 className='setting-title'>account details</h2>
 				<div className='account-details__details'>
+					<div className='account-details__details-field'>
+						<h3>invite code</h3>
+						<p>{user.uid}</p>
+
+						<button className='btn btn--secondary' onClick={() => copyInviteCode()}>
+							{copyBtnText}
+						</button>
+					</div>
+
+					<div className='separator'></div>
+
 					<Username />
 					<div className='separator'></div>
 

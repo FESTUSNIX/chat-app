@@ -1,8 +1,10 @@
 .avatar-container {
 	--size: 45px;
 	min-width: var(--size);
+	width: var(--size);
 	max-width: var(--size);
 	min-height: var(--size);
+	height: var(--size);
 	max-height: var(--size);
 	position: relative;
 	display: flex;

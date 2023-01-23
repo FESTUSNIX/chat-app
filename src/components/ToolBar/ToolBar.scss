@@ -21,10 +21,41 @@
 			font-size: 2rem;
 			background-color: var(--bg-secondary-lighten5);
 			color: var(--text-primary-darken100);
+			overflow: hidden;
+
+			&.friends {
+				.pending-indicator {
+					width: 20px;
+					height: 20px;
+					position: absolute;
+					top: 0;
+					right: 0;
+					padding: 0.1em;
+					border-radius: 50vw;
+					background-color: var(--bg-secondary-lighten5);
+					user-select: none;
+
+					p {
+						width: 100%;
+						height: 100%;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						border-radius: 50vw;
+						font-size: 1.5rem;
+						background-color: var(--text-accent);
+						color: var(--text-heading);
+					}
+				}
+			}
 
 			&.active {
 				background-color: var(--bg-secondary-lighten15);
 				color: var(--text-primary);
+
+				.pending-indicator {
+					background-color: var(--bg-secondary-lighten15);
+				}
 			}
 		}
 	}

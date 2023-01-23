@@ -189,6 +189,13 @@ body {
 	gap: 3em;
 }
 
+.absolute-center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
 .btn {
 	min-width: max-content;
 	display: block;
@@ -297,7 +304,6 @@ textarea {
 	min-height: 160px;
 }
 
-
 .error {
 	max-width: 40ch;
 	padding: 8px;
@@ -314,6 +320,9 @@ textarea {
 
 .text-capitalize {
 	text-transform: capitalize;
+}
+.text-uppercase {
+	text-transform: uppercase;
 }
 
 .cursor-pointer {

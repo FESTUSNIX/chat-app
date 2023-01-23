@@ -3,7 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{user_id} {
       allow read, create: if request.auth != null;
-      allow update: if request.auth.uid == user_id;
+      allow update: if request.auth.uid == user_id || request.resource.data.diff(resource.data).affectedKeys().hasAny(["profileComments", "friends"]);
     }
     match /projects/{project_id} {
       allow delete: if request.auth != null && (request.auth.uid in resource.data.assignedUsersId);

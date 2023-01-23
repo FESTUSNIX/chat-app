@@ -4,17 +4,22 @@ import { useAuthContext } from '../../../hooks/useAuthContext'
 import { useFirestore } from '../../../hooks/useFirestore'
 import { v4 as uuid } from 'uuid'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { useCollection } from '../../../hooks/useCollection'
 import EmojiPicker, { Emoji, EmojiStyle, Theme } from 'emoji-picker-react'
 import OutsideClickHandler from 'react-outside-click-handler'
 import imageCompression from 'browser-image-compression'
+// import Cryptr from 'cryptr'
 
 // Styles && Assets
 import './MessageField.scss'
 
 const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inputRef, otherUser, currentUser }) => {
+	// const cryptr = new Cryptr('myTotallySecretKey', { pbkdf2Iterations: 10000, saltLength: 10 })
+
 	const uniqueId = uuid()
 
 	const { updateDocument, response } = useFirestore('projects')
+	const { documents: users } = useCollection('users')
 	const { user } = useAuthContext()
 
 	const [newComment, setNewComment] = useState('')
@@ -24,7 +29,6 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 	const [sendFastEmoji, setSendFastEmoji] = useState(false)
 	const [showEmojis, setShowEmojis] = useState(false)
 	const [seen, setSeen] = useState(false)
-
 	const fileInputRef = useRef(null)
 
 	useEffect(() => {
@@ -44,10 +48,11 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 	}
 
 	const sendMessage = async () => {
+		// let encryptedMessage
+		// encryptedMessage = cryptr.encrypt(sendFastEmoji ? fastEmoji : newComment)
+
 		const commentToAdd = {
 			id: uniqueId,
-			displayName: user.displayName,
-			photoURL: user.photoURL,
 			content: sendFastEmoji ? fastEmoji : newComment,
 			createdAt: timestamp.fromDate(new Date()),
 			createdBy: user.uid,
@@ -76,10 +81,8 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 				assignedUsers: [
 					otherUser,
 					{
-						displayName: currentUser.displayName,
 						id: currentUser.id,
 						nickname: currentUser.nickname,
-						photoURL: currentUser.photoURL,
 						lastRead: chat.messages[chat.messages.length - 1].id,
 					},
 				],
@@ -101,8 +104,6 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 				getDownloadURL(snapshot.ref).then(async downloadURL => {
 					const commentToAdd = {
 						id: uniqueId,
-						displayName: user.displayName,
-						photoURL: user.photoURL,
 						// content: newComment,
 						fileType: imgUpload.type.includes('image/') ? 'image' : 'video',
 						image: downloadURL,
@@ -155,6 +156,21 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 		}
 	}
 
+	const getDoc = id => {
+		let res = null
+
+		if (users) {
+			res = users.filter(doc => {
+				if (doc.id === id) {
+					return true
+				}
+				return false
+			})[0]
+		}
+
+		return res
+	}
+
 	const handleKey = e => {
 		e.code === 'Enter' && handleSubmit(e)
 	}
@@ -185,7 +201,8 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 							<p className='response__to'>
 								Responding to{' '}
 								<span>
-									{chat.messages[messageResponse].displayName === user.displayName ? (
+									{/* //! */}
+									{getDoc(chat.messages[messageResponse].createdBy).displayName === user.displayName ? (
 										'yourself'
 									) : (
 										<b>{chat.messages[messageResponse].displayName}</b>

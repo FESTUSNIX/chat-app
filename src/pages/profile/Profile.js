@@ -30,10 +30,11 @@ export default function Profile() {
 	const { id } = useParams()
 	const { user } = useAuthContext()
 	const { error, document: userDoc } = useDocument('users', id)
+	const { document: currentUserDoc } = useDocument('users', user.uid)
+	const { documents: chats } = useCollection('projects')
 	const { documents } = useCollection('users')
 	const { updateDocument } = useFirestore('users')
 	const { formatDate } = useDates()
-	const { documents: chats } = useCollection('projects')
 
 	const [confirmDelete, setConfirmDelete] = useState(null)
 	const [comment, setComment] = useState('')
@@ -122,6 +123,20 @@ export default function Profile() {
 		return res
 	}
 
+	const notInFriends = () => {
+		if (!currentUserDoc.friends) return true
+
+		let count = 0
+
+		currentUserDoc.friends.forEach(f => {
+			if (f.id !== userDoc.id) {
+				count += 1
+			}
+		})
+
+		return currentUserDoc.friends.length === count ? true : false
+	}
+
 	if (error !== null) {
 		return <div className='error'>{error}</div>
 	}
@@ -195,13 +210,33 @@ export default function Profile() {
 
 								{id !== user.uid && (
 									<>
-										{/* // ! Show When User ISN'T Friend */}
-										{/* <button className='action-btn btn'>add friend</button> */}
+										{currentUserDoc && currentUserDoc.friends && (
+											<>
+												{currentUserDoc.friends.some(f => {
+													if (f.id === userDoc.id && f.accepted === true && f.isPending === false) {
+														return true
+													}
+													return false
+												}) && (
+													<Link to={`/u/${getChatId(userDoc.id)}`}>
+														<button className='action-btn btn'>send message</button>
+													</Link>
+												)}
 
-										{/* // ! Show When User IS Friend */}
-										<Link to={`/u/${getChatId(userDoc.id)}`}>
-											<button className='action-btn btn'>send message</button>
-										</Link>
+												{currentUserDoc.friends.some(f => {
+													if (f.id === userDoc.id && f.accepted === false && f.isPending === false) {
+														return true
+													}
+													return false
+												}) && (
+													<Link to={`/friends`}>
+														<button className='action-btn btn'>invite sent</button>
+													</Link>
+												)}
+											</>
+										)}
+
+										{currentUserDoc && notInFriends() && <button className='action-btn btn'>invite friend</button>}
 									</>
 								)}
 							</div>
@@ -209,7 +244,6 @@ export default function Profile() {
 					</div>
 
 					<div className='separator'></div>
-					<h3>someday there will be something</h3>
 
 					<div className='profile__comments custom-scrollbar'>
 						<div className='separator'></div>
@@ -276,7 +310,7 @@ export default function Profile() {
 							)}
 						</div>
 
-						<div className='comments-container'>
+						<div className='comments-container custom-scrollbar'>
 							{userDoc.profileComments &&
 								userDoc.profileComments.map(
 									comment =>

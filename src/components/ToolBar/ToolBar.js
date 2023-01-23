@@ -36,6 +36,7 @@ const ToolBar = () => {
 	const [searchValue, setSearchValue] = useState('')
 	const [favsCopy, setFavsCopy] = useState(favs)
 	const [showProfile, setShowProfile] = useState(false)
+	const [invitesAmount, setInvitesAmount] = useState(0)
 
 	useEffect(() => {
 		if (chats && chats !== null && chats.length !== 0) {
@@ -178,6 +179,17 @@ const ToolBar = () => {
 		return res[0]
 	}
 
+	useEffect(() => {
+		if (userDoc && userDoc.friends) {
+			setInvitesAmount(
+				userDoc.friends.filter(f => {
+					if (f.isPending) return true
+					return false
+				}).length
+			)
+		}
+	}, [userDoc])
+
 	return (
 		userDoc && (
 			<div className='tool-bar'>
@@ -188,8 +200,13 @@ const ToolBar = () => {
 					<NavLink to='/'>
 						<i className='fa-solid fa-house'></i>
 					</NavLink>
-					<NavLink to='/friends'>
+					<NavLink to='/friends' className='friends'>
 						<i className='fa-solid fa-address-book'></i>
+						{invitesAmount > 0 && (
+							<div className='pending-indicator'>
+								<p>{invitesAmount}</p>
+							</div>
+						)}
 					</NavLink>
 
 					<NavLink

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { BrowserRouter, Route, Redirect, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate, Link } from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
 import { GlobalStyles } from './theme/GlobalStyles'
 import { useCollection } from './hooks/useCollection'
-import styled, { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components'
 
 // Styles
 import './App.scss'
@@ -21,7 +21,7 @@ import Chats from './components/Chats/Chats'
 import ToolBar from './components/ToolBar/ToolBar'
 import Profile from './pages/profile/Profile'
 import Settings from './pages/settings/Settings'
-
+import Friends from './pages/friends/Friends'
 
 function App() {
 	const inputRef = useRef(null)
@@ -84,7 +84,19 @@ function App() {
 									)
 								}
 							/>
+							<Route
+								path='/u/'
+								element={
+									<div className='no-chats absolute-center '>
+										<h2>no chats yet</h2>
+										<Link to='/friends/'>
+											<button className='btn btn--secondary'>add friends</button>
+										</Link>
+									</div>
+								}
+							/>
 							<Route path='/profile/:id' element={user ? <Profile /> : <Navigate to='/' />} />
+							<Route path='/friends' element={user ? <Friends /> : <Navigate to='/' />} />
 							<Route path='/settings/*' element={user ? <Settings /> : <Navigate to='/' />} />
 							<Route path='/privacy-policy' element={<PrivacyPolicy />} />
 							<Route path='/recover-password' element={<ResetPassword />} />

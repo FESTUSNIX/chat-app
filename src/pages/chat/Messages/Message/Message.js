@@ -26,7 +26,6 @@ export default function Message({
 	setMessageToDelete,
 	showImage,
 	setShowImage,
-	otherUser,
 }) {
 	const { user } = useAuthContext()
 	const { updateDocument } = useFirestore('projects')
@@ -112,9 +111,7 @@ export default function Message({
 
 		const emojiToAdd = {
 			id: user.uid,
-			photoURL: user.photoURL,
 			content: e.emoji,
-			displayName: user.displayName,
 		}
 
 		chat.messages[indexOfMessage] = {
@@ -136,69 +133,6 @@ export default function Message({
 		}
 	}
 
-	const handleMessageStyle = (message, prev, next, prevIsDate, nextIsDate) => {
-		if (
-			next &&
-			(!prev ||
-				prev.createdBy !== message.createdBy ||
-				next.response !== null ||
-				prevIsDate ||
-				message.response !== null) &&
-			next.createdBy === message.createdBy &&
-			next.response === null &&
-			!nextIsDate
-		) {
-			if (message.createdBy === user.uid) {
-				return 'group-top owner'
-			} else {
-				return 'group-top'
-			}
-		} else if (
-			prev &&
-			next &&
-			(prev.createdBy === message.createdBy || prev.response !== null) &&
-			next.createdBy === message.createdBy &&
-			next.response === null &&
-			!prevIsDate &&
-			!nextIsDate
-		) {
-			if (message.createdBy === user.uid) {
-				return 'group-middle owner'
-			} else {
-				return 'group-middle'
-			}
-		} else if (
-			// prettier-ignore
-			prev &&
-			prev.createdBy === message.createdBy &&
-			message.response === null &&
-			(
-				(!next && message.response === null) ||
-				(
-					next && 
-					(
-						next.response !== null ||
-						next.createdBy !== message.createdBy ||
-						nextIsDate
-					)
-				)
-			) &&
-			!prevIsDate
-		) {
-			if (message.createdBy === user.uid) {
-				return 'group-bottom owner'
-			} else {
-				return 'group-bottom'
-			}
-		} else {
-			if (message.createdBy === user.uid) {
-				return 'owner'
-			} else {
-				return ''
-			}
-		}
-	}
-
 	const handleReactionNicknames = reaction => {
 		let nickname
 		chat.assignedUsers.forEach(u => {
@@ -217,8 +151,6 @@ export default function Message({
 		let otherUserReaction = null
 		if (reaction.id === user.uid) {
 			if (message.emojiReactions.length > 0) {
-				// otherUserReaction = message.emojiReactions.find(rec => rec.id !== user.uid)
-
 				message.emojiReactions.forEach(rec => {
 					if (rec !== null && rec.id !== user.uid) {
 						otherUserReaction = rec
@@ -260,6 +192,100 @@ export default function Message({
 		return res
 	}
 
+	const getLocalUser = id => {
+		let res = null
+
+		if (chat) {
+			chat.assignedUsers.forEach(u => {
+				if (u.id === id) {
+					res = u
+				}
+			})
+		}
+
+		return res
+	}
+
+	const isTop = () => {
+		if (
+			elements[i + 1] &&
+			(!elements[i - 1] ||
+				elements[i - 1].createdBy !== message.createdBy ||
+				elements[i + 1].response !== null ||
+				showSendDate(elements, i) ||
+				message.response !== null) &&
+			elements[i + 1].createdBy === message.createdBy &&
+			elements[i + 1].response === null &&
+			!showSendDate2(elements, i)
+		) {
+			return true
+		}
+
+		return false
+	}
+
+	const isMiddle = () => {
+		if (
+			elements[i - 1] &&
+			elements[i + 1] &&
+			(elements[i - 1].createdBy === message.createdBy || elements[i - 1].response !== null) &&
+			elements[i + 1].createdBy === message.createdBy &&
+			elements[i + 1].response === null &&
+			!showSendDate(elements, i) &&
+			!showSendDate2(elements, i)
+		) {
+			return true
+		}
+
+		return false
+	}
+
+	const isBottom = () => {
+		if (
+			elements[i - 1] &&
+			elements[i - 1].createdBy === message.createdBy &&
+			message.response === null &&
+			((!elements[i + 1] && message.response === null) ||
+				(elements[i + 1] &&
+					(elements[i + 1].response !== null ||
+						elements[i + 1].createdBy !== message.createdBy ||
+						showSendDate2(elements, i)))) &&
+			!showSendDate(elements, i)
+		) {
+			return true
+		}
+
+		return false
+	}
+
+	const handleMessageStyle = () => {
+		if (isTop()) {
+			if (message.createdBy === user.uid) {
+				return 'group-top owner'
+			} else {
+				return 'group-top'
+			}
+		} else if (isMiddle()) {
+			if (message.createdBy === user.uid) {
+				return 'group-middle owner'
+			} else {
+				return 'group-middle'
+			}
+		} else if (isBottom()) {
+			if (message.createdBy === user.uid) {
+				return 'group-bottom owner'
+			} else {
+				return 'group-bottom'
+			}
+		} else {
+			if (message.createdBy === user.uid) {
+				return 'owner'
+			} else {
+				return ''
+			}
+		}
+	}
+
 	return (
 		<>
 			{message.isSpecial && <div className='messages__centered mb05'>{message.content}</div>}
@@ -269,46 +295,13 @@ export default function Message({
 						<div className='messages__centered mb1 mt2'>{formatDate(message.createdAt)}</div>
 					)}
 					<li
-						className={`${handleMessageStyle(
-							message,
-							elements[i - 1],
-							elements[i + 1],
-							showSendDate(elements, i),
-							showSendDate2(elements, i)
-						)} ${message.deleted ? 'deleted' : ''} ${message.emojiReactions ? 'emoji-response' : ''}`}
+						className={`${handleMessageStyle()} ${message.deleted ? 'deleted' : ''} ${
+							message.emojiReactions ? 'emoji-response' : ''
+						}`}
 						id={message.id}>
-						{message.createdBy !== user.uid && // top
-							((elements[i + 1] &&
-								(!elements[i - 1] ||
-									elements[i - 1].createdBy !== message.createdBy ||
-									elements[i + 1].response !== null ||
-									showSendDate(elements, i) ||
-									message.response !== null) &&
-								elements[i + 1].createdBy === message.createdBy &&
-								elements[i + 1].response === null &&
-								!showSendDate2(elements, i)) ||
-								!(
-									// middle
-									(
-										(elements[i - 1] &&
-											elements[i + 1] &&
-											(elements[i - 1].createdBy === message.createdBy || elements[i - 1].response !== null) &&
-											elements[i + 1].createdBy === message.createdBy &&
-											elements[i + 1].response === null &&
-											!showSendDate(elements, i) &&
-											!showSendDate2(elements, i)) ||
-										// bottom
-										(elements[i - 1] &&
-											elements[i - 1].createdBy === message.createdBy &&
-											message.response === null &&
-											((!elements[i + 1] && message.response === null) ||
-												(elements[i + 1] &&
-													(elements[i + 1].response !== null ||
-														elements[i + 1].createdBy !== message.createdBy ||
-														showSendDate2(elements, i)))) &&
-											!showSendDate(elements, i))
-									)
-								)) && <p className='message-author'>{otherUser.nickname}</p>}
+						{message.createdBy !== user.uid && (isTop() || !(isMiddle() || isBottom())) && (
+							<p className='message-author'>{getLocalUser(message.createdBy).nickname}</p>
+						)}
 
 						{message.response !== null && (
 							<div
@@ -333,31 +326,10 @@ export default function Message({
 						<div className='message-content'>
 							{message.createdBy !== user.uid && (
 								<div className='left-margin'>
-									{!(
-										// middle
-										(
-											elements[i - 1] &&
-											elements[i + 1] &&
-											(elements[i - 1].createdBy === message.createdBy || elements[i - 1].response !== null) &&
-											elements[i + 1].createdBy === message.createdBy &&
-											elements[i + 1].response === null &&
-											!showSendDate(elements, i) &&
-											!showSendDate2(elements, i)
-										)
-									) &&
+									{!isMiddle() &&
 										!(
 											// top
-											(
-												elements[i + 1] &&
-												(!elements[i - 1] ||
-													elements[i - 1].createdBy !== message.createdBy ||
-													elements[i + 1].response !== null ||
-													showSendDate(elements, i) ||
-													message.response !== null) &&
-												elements[i + 1].createdBy === message.createdBy &&
-												elements[i + 1].response === null &&
-												!showSendDate2(elements, i)
-											)
+											isTop()
 										) && (
 											<div className='cursor-pointer' onClick={() => setShowProfilePrev(message.id)}>
 												<AvatarWithStatus userId={message.createdBy} noStatus={true} />
@@ -425,9 +397,9 @@ export default function Message({
 															}}
 															key={reaction.id}>
 															<div className='reaction__author'>
-																<Avatar src={reaction.photoURL} />
+																<Avatar src={getDoc(reaction.id).photoURL} />
 																<div>
-																	<p>{reaction.displayName}</p>
+																	<p>{getLocalUser(reaction.id).nickname}</p>
 																	{reaction.id === user.uid && <p>Click to delete</p>}
 																</div>
 															</div>
@@ -508,9 +480,9 @@ export default function Message({
 								u =>
 									u.lastRead === message.id &&
 									u.id !== user.uid && (
-										<>
-											<Avatar src={getDoc(u.id) !== null ? getDoc(u.id).photoURL : ''} key={u.id} />
-										</>
+										<React.Fragment key={u.id}>
+											<Avatar src={getDoc(u.id) !== null ? getDoc(u.id).photoURL : ''} />
+										</React.Fragment>
 									)
 							)}
 						</div>

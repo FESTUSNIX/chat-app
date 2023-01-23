@@ -17,8 +17,8 @@
     - Github [✅]
 11. Sending images and message at the same time [❌]
 12. Remind password if forgot (login screen) [✅]
-13. Friend invites (change the chat add/invitation system) [❌]
-14. Blocking people [❌]
+13. Friend invites (change the chat add/invitation system) [✅]
+<!-- 14. Blocking people [❌] -->
 15. Mobile version [❌]
 16. Make visitable profiles [✅]
 
@@ -30,11 +30,13 @@
     - Changing profile picture [✅]
     - Changing username [✅]
 
-18. Customize chats:
+18. Change signup and login page [❌]
+
+19. Customize chats:
     - Themes [✅]
     - Nicknames [✅]
     - Custom emoji [✅]
-19. Migrate the app to windows, macOS, android and ios with use of Electron [❌]
-20. Comment the code [❌]
+20. Migrate the app to windows, macOS, android and ios with use of Electron [❌]
+21. Comment the code [❌]
 
 # Celebrate 🥳🥳🥳
