@@ -1,0 +1,140 @@
+.input-field {
+	position: relative;
+	border: 2px solid var(--bg-dark-lighten10);
+	// border: 2px solid transparent;
+	border-radius: var(--border-radius);
+	background-color: var(--bg-dark-lighten5);
+	transition: border 0.3s;
+
+	input {
+		width: 100%;
+		padding: 0.8em 1em 0.8em 1em;
+		border: none;
+		outline: none;
+		font-size: 1.6rem;
+		background-color: transparent;
+		color: var(--text-primary);
+		z-index: 6;
+	}
+
+	&:has(label) {
+		input {
+			padding: 1.2em 0.8em 0.6em 0.8em;
+		}
+	}
+
+	label {
+		position: absolute;
+		top: 50%;
+		margin-bottom: 0;
+		pointer-events: none;
+		font-size: 1.5rem;
+		color: var(--text-mid-contrast);
+		transform: translate(0.8em, -50%) scale(1);
+		transform-origin: top left;
+		transition: 0.2s cubic-bezier(0, 0, 0.2, 1) 0ms;
+		z-index: 5;
+
+		&.active {
+			transform: translate(0.8em, -100%) scale(0.8);
+			color: var(--text-primary-darken50);
+		}
+	}
+
+	&:focus-within {
+		border: 2px solid var(--text-accent);
+
+		label {
+			transform: translate(0.8em, -100%) scale(0.8);
+			color: var(--text-accent);
+		}
+	}
+
+	&.field-error {
+		border: 2px solid #ff6681;
+		animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+		transform: translate3d(0, 0, 0);
+		backface-visibility: hidden;
+		perspective: 1000px;
+
+		@keyframes shake {
+			10%,
+			90% {
+				transform: translate3d(-1px, 0, 0);
+			}
+
+			20%,
+			80% {
+				transform: translate3d(2px, 0, 0);
+			}
+
+			30%,
+			50%,
+			70% {
+				transform: translate3d(-2px, 0, 0);
+			}
+
+			40%,
+			60% {
+				transform: translate3d(2px, 0, 0);
+			}
+		}
+
+		label {
+			color: #ff6681;
+		}
+
+		.input-field__icon {
+			display: block;
+			color: #ff6681;
+			animation: show 0.3s linear 1;
+		}
+	}
+
+	&__optional {
+		vertical-align: middle;
+		font-size: 1.3rem;
+		font-style: italic;
+	}
+
+	&__icon {
+		display: none;
+		position: absolute;
+		top: 50%;
+		right: 0.8em;
+		font-size: 2.2rem;
+		color: #ff6681;
+		transform: translateY(-50%);
+		transform-origin: center;
+
+		&--password {
+			display: block;
+			cursor: pointer;
+			color: var(--text-primary-darken100);
+			transition: color 0.3s;
+
+			&:hover {
+				color: var(--text-primary-darken50);
+			}
+		}
+	}
+
+	@keyframes show {
+		0% {
+			opacity: 0;
+			scale: 0;
+		}
+		60% {
+			opacity: 1;
+			scale: 1.2;
+		}
+		80% {
+			opacity: 1;
+			scale: 0.8;
+		}
+		100% {
+			opacity: 1;
+			scale: 1;
+		}
+	}
+}

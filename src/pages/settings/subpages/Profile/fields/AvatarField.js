@@ -214,13 +214,12 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 									})}>
 									<input {...getInputProps()} />
 									<button className='btn' onClick={open}>
-										Upload Image
+										browse files
 									</button>
 									<p>...or drag and drop image</p>
 								</section>
 							)}
 
-							{files && console.log(files[0])}
 							{files && (
 								<div className='crop-container'>
 									<div className='modal__content-padding'>

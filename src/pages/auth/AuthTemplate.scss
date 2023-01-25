@@ -1,0 +1,221 @@
+.auth {
+	width: 100%;
+	min-height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 0;
+
+	// background-image: url('./paving-stones-g0ee6368bb_1920.jpg');
+	// &::before {
+	// 	content: '';
+	// 	position: absolute;
+	// 	top: 0;
+	// 	left: 0;
+	// 	bottom: 0;
+	// 	right: 0;
+	// 	z-index: 1;
+	// 	background-color: rgba(0, 0, 0, 0.8);
+	// 	backdrop-filter: blur(15px);
+	// }
+
+	&__background-canvas {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		pointer-events: none;
+		user-select: none;
+		z-index: -1;
+
+		&-container {
+			width: 100%;
+			height: 100%;
+			position: relative;
+
+			svg {
+				position: absolute;
+
+				&.one {
+					top: 0;
+				}
+				&.two {
+					bottom: 0;
+				}
+
+				path {
+					fill: var(--bg-dark-lighten5);
+				}
+			}
+		}
+	}
+
+	.wrapper {
+		width: 100%;
+		max-width: calc(100vw - 3em);
+		min-height: 100%;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		margin: 0 auto;
+		z-index: 10;
+	}
+
+	@media screen and (min-width: 576px) {
+		.wrapper {
+			max-width: calc(100vw - 5em);
+		}
+	}
+
+	@media screen and (min-width: 992px) {
+		.wrapper {
+			max-width: calc(100vw - 10em);
+		}
+	}
+
+	@media screen and (min-width: 1600px) {
+		.wrapper {
+			max-width: 1400px;
+		}
+	}
+
+	&__logo {
+		margin: 1em auto 1em 0;
+		display: flex;
+		align-items: center;
+		gap: 0.8em;
+		pointer-events: none;
+		user-select: none;
+
+		img {
+			border-radius: 50vw;
+			width: 30px;
+			height: 30px;
+		}
+
+		h1 {
+			font-size: 2.4rem;
+			font-weight: 900;
+		}
+	}
+
+	&__change-page {
+		align-self: center;
+		font-size: 1.6rem;
+		color: var(--text-primary-darken20);
+
+		a {
+			text-decoration: none;
+			color: var(--text-accent);
+			cursor: pointer;
+		}
+	}
+
+	&__form {
+		width: 100%;
+		height: 100%;
+		flex-grow: 1;
+		align-self: center;
+		justify-self: center;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+
+		&-title {
+			margin-bottom: 1.5em;
+
+			h2 {
+				margin-bottom: 0.2em;
+				font-size: 3.6rem;
+				font-weight: 900;
+			}
+		}
+
+		&-email-sent {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			img {
+				width: 100%;
+			}
+
+			.btn {
+				margin-bottom: 1em;
+			}
+
+			.redirect {
+				font-size: 1.4rem;
+				color: var(--text-low-contrast);
+			}
+		}
+
+		&-reset-password {
+			align-self: flex-end;
+			margin-bottom: 0.5em;
+			border: 0;
+			font-size: 1.6rem;
+			text-decoration: none;
+			background-color: transparent;
+			color: var(--text-accent);
+			cursor: pointer;
+		}
+
+		.btn {
+			padding: 0.8em;
+			margin-top: 2em;
+			font-weight: bold;
+			font-size: 1.6rem;
+
+			&.forgot-password {
+				margin: 0.5em 0;
+			}
+		}
+	}
+
+	@media screen and (min-width: 576px) {
+		&__form {
+			&-title {
+				margin-bottom: 3em;
+
+				h2 {
+					font-size: 5rem;
+				}
+
+				p {
+					font-size: 2rem;
+				}
+			}
+		}
+	}
+
+	@media screen and (min-width: 768px) {
+		&__logo {
+			margin: 2.4em auto 0 0;
+		}
+		&__form {
+			width: 75%;
+		}
+	}
+
+	@media screen and (min-width: 992px) {
+		&__form {
+			width: 60%;
+		}
+	}
+	@media screen and (min-width: 1200px) {
+		&__form {
+			width: 50%;
+		}
+	}
+
+	@media screen and (min-width: 1600px) {
+	}
+}
+
+@media screen and (max-width: 576px) {
+	body:has(.App > .auth) {
+		overflow: hidden auto;
+	}
+}

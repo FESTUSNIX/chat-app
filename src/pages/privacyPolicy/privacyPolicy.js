@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function PrivacyPolicy() {
 	return (
 		<>
@@ -20,15 +18,15 @@ export default function PrivacyPolicy() {
 				<h3>Bezpieczeństwo danych</h3>
 
 				<p>
-					Twoje dane są automatycznie szyfrowane przez usługę firebase od google. Nikt nieautoryzowany nie ma dostępu do
-					twoich danych.
+					Twoje dane są automatycznie szyfrowane przez usługę firebase od google. Nikt nie ma dostępu do twoich danych.
 				</p>
 			</div>
 			<div class='privacy-section'>
 				<h3>Usuwanie danych</h3>
 
 				<p>
-					Jeśli zrezygnujesz z używania naszej aplikacji w każdym momencie możesz do nas napisać na maila "matkowsky808@gmail" lub wykorzystać funkcję w ustawieniach, aby usunąć konto oraz swoje dane.
+					Jeśli zrezygnujesz z używania naszej aplikacji w każdym momencie możesz usunąć konto oraz swoje dane
+					{'(settings => account details => delete account)'}.
 				</p>
 			</div>
 

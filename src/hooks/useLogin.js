@@ -140,6 +140,10 @@ export const useLogin = () => {
 				setIsPending(false)
 				setError(null)
 				setIsFinished(true)
+
+				setTimeout(() => {
+					navigate('/login')
+				}, 1000)
 			}
 		} catch (err) {
 			if (!isCancelled) {

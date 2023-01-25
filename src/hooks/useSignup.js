@@ -22,12 +22,14 @@ export const useSignup = () => {
 			if (!res) {
 				throw new Error('Could not complete signup')
 			}
+			let imgUrl = ''
 
-			// Upload thumbnail
-
-			const uploadPath = `thumbnails/${res.user.uid}/${thumbnail.name}`
-			const img = await projectStorage.ref(uploadPath).put(thumbnail)
-			const imgUrl = await img.ref.getDownloadURL()
+			if (thumbnail) {
+				// Upload thumbnail
+				const uploadPath = `thumbnails/${res.user.uid}/${thumbnail.name}`
+				const img = await projectStorage.ref(uploadPath).put(thumbnail)
+				imgUrl = await img.ref.getDownloadURL()
+			}
 
 			// Add display name to user
 			await res.user.updateProfile({ displayName, photoURL: imgUrl })
