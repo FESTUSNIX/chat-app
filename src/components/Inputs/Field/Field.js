@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 // Styles
-import './Field.scss'
 import '../InputStyles.scss'
 
 // Components
@@ -19,32 +18,50 @@ const TextField = ({
 	onLostFocus,
 	type,
 	optional,
+	onClick,
+	containerClass,
+	inputClass,
+	after,
 }) => {
 	const [showPassword, setShowPassword] = useState(false)
 
 	if ((value, setValue)) {
 		return (
-			<FieldContainer error={error} title={title} helpText={helpText} optional={optional}>
-				<div className={`input-field ${error ? 'field-error' : ''}`}>
+			<FieldContainer
+				error={error}
+				title={title}
+				helpText={helpText}
+				optional={optional}
+				containerClass={containerClass}>
+				<div
+					className={`input-field ${error ? 'field-error' : ''}`}
+					onClick={() => {
+						if (onClick) onClick()
+					}}>
 					{label && (
-						<label className={`${value.trim().length > 0 ? 'active' : ''}`}>
+						<div className={`input-field__label ${value.trim().length > 0 ? 'active' : ''}`}>
 							{label}
 							{optional && <span className='input-field__optional'> - Optional</span>}
-						</label>
+						</div>
 					)}
 
 					<input
 						type={showPassword ? 'text' : type}
+						className={inputClass ? inputClass : ''}
 						value={value}
 						onChange={e => setValue(e.target.value)}
 						placeholder={placeholder && !label ? placeholder : ''}
 						onBlur={() => {
-							resetError()
-							onLostFocus()
+							if (resetError) resetError()
+							if (onLostFocus) onLostFocus()
 						}}
 					/>
 
-					{error && type !== 'password' && <i className='fa-solid fa-circle-exclamation input-field__icon'></i>}
+					{!error && after && <div className='input-field__icon input-field__icon--after'>{after}</div>}
+
+					{error && type !== 'password' && (
+						<i className='fa-solid fa-circle-exclamation  input-field__icon input-field__icon--error'></i>
+					)}
 
 					{type === 'password' && (
 						<>

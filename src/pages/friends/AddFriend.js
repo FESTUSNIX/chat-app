@@ -6,13 +6,16 @@ import { useCollection } from '../../hooks/useCollection'
 import { useDocument } from '../../hooks/useDocument'
 import { useFirestore } from '../../hooks/useFirestore'
 
+// Components
+import Field from '../../components/Inputs/Field/Field'
+
 const AddFriend = () => {
 	const { user } = useAuthContext()
 	const { document: currentUserDoc } = useDocument('users', user.uid)
 	const { documents: users } = useCollection('users')
 	const { updateDocument } = useFirestore('users')
 
-	const [error, setError] = useState(null)
+	const [inputError, setInputError] = useState(null)
 	const [userCode, setUserCode] = useState('')
 
 	const notify = message =>
@@ -28,7 +31,7 @@ const AddFriend = () => {
 		})
 
 	const addFriend = async () => {
-		setError(null)
+		setInputError(null)
 
 		let userDoc = null
 
@@ -38,12 +41,16 @@ const AddFriend = () => {
 			}
 		})
 
+		if (userCode === '') {
+			setInputError('Please enter code')
+			return
+		}
 		if (userDoc === null) {
-			setError('Could not find user with this id')
+			setInputError('Could not find user with this id')
 			return
 		}
 		if (currentUserDoc.friends && currentUserDoc.friends.some(f => f.id === userCode.trim())) {
-			setError("You've already invited this user or this user has invited you")
+			setInputError("You've already invited this user or this user has invited you")
 			return
 		}
 
@@ -73,7 +80,7 @@ const AddFriend = () => {
 			notify('Successfully sent invite')
 			setUserCode('')
 		} catch (error) {
-			setError(error.message)
+			setInputError(error.message)
 			console.log(error.message)
 		}
 	}
@@ -89,18 +96,18 @@ const AddFriend = () => {
 				</span>
 			</div>
 
-			<label className='friends__add-code-input'>
-				<input
-					type='text'
-					placeholder='Enter Friends Invite Code'
-					value={userCode}
-					onChange={e => setUserCode(e.target.value)}
-				/>
-				<button className='btn btn--secondary text-capitalize' onClick={() => addFriend()}>
-					send friend invite
-				</button>
-			</label>
-			{error && <div className='error'>{error}</div>}
+			<Field
+				value={userCode}
+				setValue={setUserCode}
+				placeholder='Enter Code'
+				error={inputError}
+				resetError={() => setInputError(null)}
+				after={
+					<button className='btn btn--secondary text-capitalize' onClick={() => addFriend()}>
+						invite
+					</button>
+				}
+			/>
 		</div>
 	)
 }

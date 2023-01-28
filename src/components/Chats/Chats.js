@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useCollection } from '../../hooks/useCollection'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { Link } from 'react-router-dom'
@@ -9,8 +9,10 @@ import ChatsList from './ChatsList'
 // Styles
 import './Chats.scss'
 import Avatar from '../Avatar/Avatar'
+import AvatarWithStatus from '../AvatarWithStatus/AvatarWithStatus'
+import MediaQuery from 'react-responsive'
 
-export default function Chats({ currentChat, inputRef }) {
+export default function Chats({ currentChat, inputRef, setShowChat }) {
 	const { user } = useAuthContext()
 	const { documents: users } = useCollection('users')
 	const { documents: chats } = useCollection(
@@ -20,8 +22,6 @@ export default function Chats({ currentChat, inputRef }) {
 	)
 
 	const [query, setQuery] = useState('')
-
-	const eyes = useRef([])
 
 	const getDoc = id => {
 		let res = null
@@ -44,7 +44,6 @@ export default function Chats({ currentChat, inputRef }) {
 
 		chat.assignedUsers.forEach(u => {
 			if (u.id !== user.uid) {
-				console.log(u)
 				if (
 					getDoc(u.id).displayName.toLowerCase().trim().replace(/\s+/g, '').includes(query.toLowerCase()) ||
 					(u.nickname && u.nickname.toLowerCase().trim().replace(/\s+/g, '').includes(query.toLowerCase()))
@@ -58,44 +57,52 @@ export default function Chats({ currentChat, inputRef }) {
 	}
 
 	return (
-		<div className='user-list'>
-			{/* <div className="blur"></div> */}
-			<div className='search'>
+		<div className='chats'>
+			<div className='page-title'>
 				<h2>Chats</h2>
-				<div>
-					<div className='search-form'>
-						<label>
-							<i className='fa-solid fa-magnifying-glass'></i>
-							<input type='text' placeholder='Find a user' onChange={e => setQuery(e.target.value)} value={query} />
-						</label>
-					</div>
-					{query !== '' && (
-						<>
-							<div className='add-users'>
-								{chats &&
-									chats
-										.filter(chat => filterChats(chat))
-										.map(chat =>
-											chat.assignedUsers.map(
-												u =>
-													u.id !== user.uid && (
-														<Link to={`/u/${chat.id}`} key={u.id} className='user-chat' onClick={() => setQuery('')}>
-															<Avatar src={getDoc(u.id).photoURL} />
-															<div className='user-chat-info'>
-																<span>{getDoc(u.id).displayName}</span>
-															</div>
-														</Link>
-													)
-											)
-										)}
-							</div>
-						</>
-					)}
-					<div className='chats'>
-						{query === '' && chats && <ChatsList chats={chats} currentChat={currentChat} inputRef={inputRef} />}
-					</div>
-				</div>
+				<MediaQuery maxWidth={768}>
+					<Link to={`/profile/${user.uid}`}>
+						<AvatarWithStatus userId={user.uid} linkToProfile={false} noTooltip={true} />
+					</Link>
+				</MediaQuery>
 			</div>
+
+			<label className='chats__search-bar'>
+				<i className='fa-solid fa-magnifying-glass'></i>
+				<input type='text' placeholder='Find a user' onChange={e => setQuery(e.target.value)} value={query} />
+			</label>
+
+			{query !== '' && (
+				<>
+					<div className='chats__filtered'>
+						{chats &&
+							chats
+								.filter(chat => filterChats(chat))
+								.map(chat =>
+									chat.assignedUsers.map(
+										u =>
+											u.id !== user.uid && (
+												<Link
+													to={`/u/${chat.id}`}
+													key={u.id}
+													className='chats__filtered-user'
+													onClick={() => {
+														setQuery('')
+													}}>
+													<Avatar src={getDoc(u.id).photoURL} />
+
+													<span>{getDoc(u.id).displayName}</span>
+												</Link>
+											)
+									)
+								)}
+					</div>
+				</>
+			)}
+
+			{query === '' && chats && (
+				<ChatsList chats={chats} currentChat={currentChat} inputRef={inputRef} setShowChat={setShowChat} />
+			)}
 		</div>
 	)
 }

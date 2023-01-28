@@ -1,10 +1,13 @@
 .input-field {
 	position: relative;
+	display: flex;
+	align-items: center;
+	margin-bottom: 0;
 	border: 2px solid var(--bg-dark-lighten10);
-	// border: 2px solid transparent;
 	border-radius: var(--border-radius);
 	background-color: var(--bg-dark-lighten5);
 	transition: border 0.3s;
+	cursor: text;
 
 	input {
 		width: 100%;
@@ -17,13 +20,13 @@
 		z-index: 6;
 	}
 
-	&:has(label) {
+	&:has(.input-field__label) {
 		input {
 			padding: 1.2em 0.8em 0.6em 0.8em;
 		}
 	}
 
-	label {
+	&__label {
 		position: absolute;
 		top: 50%;
 		margin-bottom: 0;
@@ -41,10 +44,33 @@
 		}
 	}
 
+	&__after {
+		width: max-content;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		i {
+			font-size: 2.2rem;
+			color: var(--text-primary-darken100);
+		}
+	}
+
+	&__before {
+		margin-left: 0.8em;
+	}
+
+	&__after {
+		position: absolute;
+		top: 50%;
+		right: 0.8em;
+		transform: translateY(-50%);
+	}
+
 	&:focus-within {
 		border: 2px solid var(--text-accent);
 
-		label {
+		.input-field__label {
 			transform: translate(0.8em, -100%) scale(0.8);
 			color: var(--text-accent);
 		}
@@ -80,7 +106,7 @@
 			}
 		}
 
-		label {
+		.input-field__label {
 			color: #ff6681;
 		}
 
@@ -98,7 +124,6 @@
 	}
 
 	&__icon {
-		display: none;
 		position: absolute;
 		top: 50%;
 		right: 0.8em;
@@ -106,16 +131,26 @@
 		color: #ff6681;
 		transform: translateY(-50%);
 		transform-origin: center;
+		cursor: text;
+		z-index: 10;
 
 		&--password {
 			display: block;
-			cursor: pointer;
 			color: var(--text-primary-darken100);
 			transition: color 0.3s;
+			cursor: pointer;
 
 			&:hover {
 				color: var(--text-primary-darken50);
 			}
+		}
+
+		&--error {
+			display: none;
+		}
+
+		&--after {
+			color: var(--text-primary-darken100);
 		}
 	}
 

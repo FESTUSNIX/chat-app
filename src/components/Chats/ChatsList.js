@@ -1,6 +1,6 @@
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
-import { useCollection } from '../../hooks/useCollection'
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNow'
 
 // Styles && Assets
@@ -8,11 +8,9 @@ import './ChatsList.scss'
 
 // Components
 import AvatarWithStatus from '../AvatarWithStatus/AvatarWithStatus'
-import React from 'react'
 
-export default function ChatsList({ chats, inputRef }) {
+export default function ChatsList({ chats, inputRef, setShowChat }) {
 	const { user } = useAuthContext()
-	const { documents: users } = useCollection('users')
 
 	const replaceDistanceToNow = {
 		about: '',
@@ -42,20 +40,23 @@ export default function ChatsList({ chats, inputRef }) {
 	}
 
 	return (
-		<div className='chat-list custom-scrollbar'>
+		<div className='chats__list custom-scrollbar'>
 			{chats.length === 0 && <p>No chats yet!</p>}
 			{chats.map(chat => (
 				<NavLink
 					to={`/u/${chat.id}`}
 					key={chat.id}
-					className={`card ${handleSeen(chat) ? 'unread' : ''}`}
-					onClick={() => focusInput()}>
+					className={`chats__list-chat ${handleSeen(chat) ? 'unread' : ''}`}
+					onClick={() => {
+						focusInput()
+						setShowChat(true)
+					}}>
 					{chat.assignedUsers.map(
 						u =>
 							u.id !== user.uid && (
 								<React.Fragment key={u.id}>
 									<AvatarWithStatus userId={u.id} />
-									<div className='chat-info'>
+									<div className='flex-column justify-center'>
 										<p className='display-name'>
 											{u.nickname.substring(0, 18)}
 											<span>{u.nickname.length >= 18 && '...'}</span>

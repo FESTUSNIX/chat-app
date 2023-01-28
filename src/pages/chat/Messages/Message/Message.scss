@@ -27,8 +27,13 @@
 	&:hover {
 		.message-content {
 			.message-tools {
-				visibility: visible;
-				opacity: 1;
+				transform: translateY(0);
+
+				@media screen and (min-width: 768px) {
+					transform: translateY(-50%);
+					visibility: visible;
+					opacity: 1;
+				}
 			}
 		}
 	}
@@ -102,17 +107,12 @@
 		align-self: flex-end;
 		align-items: flex-end;
 		.message-content {
-			.message-createdAt {
-				left: 0;
-				right: auto;
-				margin-left: -1em;
-				transform: translate(-100%, -50%);
-			}
-
 			.message-tools {
-				left: -6.5em;
-				right: auto;
-				flex-direction: row-reverse;
+				@media screen and (min-width: 768px) {
+					left: -6.5em;
+					right: auto;
+					flex-direction: row-reverse;
+				}
 			}
 
 			&__text {
@@ -221,14 +221,12 @@
 		align-items: flex-end;
 
 		&:has(.message-content__text:hover) .message-createdAt {
-			visibility: visible;
-			opacity: 1;
+			scale: 1;
 		}
 
 		&:has(.emoji-reactions:hover) .message-createdAt,
 		&:has(.message-content__text .modal) .message-createdAt {
-			visibility: hidden;
-			opacity: 0;
+			scale: 0;
 		}
 
 		.emoji-reactions {
@@ -336,60 +334,73 @@
 		}
 
 		.message-createdAt {
-			visibility: hidden;
-			opacity: 0;
+			display: block;
+			scale: 0;
 			width: max-content;
 			position: absolute;
-			top: 50%;
-			left: auto;
-			right: 0;
-			padding: 0.6em 0.8em;
-			margin-right: -1em;
-			border-radius: 50vw;
 			font-size: 1.2rem;
-			background-color: var(--bg-dark-lighten10);
-			color: var(--text-mid-contrast);
+			transform-origin: left;
+			transition: 0.3s;
 			z-index: 50;
-			transform: translate(100%, -50%);
-			transition: 0.1s;
-			transition-delay: 0.3s;
-			pointer-events: none;
 
 			&.hidden {
-				opacity: 0;
-				visibility: hidden;
+				scale: 0;
 			}
 		}
 
 		.message-tools {
-			visibility: hidden;
-			opacity: 0;
-			position: absolute;
-			top: 50%;
-			right: -4.5em;
+			width: 100%;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			padding: 1.2em;
 			display: flex;
+			justify-content: space-around;
 			gap: 0.4em;
 			font-size: 1.6rem;
 			cursor: pointer;
+			background-color: var(--bg-dark);
+			box-shadow: 0px 0px 5px var(--bg-dark-lighten10);
 			color: var(--text-primary);
-			transform: translateY(-50%);
+			transform: translateY(100%);
+			transform-origin: left;
 			transition: 0.1s;
 			transition-delay: 0.3s;
-			z-index: 100;
+			z-index: 2000;
+
+			@media screen and (min-width: 768px) {
+				width: auto;
+				position: absolute;
+				top: 50%;
+				right: -4.5em;
+				bottom: unset;
+				left: unset;
+				visibility: hidden;
+				opacity: 0;
+				padding: 0;
+				box-shadow: none;
+				transform: translateY(-50%);
+				background-color: transparent;
+			}
 
 			&.visible {
+				transform: translateY(0);
 				opacity: 1;
 				visibility: visible;
 			}
 
 			&:hover + .message-createdAt {
-				visibility: hidden;
-				opacity: 0;
+				scale: 0;
 			}
 
 			i {
 				position: relative;
 				padding: 0.4em;
+				font-size: 2rem;
+
+				@media screen and (min-width: 768px) {
+					font-size: 1.6rem;
+				}
 
 				&:hover {
 					.tooltip {
@@ -420,8 +431,10 @@
 			overflow: hidden;
 
 			&:hover + .message-tools {
-				visibility: hidden;
-				opacity: 0;
+				@media screen and (min-width: 768px) {
+					visibility: hidden;
+					opacity: 0;
+				}
 			}
 
 			.file-message {

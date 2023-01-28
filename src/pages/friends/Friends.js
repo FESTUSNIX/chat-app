@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useDocument } from '../../hooks/useDocument'
+import { useMediaQuery } from 'react-responsive'
 
 // Styles
 import './Friends.scss'
@@ -28,23 +29,22 @@ const Friends = () => {
 		}
 	}, [currentUserDoc])
 
+	const queryMd = useMediaQuery({ query: '(max-width: 768px)' })
+
 	return (
 		currentUserDoc && (
 			<div className='friends wrapper'>
 				<div className='friends__title-bar'>
 					<div className='friends__title-bar-title' onClick={() => setView('list')}>
-						<i className='fa-solid fa-user-group'></i>
 						<h2>Friends</h2>
-						{/* <div className='friends-count'>
-							{currentUserDoc.friends && currentUserDoc.friends.filter(f => f.accepted).length}
-						</div> */}
 					</div>
 
 					<div className='flex-row gap1'>
 						<div
 							className={`friends__title-bar-pending ${view === 'pending' ? 'active' : ''}`}
 							onClick={() => setView('pending')}>
-							<span>pending</span>
+							{!queryMd && <span>pending</span>}
+							{queryMd && invitesAmount === 0 && <i className='fa-solid fa-envelope'></i>}
 							{invitesAmount > 0 && (
 								<>
 									<i className='fa-solid fa-envelope'></i>
@@ -54,9 +54,16 @@ const Friends = () => {
 								</>
 							)}
 						</div>
-						<div className={`friends__title-bar-add ${view === 'add' ? 'active' : ''}`} onClick={() => setView('add')}>
-							<span>add friend</span>
-							<i className='fa-solid fa-user-plus'></i>
+						<div
+							className={`friends__title-bar-add ${view === 'add' ? 'active' : ''} ${queryMd ? 'mobile' : ''}`}
+							onClick={() => setView('add')}>
+							{!queryMd && (
+								<>
+									<span>add friend</span>
+									<i className='fa-solid fa-user-plus'></i>
+								</>
+							)}
+							{queryMd && <i className='fa-solid fa-user-plus mobile'></i>}
 						</div>
 					</div>
 				</div>

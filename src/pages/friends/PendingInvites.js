@@ -147,8 +147,6 @@ const PendingInvites = () => {
 		})
 		arrCopy2.splice(index2, 1)
 
-		console.log('other user cut', arrCopy2)
-
 		try {
 			await updateDocument(user.uid, {
 				friends: arrCopy,
@@ -175,11 +173,11 @@ const PendingInvites = () => {
 							!f.isPending &&
 							!f.accepted && (
 								<div className='friends__invites-user' key={f.id}>
-									<div className='flex-row gap1'>
-										<Avatar src={getDoc(f.id).photoURL} />
+									<div className='flex-row gap1 w100'>
+										<Avatar src={getDoc(f.id) && getDoc(f.id).photoURL} />
 
-										<div className='flex-column'>
-											<p>{getDoc(f.id).displayName}</p>
+										<div className='flex-column flex-grow-1'>
+											<p>{getDoc(f.id) && getDoc(f.id).displayName}</p>
 											<p>You invited this user</p>
 										</div>
 									</div>
@@ -211,10 +209,10 @@ const PendingInvites = () => {
 							!f.accepted && (
 								<div className='friends__invites-user' key={f.id}>
 									<div className='flex-row gap1'>
-										<Avatar src={getDoc(f.id).photoURL} />
+										<Avatar src={getDoc(f.id) && getDoc(f.id).photoURL} />
 
 										<div className='flex-column'>
-											<p>{getDoc(f.id).displayName}</p>
+											<p>{getDoc(f.id) && getDoc(f.id).displayName}</p>
 											<p>Sent you an invite</p>
 										</div>
 									</div>

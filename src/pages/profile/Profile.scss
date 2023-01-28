@@ -196,10 +196,8 @@
 	}
 
 	&__comments {
-		max-height: 300px;
+		max-height: 400px;
 		margin-top: auto;
-		z-index: 50;
-		overflow-y: auto;
 
 		.avatar {
 			min-width: 40px;
@@ -211,14 +209,22 @@
 		.comment-input {
 			display: grid;
 			grid-template-columns: 40px 1fr;
-			grid-template-rows: repeat(2, 1fr);
+			grid-template-rows: repeat(2, auto);
 			gap: 1em;
 			padding: 0 0.5em;
-			margin: 1.5em 0 0 0;
+			margin: 1.5em 0 0.5em 0;
 
-			input {
-				padding: 0.6em 1em;
-				background-color: var(--bg-dark-lighten10);
+			> .avatar {
+				width: 40px;
+				height: 40px;
+			}
+
+			.field {
+				margin-bottom: 0;
+
+				.input-field {
+					background-color: var(--bg-dark-lighten10);
+				}
 			}
 
 			.input-controls {
@@ -271,7 +277,7 @@
 		}
 
 		.comments-container {
-			max-height: 500px;
+			max-height: 200px;
 			display: flex;
 			flex-direction: column;
 			overflow-y: auto;

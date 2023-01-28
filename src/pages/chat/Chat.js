@@ -12,8 +12,10 @@ import Messages from './Messages/Messages'
 import MessageField from './MessageField/MessageField'
 import Avatar from '../../components/Avatar/Avatar'
 import ChatOptions from './ChatOptions/ChatOptions'
+import { useMediaQuery } from 'react-responsive'
+import MediaQuery from 'react-responsive'
 
-export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
+export default function Chat({ setCurrentChat, inputRef, currentTheme, showChat, setShowChat }) {
 	const { user } = useAuthContext()
 	const { id } = useParams()
 	const { error, document } = useDocument('projects', id)
@@ -64,6 +66,7 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 			})
 		}
 	}
+	const queryMd = useMediaQuery({ query: '(max-width: 768px)' })
 
 	if (error) {
 		return <div className='error'>{error}</div>
@@ -74,65 +77,71 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme }) {
 	}
 
 	return (
-		<>
-			{isAssignedUser && otherUserDoc && currentUserDoc && (
-				<div className='chat'>
-					<div className='vertical-container'>
-						<div className='chat__top-bar'>
-							<div className='flex-row'>
-								<Avatar src={otherUserDoc.photoURL} />
-								<div className='vertical-container'>
-									<h3>{otherUserLocal.nickname}</h3>
-									{<p className='isActive'>{currentUserDoc.status ? currentUserDoc.status : ''}</p>}
-								</div>
-							</div>
+		isAssignedUser &&
+		otherUserDoc &&
+		currentUserDoc &&
+		(queryMd ? showChat : true) && (
+			<div className={`chat ${showChat ? 'active' : ''}`}>
+				<div className='vertical-container'>
+					<div className='chat__top-bar'>
+						<div className='flex-row'>
+							<MediaQuery maxWidth={768}>
+								<i className='fa-solid fa-arrow-left close-chat' onClick={() => setShowChat(false)}></i>
+							</MediaQuery>
 
-							<div
-								className='top-bar-options'
-								onClick={e => {
-									setShowChatOptions(prevValue => !prevValue)
-									e.target.classList.toggle('active')
-								}}>
-								<i className='fa-solid fa-ellipsis-vertical'></i>
+							<Avatar src={otherUserDoc.photoURL} />
+							<div className='vertical-container'>
+								<h3>{otherUserLocal.nickname}</h3>
+								{<p className='isActive'>{currentUserDoc.status ? currentUserDoc.status : ''}</p>}
 							</div>
 						</div>
 
 						<div
-							className='chat__comments'
-							onClick={() => {
-								handleSeen()
+							className='top-bar-options'
+							onClick={e => {
+								setShowChatOptions(prevValue => !prevValue)
+								e.target.classList.toggle('active')
 							}}>
-							<Messages
-								chat={document}
-								onMessageResponse={onMessageResponse}
-								setBottomDiv={setBottomDiv}
-								otherUser={otherUserDoc}
-								currentUser={currentUserDoc}
-							/>
-							<MessageField
-								chat={document}
-								messageResponse={messageResponse}
-								onMessageResponse={onMessageResponse}
-								bottomDiv={bottomDiv}
-								inputRef={inputRef}
-								handleSeen={handleSeen}
-								otherUser={otherUserDoc}
-								currentUser={currentUserDoc}
-							/>
+							<i className='fa-solid fa-ellipsis-vertical'></i>
 						</div>
 					</div>
 
-					{showChatOptions && (
-						<ChatOptions
-							onMessageResponse={onMessageResponse}
-							otherUser={otherUserDoc}
+					<div
+						className='chat__comments'
+						onClick={() => {
+							handleSeen()
+						}}>
+						<Messages
 							chat={document}
-							currentTheme={currentTheme}
-							otherUserLocal={otherUserLocal}
+							onMessageResponse={onMessageResponse}
+							setBottomDiv={setBottomDiv}
+							otherUser={otherUserDoc}
+							currentUser={currentUserDoc}
 						/>
-					)}
+						<MessageField
+							chat={document}
+							messageResponse={messageResponse}
+							onMessageResponse={onMessageResponse}
+							bottomDiv={bottomDiv}
+							inputRef={inputRef}
+							handleSeen={handleSeen}
+							otherUser={otherUserDoc}
+							currentUser={currentUserDoc}
+						/>
+					</div>
 				</div>
-			)}
-		</>
+
+				{showChatOptions && (
+					<ChatOptions
+						onMessageResponse={onMessageResponse}
+						otherUser={otherUserDoc}
+						chat={document}
+						currentTheme={currentTheme}
+						otherUserLocal={otherUserLocal}
+						setShowChatOptions={setShowChatOptions}
+					/>
+				)}
+			</div>
+		)
 	)
 }

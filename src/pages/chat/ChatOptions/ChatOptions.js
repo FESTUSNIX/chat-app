@@ -16,8 +16,16 @@ import ThemePicker from '../../../components/ThemePicker/ThemePicker'
 // Styles && Assets
 import './ChatOptions.scss'
 import AvatarWithStatus from '../../../components/AvatarWithStatus/AvatarWithStatus'
+import MediaQuery from 'react-responsive'
 
-export default function ChatOptions({ onMessageResponse, otherUser, chat, currentTheme, otherUserLocal }) {
+export default function ChatOptions({
+	onMessageResponse,
+	otherUser,
+	chat,
+	currentTheme,
+	otherUserLocal,
+	setShowChatOptions,
+}) {
 	const uniqueId = uuid()
 
 	const { updateDocument, response } = useFirestore('projects')
@@ -122,8 +130,11 @@ export default function ChatOptions({ onMessageResponse, otherUser, chat, curren
 
 	return (
 		<aside className='chat-options'>
-			{otherUser && <AvatarWithStatus userId={otherUser.id} linkToProfile={true} />}
+			<MediaQuery maxWidth={768}>
+				<i className='fa-solid fa-arrow-left close-chat-options' onClick={() => setShowChatOptions(false)}></i>
+			</MediaQuery>
 
+			{otherUser && <AvatarWithStatus userId={otherUser.id} linkToProfile={true} />}
 			<h3>{otherUserLocal.nickname}</h3>
 
 			<div
@@ -131,9 +142,8 @@ export default function ChatOptions({ onMessageResponse, otherUser, chat, curren
 				onClick={() => {
 					setShowThemePicker(true)
 				}}>
-				<div className='option__icon' style={{ background: spreadColors(currentTheme) }}></div>
-
 				<div className='option__name'>Change theme</div>
+				<div className='option__icon' style={{ background: spreadColors(currentTheme) }}></div>
 			</div>
 
 			<div
@@ -141,10 +151,10 @@ export default function ChatOptions({ onMessageResponse, otherUser, chat, curren
 				onClick={() => {
 					setShowEmojiPicker(true)
 				}}>
+				<div className='option__name'>Change emoji icon</div>
 				<div className='option__icon'>
 					<i className='fa-solid fa-thumbs-up'></i>
 				</div>
-				<div className='option__name'>Change emoji icon</div>
 			</div>
 
 			<div
@@ -152,8 +162,8 @@ export default function ChatOptions({ onMessageResponse, otherUser, chat, curren
 				onClick={() => {
 					setShowNicknameModal(true)
 				}}>
-				<div className='option__icon'>Aa</div>
 				<div className='option__name'>Edit nicknames</div>
+				<div className='option__icon'>Aa</div>
 			</div>
 
 			{themes && (showThemePicker || showThemeCreator) && (

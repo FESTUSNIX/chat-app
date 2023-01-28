@@ -1,9 +1,9 @@
 // Styles
 import './FieldContainer.scss'
 
-const FieldContainer = ({ children, error, title, helpText, optional }) => {
+const FieldContainer = ({ children, error, title, helpText, optional, containerClass }) => {
 	return (
-		<div className='field'>
+		<div className={`field ${containerClass ? containerClass : ''}`}>
 			{title && (
 				<p className='field__title'>
 					{title}

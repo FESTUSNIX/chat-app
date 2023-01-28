@@ -6,6 +6,8 @@ import { useCollection } from '../../hooks/useCollection'
 
 // Components
 import AvatarWithStatus from '../../components/AvatarWithStatus/AvatarWithStatus'
+import Field from '../../components/Inputs/Field/Field'
+import { useMediaQuery } from 'react-responsive'
 
 const FriendsList = () => {
 	const { user } = useAuthContext()
@@ -14,7 +16,6 @@ const FriendsList = () => {
 
 	const [search, setSearch] = useState('')
 	const [filter, setFilter] = useState('all')
-	const [list, setList] = useState(currentUserDoc ? currentUserDoc.friends : [])
 
 	const getDoc = id => {
 		let res = null
@@ -64,36 +65,63 @@ const FriendsList = () => {
 		return false
 	}
 
+	const styleStatus = status => {
+		let styled
+
+		switch (status) {
+			case 'invisible':
+				styled = 'Offline'
+				break
+			case 'do-not-disturb':
+				styled = 'Do Not Disturb'
+				break
+			default:
+				styled = status
+				break
+		}
+
+		return styled
+	}
+
+	const queryMd = useMediaQuery({ query: '(min-width: 768px)' })
+
 	return (
 		<>
-			<div className='friends__filter'>
+			<div className={`friends__filter`}>
 				<div className={`friends__filter-item ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>
-					all
+					<span>all</span>
 				</div>
 				<div
 					className={`friends__filter-item ${filter === 'online' ? 'active' : ''}`}
 					onClick={() => setFilter('online')}>
-					online
+					<div className='status status--online'></div>
+					{queryMd && <span>online</span>}
 				</div>
 				<div className={`friends__filter-item ${filter === 'idle' ? 'active' : ''}`} onClick={() => setFilter('idle')}>
-					idle
+					<div className='status status--idle'></div>
+					{queryMd && <span>idle</span>}
 				</div>
 				<div
 					className={`friends__filter-item ${filter === 'do not disturb' ? 'active' : ''}`}
 					onClick={() => setFilter('do not disturb')}>
-					do not disturb
+					<div className='status status--do-not-disturb'></div>
+					{queryMd && <span>do not disturb</span>}
 				</div>
 				<div
 					className={`friends__filter-item ${filter === 'offline' ? 'active' : ''}`}
 					onClick={() => setFilter('offline')}>
-					offline
+					<div className='status status--offline'></div>
+					{queryMd && <span>offline</span>}
 				</div>
 			</div>
 
-			<label className='friends__search'>
-				<input type='text' placeholder='Search' onChange={e => setSearch(e.target.value)} value={search} />
-				<i className='fa-solid fa-magnifying-glass'></i>
-			</label>
+			<Field
+				value={search}
+				setValue={setSearch}
+				label='Search'
+				after={<i className='fa-solid fa-magnifying-glass'></i>}
+				before={<i className='fa-solid fa-magnifying-glass'></i>}
+			/>
 
 			{currentUserDoc && currentUserDoc.friends && currentUserDoc.friends.filter(f => filterUsers(f)).length > 0 ? (
 				<div className='friends__list'>
@@ -106,15 +134,13 @@ const FriendsList = () => {
 							f =>
 								filterUsers(f) && (
 									<Link to={`/profile/${f.id}`} className='user' key={f.id}>
-										<div className='flex-row gap05'>
+										<div className='flex-row gap05 w100'>
 											<AvatarWithStatus userId={f.id} />
-											<div className='flex-column'>
+											<div className='flex-column w100'>
 												<p>{getDoc(f.id) && getDoc(f.id).displayName}</p>
-												<p>online</p>
+												<p>{getDoc(f.id) && styleStatus(getDoc(f.id).status)}</p>
 											</div>
 										</div>
-
-										<i className='fa-solid fa-message'></i>
 									</Link>
 								)
 						)}

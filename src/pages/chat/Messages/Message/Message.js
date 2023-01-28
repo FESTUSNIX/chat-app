@@ -470,9 +470,12 @@ export default function Message({
 								</div>
 							)}
 
-							<div className={`message-createdAt ${showEmojis === message ? 'hidden' : ''}`}>
-								{formatDate(message.createdAt)}
-							</div>
+							<Tooltip
+								pos='top'
+								align='center'
+								className={`message-createdAt ${showEmojis === message ? 'hidden' : ''}`}>
+								<span>{formatDate(message.createdAt)}</span>
+							</Tooltip>
 						</div>
 
 						<div className='seen'>

@@ -1,9 +1,12 @@
-.chat-list {
-	max-height: 80vh;
-	margin-top: 1em;
+.chats__list {
+	// max-height: max-content;
+	// flex-grow: 1;
+	// height: 99%;
 	display: flex;
 	flex-direction: column;
 	gap: 0.2em;
+	// margin-top: 1em;
+	margin-bottom: 73px;
 	overflow-y: scroll;
 
 	&:hover {
@@ -12,13 +15,13 @@
 		}
 	}
 
-	.card {
+	&-chat {
 		position: relative;
 		display: flex;
 		align-items: center;
 		gap: 0.6em;
 		padding: 0.5em;
-		margin: 1px;
+		margin: 1px 10px 1px 1px;
 		border-radius: var(--border-radius);
 		text-decoration: none;
 		transition: background-color 0.3s;
@@ -42,42 +45,35 @@
 			background-color: var(--bg-secondary-lighten5);
 		}
 
-		.chat-info {
+		.display-name {
+			font-weight: 400;
+			font-size: 1.5rem;
+			color: var(--text-primary);
+
+			span {
+				color: var(--text-mid-contrast);
+			}
+		}
+
+		.last-chat {
 			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			z-index: 10;
+			align-items: center;
+			color: var(--text-mid-contrast);
 
-			.display-name {
-				font-weight: 400;
-				font-size: 1.5rem;
-				color: var(--text-primary);
-
-				span {
-					color: var(--text-mid-contrast);
-				}
+			.last-message {
+				font-size: 1.3rem;
+				overflow: hidden;
 			}
 
-			.last-chat {
-				display: flex;
-				align-items: center;
-				color: var(--text-mid-contrast);
-
-				.last-message {
-					font-size: 1.3rem;
-					overflow: hidden;
-				}
-
-				.comment-date {
-					position: relative;
-					font-size: 1.2rem;
-				}
-				.dot {
-					height: 2px;
-					width: 2px;
-					margin: 0 5px;
-					background-color: var(--text-low-contrast);
-				}
+			.comment-date {
+				position: relative;
+				font-size: 1.2rem;
+			}
+			.dot {
+				height: 2px;
+				width: 2px;
+				margin: 0 5px;
+				background-color: var(--text-low-contrast);
 			}
 		}
 	}

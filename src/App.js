@@ -23,6 +23,9 @@ import Profile from './pages/profile/Profile'
 import Settings from './pages/settings/Settings'
 import Friends from './pages/friends/Friends'
 
+import MediaQuery from 'react-responsive'
+import TabBar from './components/Mobile/TabBar/TabBar'
+
 function App() {
 	const inputRef = useRef(null)
 
@@ -61,6 +64,8 @@ function App() {
 		}
 	}, [themes, currentChat])
 
+	const [showChat, setShowChat] = useState(false)
+
 	return (
 		authIsReady &&
 		theme && (
@@ -68,7 +73,7 @@ function App() {
 				<GlobalStyles />
 				<div className='App'>
 					<BrowserRouter>
-						{user && <ToolBar />}
+						<MediaQuery minWidth={769}>{user && <ToolBar />}</MediaQuery>
 						<Routes>
 							<Route path='/' element={user ? <Dashboard /> : <Navigate to='/login' />} />
 							<Route
@@ -76,8 +81,15 @@ function App() {
 								element={
 									user ? (
 										[
-											<Chats currentChat={currentChat} inputRef={inputRef} key='chats' />,
-											<Chat setCurrentChat={setCurrentChat} inputRef={inputRef} currentTheme={theme} key='chat' />,
+											<Chats currentChat={currentChat} inputRef={inputRef} key='chats' setShowChat={setShowChat} />,
+											<Chat
+												setCurrentChat={setCurrentChat}
+												inputRef={inputRef}
+												currentTheme={theme}
+												key='chat'
+												showChat={showChat}
+												setShowChat={setShowChat}
+											/>,
 										]
 									) : (
 										<Navigate to='/' />
@@ -104,6 +116,8 @@ function App() {
 							<Route path='/signup' element={user ? <Navigate to='/' /> : <Signup />} />
 							<Route path='/set-new-password' element={<SetNewPassword />} />
 						</Routes>
+
+						<MediaQuery maxWidth={768}>{user && <TabBar />}</MediaQuery>
 					</BrowserRouter>
 				</div>
 			</ThemeProvider>

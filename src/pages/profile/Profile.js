@@ -22,6 +22,8 @@ import Avatar from '../../components/Avatar/Avatar'
 import Modal from '../../components/Modal/Modal'
 import OutsideClickHandler from 'react-outside-click-handler'
 import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
+import Field from '../../components/Inputs/Field/Field'
+import Loader from '../../components/Loader/Loader'
 
 export default function Profile() {
 	const randColor = randomColor()
@@ -40,6 +42,7 @@ export default function Profile() {
 	const [comment, setComment] = useState('')
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 	const [showInputControls, setShowInputControls] = useState(false)
+	const [inputError, setInputError] = useState('')
 
 	const getDoc = id => {
 		let res = null
@@ -139,6 +142,10 @@ export default function Profile() {
 
 	if (error !== null) {
 		return <div className='error'>{error}</div>
+	}
+
+	if (!userDoc) {
+		return <Loader />
 	}
 
 	if (userDoc) {
@@ -250,13 +257,20 @@ export default function Profile() {
 						<div className='comment-input'>
 							<Avatar src={userDoc.photoURL} />
 
-							<input
+							<Field
 								type='text'
-								placeholder='Add a comment'
 								value={comment}
-								onChange={e => setComment(e.target.value)}
+								setValue={setComment}
+								label='Add a comment'
 								onClick={() => {
 									setShowInputControls(true)
+								}}
+								error={inputError}
+								resetError={() => setInputError('')}
+								onLostFocus={() => {
+									if (comment === '') {
+										setInputError('Please enter a comment')
+									}
 								}}
 							/>
 
@@ -316,11 +330,11 @@ export default function Profile() {
 									comment =>
 										getDoc(comment.createdBy) !== null && (
 											<div className='comments-container__comment' key={comment.id}>
-												<Avatar src={getDoc(comment.createdBy).photoURL} />
+												<Avatar src={getDoc(comment.createdBy) && getDoc(comment.createdBy).photoURL} />
 
 												<div className='flex-column'>
 													<div className='flex-row'>
-														<span>{getDoc(comment.createdBy).displayName}</span>
+														<span>{getDoc(comment.createdBy) && getDoc(comment.createdBy).displayName}</span>
 														<span>{formatDate(comment.createdAt)}</span>
 													</div>
 
@@ -362,5 +376,4 @@ export default function Profile() {
 			</div>
 		)
 	}
-	return null
 }
