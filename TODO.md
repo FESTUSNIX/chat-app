@@ -39,4 +39,6 @@
 19. Migrate the app to windows, macOS, android and ios with use of Electron [❌]
 20. Comment the code [❌]
 
+# Fix message-toolbar on mobile (make state for showing it and use click and hold functionality)
+
 # Celebrate 🥳🥳🥳

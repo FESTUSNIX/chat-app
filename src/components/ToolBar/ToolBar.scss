@@ -4,6 +4,7 @@
 	align-items: center;
 	padding: 1em 0.8em;
 	background-color: var(--bg-secondary);
+	z-index: 10;
 
 	&__pages {
 		display: flex;

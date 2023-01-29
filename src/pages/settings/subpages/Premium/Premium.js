@@ -1,8 +1,6 @@
-import React from 'react'
-
 const Premium = () => {
 	return (
-		<div>
+		<div className='mt3'>
 			<a href='https://buycoffee.to/mhada' target='_blank' rel='noreferrer'>
 				<img
 					src='https://buycoffee.to/btn/buycoffeeto-btn-primary.svg'

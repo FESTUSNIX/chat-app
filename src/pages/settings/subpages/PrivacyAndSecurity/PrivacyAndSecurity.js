@@ -1,7 +1,5 @@
-import React from 'react'
-
 const PrivacyAndSecurity = () => {
-	return <div>I guarantee that it's safe</div>
+	return <div className='mt3'>I guarantee that it's safe</div>
 }
 
 export default PrivacyAndSecurity

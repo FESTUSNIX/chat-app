@@ -359,7 +359,8 @@
 			gap: 0.4em;
 			font-size: 1.6rem;
 			cursor: pointer;
-			background-color: var(--bg-dark);
+			background-color: var(--bg-dark-lighten10);
+			border-top: 1px solid var(--bg-dark-lighten20);
 			box-shadow: 0px 0px 5px var(--bg-dark-lighten10);
 			color: var(--text-primary);
 			transform: translateY(100%);

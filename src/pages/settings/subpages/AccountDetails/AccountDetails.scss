@@ -14,6 +14,7 @@
 			grid-template-columns: repeat(2, auto);
 			grid-template-rows: repeat(2, auto);
 			padding: 0.5em 0.8em;
+
 			// border-radius: 8px;
 			// border-bottom: 1px solid var(--bg-dark-lighten15);
 			// background-color: var(--bg-dark-lighten15);
@@ -32,10 +33,13 @@
 				grid-row: 2 / 3;
 				color: var(--text-primary);
 				font-size: 1.5rem;
+
+				&.text-clip {
+					padding-right: 2em;
+				}
 			}
 
 			.flex-row {
-				gap: 0.8em;
 				grid-column: 2 / 3;
 				grid-row: 1 / 3;
 				justify-self: end;
@@ -210,6 +214,7 @@
 			margin-top: auto;
 
 			> .btn {
+				margin-top: 2em;
 				border: 1px solid var(--bg-secondary-lighten15);
 				font-weight: normal;
 				background-color: transparent;

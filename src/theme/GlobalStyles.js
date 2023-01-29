@@ -13,7 +13,6 @@ const spreadColors = theme => {
 	}
 }
 
-
 function adjustBrightness(col, amt) {
 	var usePound = false
 	if (col) {
@@ -65,6 +64,7 @@ export const GlobalStyles = createGlobalStyle`
 	--bg-secondary-lighten5: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 5)};
 	--bg-secondary-lighten10: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 10)};
 	--bg-secondary-lighten15: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 15)};
+	--bg-secondary-lighten20: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 20)};
 	--bg-secondary-lighten50: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 50)};
 
     --input-bg: ${({ theme }) => theme.colors.inputBg};

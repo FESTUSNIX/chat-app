@@ -37,8 +37,10 @@
 			}
 		}
 
-		&.active {
-			background-color: var(--bg-secondary-lighten10);
+		@media screen and (min-width: 768px) {
+			&.active {
+				background-color: var(--bg-secondary-lighten10);
+			}
 		}
 
 		&:hover {

@@ -12,12 +12,14 @@ const GithubButton = () => {
 	}
 
 	return (
-		<button className='github-btn' onClick={() => handleSubmitWithGithub()}>
-			<img src={githubLogo} alt='github logo' />
-			{!isPending && <span>Sign in with GitHub</span>}
-			{isPending && <span>Signing in with GitHub</span>}
+		<>
+			<button className='github-btn' onClick={() => handleSubmitWithGithub()}>
+				<img src={githubLogo} alt='github logo' />
+				{!isPending && <span>Sign in with GitHub</span>}
+				{isPending && <span>Signing in with GitHub</span>}
+			</button>
 			{error && <div className='error'>{error}</div>}
-		</button>
+		</>
 	)
 }
 

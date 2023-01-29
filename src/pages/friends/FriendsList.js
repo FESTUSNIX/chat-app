@@ -136,7 +136,7 @@ const FriendsList = () => {
 									<Link to={`/profile/${f.id}`} className='user' key={f.id}>
 										<div className='flex-row gap05 w100'>
 											<AvatarWithStatus userId={f.id} />
-											<div className='flex-column w100'>
+											<div className='flex-column w100 overflow-hidden'>
 												<p>{getDoc(f.id) && getDoc(f.id).displayName}</p>
 												<p>{getDoc(f.id) && styleStatus(getDoc(f.id).status)}</p>
 											</div>

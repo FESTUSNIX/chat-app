@@ -47,10 +47,11 @@ const AccountDetails = () => {
 		return (
 			<div className='account-details'>
 				<h2 className='setting-title'>account details</h2>
+
 				<div className='account-details__details'>
 					<div className='account-details__details-field'>
 						<h3>invite code</h3>
-						<p>{user.uid}</p>
+						<p className='text-clip'>{user.uid}</p>
 
 						<button className='btn btn--secondary' onClick={() => copyInviteCode()}>
 							{copyBtnText}

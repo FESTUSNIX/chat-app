@@ -288,7 +288,7 @@ export default function Message({
 
 	return (
 		<>
-			{message.isSpecial && <div className='messages__centered mb05'>{message.content}</div>}
+			{message.isSpecial && <div className='messages__centered mt2 mb2'>{message.content}</div>}
 			{!message.isSpecial && (
 				<>
 					{showSendDate(elements, i) && (

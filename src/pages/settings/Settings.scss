@@ -3,22 +3,27 @@
 	flex-grow: 1;
 	display: flex;
 	padding: 1em;
+	z-index: 20;
 
 	.wrapper {
 		width: 100%;
-		max-width: calc(100vw - 8em);
+		max-width: calc(100vw - 2em);
 		min-height: 100%;
-		max-height: calc(100vh - 2em);
 		position: relative;
 		display: flex;
 		flex-direction: column;
 		border-radius: 8px;
-		background-color: var(--bg-dark-lighten5);
 		overflow: hidden;
 		z-index: 0;
 	}
 
 	@media screen and (min-width: 576px) {
+		.wrapper {
+			max-width: calc(100vw - 4em);
+		}
+	}
+
+	@media screen and (min-width: 768px) {
 		.wrapper {
 			max-width: calc(100vw - 10em);
 		}
@@ -27,6 +32,7 @@
 	@media screen and (min-width: 992px) {
 		.wrapper {
 			max-width: calc(100vw - 8em);
+			max-height: calc(100vh - 2em);
 			flex-direction: row;
 		}
 
@@ -58,16 +64,19 @@
 
 	&__sidebar {
 		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 0.3em;
 		padding: 2em 1em 0.8em 1em;
-		background-color: var(--bg-dark-lighten15);
+		margin-bottom: 75px;
+		// background-color: var(--bg-secondary);
 
 		> .custom-scrollbar {
-			max-height: 150px;
-			padding: 0 0.5em;
-			overflow-y: auto;
+			height: 100%;
+			gap: 0.5em;
+			// max-height: 150px;
+			// padding: 0 0.5em;
+			// overflow-y: auto;
 		}
 
 		&-link {
@@ -75,25 +84,28 @@
 			display: flex;
 			align-items: center;
 			gap: 0.8em;
-			padding: 0.6em 1.4em;
+			padding: 1em 1.4em;
 			border-radius: 8px;
 			text-transform: capitalize;
+			background-color: var(--bg-secondary);
 			transition: 0.2s;
 
 			&:hover {
-				background-color: var(--bg-dark-lighten20);
+				background-color: var(--bg-secondary-lighten10);
 			}
 
 			&:active {
-				background-color: var(--bg-dark-lighten25);
+				background-color: var(--bg-secondary-lighten15);
 			}
 
-			&.active {
-				background-color: var(--text-accent);
-				cursor: default;
+			@media screen and (min-width: 992px) {
+				&.active {
+					background-color: var(--text-accent);
+					cursor: default;
 
-				i {
-					color: var(--text-primary);
+					i {
+						color: var(--text-primary);
+					}
 				}
 			}
 
@@ -110,23 +122,23 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				margin-top: auto;
-				font-weight: bold;
-				background-color: var(--bg-dark-lighten25);
+				// background-color: var(--bg-secondary);
+				border: 1px solid var(--bg-secondary);
+				background-color: transparent;
 				cursor: pointer;
 				color: #f53649;
+
+				@media screen and (min-width: 992px) {
+					margin-top: auto;
+				}
 
 				i {
 					color: #f53649;
 				}
 
 				&:hover {
-					background-color: #f53649;
-					color: var(--text-primary);
-
-					i {
-						color: var(--text-primary);
-					}
+					border: 1px solid #f53649;
+					// background-color: #f53649;
 				}
 			}
 		}
@@ -160,24 +172,38 @@
 		}
 
 		&-user {
+			width: 100%;
 			display: flex;
 			align-items: center;
 			gap: 0.8em;
-			padding: 0.6em;
+			padding: 0.6em 1em;
 			margin-bottom: 2em;
 			border-radius: 8px;
+			background-color: var(--bg-secondary);
 			transition: background-color 0.2s;
 
 			&:hover {
-				background-color: var(--bg-dark-lighten20);
+				background-color: var(--bg-secondary-lighten10);
 			}
 
 			.avatar-container {
 				--size: 55px;
 			}
 
+			> .flex-column {
+				width: 100%;
+				flex-grow: 1;
+				overflow: hidden;
+			}
+
+			h3,
+			p {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
 			h3 {
-				min-width: max-content;
 				font-weight: 500;
 				font-size: 1.6rem;
 			}
@@ -189,12 +215,15 @@
 	}
 
 	&__content {
-		flex-grow: 1;
 		width: 100%;
 		height: 100%;
-		position: relative;
-		padding: 2.6em 3.2em;
-		overflow: hidden scroll;
+		position: fixed;
+		top: 0;
+		left: 0;
+		padding: 1.2em 1.6em calc(1.2em + 75px) 1.6em;
+		background-color: var(--bg-dark);
+		overflow: hidden auto;
+		z-index: 100;
 
 		.loader {
 			--size: 120px;
@@ -204,10 +233,41 @@
 			transform: translate(-50%, -50%);
 		}
 
+		.close-btn {
+			width: 35px;
+			height: 35px;
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 50vw;
+			font-size: 2rem;
+			cursor: pointer;
+
+			&:hover {
+				background-color: var(--bg-secondary);
+			}
+		}
+
 		.setting-title {
+			width: 100%;
+			margin-bottom: 2em;
 			font-weight: 500;
 			text-transform: capitalize;
-			margin-bottom: 2em;
+
+			@media screen and (max-width: 992px) {
+				text-align: right;
+			}
+		}
+	}
+
+	@media screen and (min-width: 992px) {
+		margin-bottom: 0;
+
+		&__content {
+			position: relative;
+			flex-grow: 1;
+			padding: 2em 3em 0.8em 3em;
 		}
 	}
 }
