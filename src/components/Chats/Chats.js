@@ -1,16 +1,17 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useCollection } from '../../hooks/useCollection'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { Link } from 'react-router-dom'
 
-// Compontents
-import ChatsList from './ChatsList'
-
 // Styles
 import './Chats.scss'
+
+// Compontents
+import ChatsList from './ChatsList'
 import Avatar from '../Avatar/Avatar'
 import AvatarWithStatus from '../AvatarWithStatus/AvatarWithStatus'
 import MediaQuery from 'react-responsive'
+import Pinned from '../Pinned/Pinned'
 
 export default function Chats({ currentChat, inputRef, setShowChat }) {
 	const { user } = useAuthContext()
@@ -66,6 +67,10 @@ export default function Chats({ currentChat, inputRef, setShowChat }) {
 					</Link>
 				</MediaQuery>
 			</div>
+
+			<MediaQuery maxWidth={768}>
+				<Pinned orientation='horizontal' />
+			</MediaQuery>
 
 			<label className='chats__search-bar'>
 				<i className='fa-solid fa-magnifying-glass'></i>

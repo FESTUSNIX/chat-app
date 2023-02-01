@@ -73,6 +73,8 @@ export default function Profile() {
 					...userDoc.profileComments,
 				],
 			})
+			setShowInputControls(false)
+			setComment('')
 		} else {
 			await updateDocument(id, {
 				profileComments: [
@@ -84,6 +86,8 @@ export default function Profile() {
 					},
 				],
 			})
+			setShowInputControls(false)
+			setComment('')
 		}
 
 		setComment('')
@@ -150,16 +154,15 @@ export default function Profile() {
 
 	if (userDoc) {
 		return (
-			<div className='profile'>
+			<div className='profile custom-scrollbar'>
 				<div className='wrapper flex-column'>
 					<div
 						className='banner'
 						style={userDoc.banner ? { background: userDoc.banner } : { background: randColor }}></div>
 
 					<div className='profile__header'>
-						<div className='flex-row'>
+						<div className='profile__header-user'>
 							<AvatarWithStatus userId={userDoc.id} />
-
 							<div className='flex-column'>
 								<div>
 									<h3 className='name'>{userDoc.displayName}</h3>
@@ -193,70 +196,64 @@ export default function Profile() {
 									)}
 								</div>
 							</div>
-						</div>
-
-						<div className='flex-column'>
-							{userDoc.premium && (
-								<div className='account-status account-status--premium'>
-									<img src={premiumIcon} alt='Icon for premium account' />
-									<span>Plenvy Pro</span>
-								</div>
-							)}
-							{!userDoc.premium && (
-								<div className='account-status account-status--classic'>
-									<img src={classicAccIcon} alt='Icon for classic account' />
-									<span>Plenvy Classic</span>
-								</div>
-							)}
-							<div className='btn-group'>
-								{id === user.uid && (
-									<Link to='/settings/profile'>
-										<button className='action-btn btn'>edit profile</button>
-									</Link>
+							<div className='profile__header-additional'>
+								{userDoc.premium && (
+									<div className='premium'>
+										<img src={premiumIcon} alt='Icon for premium account' />
+										<span>Premium</span>
+									</div>
 								)}
 
-								{id !== user.uid && (
-									<>
-										{currentUserDoc && currentUserDoc.friends && (
-											<>
-												{currentUserDoc.friends.some(f => {
-													if (f.id === userDoc.id && f.accepted === true && f.isPending === false) {
-														return true
-													}
-													return false
-												}) && (
-													<Link to={`/u/${getChatId(userDoc.id)}`}>
-														<button className='action-btn btn'>send message</button>
-													</Link>
-												)}
+								<div className='btn-group'>
+									{id === user.uid && (
+										<Link to='/settings/profile'>
+											<button className='action-btn btn'>edit profile</button>
+										</Link>
+									)}
 
-												{currentUserDoc.friends.some(f => {
-													if (f.id === userDoc.id && f.accepted === false && f.isPending === false) {
-														return true
-													}
-													return false
-												}) && (
-													<Link to={`/friends`}>
-														<button className='action-btn btn'>invite sent</button>
-													</Link>
-												)}
-											</>
-										)}
+									{id !== user.uid && (
+										<>
+											{currentUserDoc && currentUserDoc.friends && (
+												<>
+													{currentUserDoc.friends.some(f => {
+														if (f.id === userDoc.id && f.accepted === true && f.isPending === false) {
+															return true
+														}
+														return false
+													}) && (
+														<Link to={`/u/${getChatId(userDoc.id)}`}>
+															<button className='action-btn btn'>send message</button>
+														</Link>
+													)}
 
-										{currentUserDoc && notInFriends() && <button className='action-btn btn'>invite friend</button>}
-									</>
-								)}
+													{currentUserDoc.friends.some(f => {
+														if (f.id === userDoc.id && f.accepted === false && f.isPending === false) {
+															return true
+														}
+														return false
+													}) && (
+														<Link to={`/friends`}>
+															<button className='action-btn btn'>invite sent</button>
+														</Link>
+													)}
+												</>
+											)}
+
+											{currentUserDoc && notInFriends() && <button className='action-btn btn'>invite friend</button>}
+										</>
+									)}
+								</div>
 							</div>
 						</div>
+
+						<div className='separator mt1'></div>
 					</div>
 
-					<div className='separator'></div>
+					<p className='mb2'>will finish someday</p>
 
-					<div className='profile__comments custom-scrollbar'>
-						<div className='separator'></div>
+					<div className='profile__comments'>
+						{/* <div className='separator'></div> */}
 						<div className='comment-input'>
-							<Avatar src={userDoc.photoURL} />
-
 							<Field
 								type='text'
 								value={comment}
@@ -305,6 +302,7 @@ export default function Profile() {
 										className='btn cancel-btn'
 										onClick={() => {
 											setShowInputControls(false)
+											setComment('')
 										}}>
 										cancel
 									</button>

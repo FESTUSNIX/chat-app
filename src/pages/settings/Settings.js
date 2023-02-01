@@ -55,7 +55,7 @@ export default function Settings() {
 						</NavLink>
 						<NavLink to='/settings/become-cool' className='settings__sidebar-link' onClick={() => setShowPage(true)}>
 							<img src={premiumIcon} alt='Icon for premium account' />
-							<span>plenvy pro</span>
+							<span>premium</span>
 						</NavLink>
 						<NavLink
 							to='/settings/privacy-and-security'

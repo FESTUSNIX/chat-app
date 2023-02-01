@@ -63,7 +63,7 @@ export default function ChatsList({ chats, inputRef, setShowChat }) {
 										</p>
 
 										<div className='last-chat'>
-											<span className='last-message'>
+											<span className='last-message text-clip'>
 												{chat.messages.length !== 0 && (
 													<>
 														{chat &&

@@ -38,6 +38,22 @@
 		// }
 	}
 
+	.pinned {
+		margin: 1em 0;
+
+		a {
+			.avatar {
+				width: 45px;
+				height: 45px;
+			}
+		}
+
+		&__add {
+			width: 45px;
+			height: 45px;
+		}
+	}
+
 	&__search-bar {
 		width: 100%;
 		display: flex;

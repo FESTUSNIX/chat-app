@@ -1,33 +1,40 @@
 .profile {
 	width: 100%;
+	max-width: 100%;
+	max-height: 100vh;
+	flex-grow: 1;
 	display: flex;
-	justify-content: center;
 	align-items: center;
-	padding: 1em;
+	flex-direction: column;
+	overflow: hidden auto;
 	z-index: 100;
 
 	.wrapper {
 		width: 100%;
-		max-width: calc(100vw - 8em);
-		min-height: 100%;
+		max-width: 100%;
+		height: 100%;
+		flex-grow: 1;
 		position: relative;
-		padding: 5.5em 2.5em 2em 2.5em;
-		margin: 0 auto;
-		border-radius: 8px;
-		background-color: var(--bg-dark-lighten5);
-		overflow: hidden;
+		padding: 3em 1em 0 1em;
+		// padding: 5.5em 2.5em 2em 2.5em;
+		margin: 0;
+		// border-radius: 8px;
 		z-index: 0;
+
+		@media screen and (max-width: 768px) {
+			margin-bottom: 8em;
+		}
 	}
 
-	@media screen and (min-width: 576px) {
+	@media screen and (min-width: 768px) {
 		.wrapper {
-			max-width: calc(100vw - 12em);
+			padding: 3em 3em 0 3em;
 		}
 	}
 
 	@media screen and (min-width: 992px) {
 		.wrapper {
-			max-width: 800px;
+			max-width: calc(100% - 6em);
 		}
 	}
 
@@ -52,76 +59,128 @@
 		background-size: cover;
 		background-position: center;
 		z-index: -1;
+
+		@media screen and (min-width: 768px) {
+			border-radius: 0 0 var(--border-radius) var(--border-radius);
+		}
 	}
 
 	&__header {
+		width: 100%;
 		display: flex;
-		justify-content: space-between;
-		align-items: flex-end;
-		margin-bottom: 2em;
+		flex-direction: column;
+		margin-bottom: 5em;
 
-		> .flex-row {
+		// justify-content: space-between;
+		// align-items: flex-end;
+		// margin-bottom: 2em;
+
+		&-user {
+			position: relative;
+			max-width: 100%;
+			display: flex;
+			align-items: start;
+			flex-direction: column;
 			gap: 1em;
-		}
+			gap: 0.5em;
 
-		.flex-column {
-			gap: 1em;
-			align-self: flex-end;
-			margin-bottom: 1em;
+			// align-items: center;
+			// text-align: center;
 
-			&:has(> .account-status) {
-				align-self: flex-start;
-				align-items: flex-end;
+			.avatar-container {
+				--size: 150px;
+				background-color: var(--bg-dark);
+
+				.status {
+					width: 21%;
+					height: 21%;
+					bottom: 0.25em;
+					right: 0.5em;
+					background-color: var(--bg-dark);
+
+					&__dot {
+						&::before {
+							background-color: var(--bg-dark);
+						}
+					}
+				}
+
+				.avatar {
+					padding: 0.4em;
+				}
 			}
 
-			.name {
-				font-size: 3rem;
-				color: var(--text-primary);
-			}
+			.flex-column {
+				// align-self: flex-end;
+				margin-bottom: 1em;
+				gap: 2em;
+				// text-align: center;
 
-			.bio {
-				margin-top: -0.3em;
-				word-wrap: break-word;
-				line-height: 1.1em;
-				font-size: 1.5rem;
-				color: var(--text-primary-darken20);
-				font-style: italic;
-			}
+				.name {
+					font-size: 2.6rem;
+					font-weight: 500;
+					// font-size: 3rem;
+					color: var(--text-heading);
+				}
 
-			.badges {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.5em;
+				.bio {
+					margin-right: 1em;
+					// margin-top: -0.3em;
+					// line-height: 1.1em;
+					word-wrap: break-word;
+					font-size: 1.3rem;
+					color: var(--text-primary-darken20);
+					font-style: italic;
+				}
 
-				&__badge {
+				.badges {
 					display: flex;
-					padding: 0.4em 0.6em;
-					border-radius: 9px;
-					font-weight: bold;
-					font-size: 1.2rem;
-					background-color: var(--bg-dark-lighten15);
-					color: var(--text-primary-darken50);
+					flex-wrap: wrap;
+					gap: 0.5em;
 
-					.country {
+					&__badge {
 						display: flex;
-						align-items: center;
-						gap: 0.5em;
+						padding: 0.4em 0.6em;
+						border-radius: 9px;
+						// font-weight: bold;
+						font-size: 1.2rem;
+						background-color: var(--bg-dark-lighten15);
+						color: var(--text-primary-darken50);
+
+						.country {
+							display: flex;
+							align-items: center;
+							gap: 0.5em;
+						}
 					}
 				}
 			}
 		}
 
-		.account-status {
-			min-width: max-content;
+		&-additional {
+			position: absolute;
+			top: 4.2em;
+			right: 0;
 			display: flex;
-			align-items: center;
-			gap: 0.5em;
-			padding: 0.5em 0.8em;
-			margin-top: 1.5em;
-			border-radius: 4px;
-			background-color: var(--bg-dark-lighten15);
+			flex-direction: column;
+			align-self: flex-start;
+			align-items: flex-end;
+			gap: 1em;
 
-			&--premium {
+			&:has(.premium) {
+				top: 2.5em;
+			}
+
+			.premium {
+				min-width: max-content;
+				display: flex;
+				align-items: center;
+				gap: 0.5em;
+				padding: 0.5em 0.8em;
+				margin-top: 1.5em;
+				border-radius: 4px;
+				background-color: var(--bg-dark-lighten15);
+
 				span {
 					-webkit-background-clip: text;
 					background-clip: text;
@@ -148,55 +207,25 @@
 					);
 					color: transparent;
 				}
-			}
 
-			&--classic {
-				span {
-					font-weight: bold;
-					color: #354167;
+				img {
+					width: 25px;
+					height: 25px;
 				}
 			}
 
-			img {
-				width: 25px;
-				height: 25px;
-			}
-		}
-
-		.btn-group {
-			.action-btn {
-				padding: 0.4em 0.8em;
-				border-radius: 4px;
-				font-weight: normal;
-				font-size: 1.3rem;
-				text-transform: capitalize;
-				font-weight: 500;
-			}
-		}
-
-		.avatar-container {
-			min-width: 180px;
-			max-width: 180px;
-			min-height: 180px;
-			max-height: 180px;
-			background-color: var(--bg-dark-lighten5);
-
-			.status {
-				width: 21%;
-				height: 21%;
-				bottom: 0.25em;
-				right: 0.5em;
-				background-color: var(--bg-dark-lighten5);
-			}
-
-			.avatar {
-				padding: 0.4em;
+			.btn-group {
+				.action-btn {
+					padding: 0.4em 0.8em;
+					border-radius: 4px;
+					font-weight: normal;
+					font-size: 1.4rem;
+				}
 			}
 		}
 	}
 
 	&__comments {
-		max-height: 400px;
 		margin-top: auto;
 
 		.avatar {
@@ -207,12 +236,11 @@
 		}
 
 		.comment-input {
-			display: grid;
-			grid-template-columns: 40px 1fr;
-			grid-template-rows: repeat(2, auto);
-			gap: 1em;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5em;
 			padding: 0 0.5em;
-			margin: 1.5em 0 0.5em 0;
+			margin: 1.5em 0 1em 0;
 
 			> .avatar {
 				width: 40px;
@@ -277,7 +305,6 @@
 		}
 
 		.comments-container {
-			max-height: 200px;
 			display: flex;
 			flex-direction: column;
 			overflow-y: auto;
