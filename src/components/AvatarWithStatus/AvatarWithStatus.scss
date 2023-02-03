@@ -65,7 +65,7 @@
 		justify-content: center;
 		align-items: center;
 		border-radius: 50%;
-		background-color: var(--bg-secondary);
+		background-color: var(--bg-dark-lighten5);
 
 		&__dot {
 			width: 68%;
@@ -92,7 +92,7 @@
 
 			&::before {
 				transition: background-color 0.3s;
-				background-color: var(--bg-secondary);
+				background-color: var(--bg-dark-lighten5);
 			}
 
 			&--online {

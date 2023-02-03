@@ -3,8 +3,9 @@ import { useFirestore } from '../../hooks/useFirestore'
 
 // Components
 import ThemePreview from './ThemePreview'
-import Field from './Field.js'
+import ThemeField from './Field'
 import ColorPicker from '../ColorPicker/ColorPicker'
+import Field from '../Inputs/Field/Field'
 
 // Styles && Assets
 import './ThemeCreator.scss'
@@ -22,16 +23,12 @@ export default function ThemeCreator({
 	const [name, setName] = useState(editedTheme ? editedTheme.name : '')
 	const [bgDark, setBgDark] = useState({
 		show: true,
-		value: editedTheme ? editedTheme.colors.bgDark : '#121212',
-	})
-	const [bgSecondary, setBgSecondary] = useState({
-		show: false,
-		value: editedTheme ? editedTheme.colors.bgSecondary : '#1e1e1e',
+		value: editedTheme ? editedTheme.colors.bgDark : '#0e0f10',
 	})
 
 	const [borderRadius, setBorderRadius] = useState({
 		show: false,
-		value: editedTheme ? editedTheme.borderRadius : 8,
+		value: editedTheme ? editedTheme.borderRadius : 15,
 	})
 	const [curUserMessage, setCurUserMessage] = useState({
 		show: false,
@@ -40,22 +37,22 @@ export default function ThemeCreator({
 			: [
 					{
 						id: 0,
-						value: '#643e7a',
+						value: '#533e7a',
 					},
 					{
 						id: 1,
-						value: '#643e7a',
+						value: '#14545c',
 					},
 			  ],
-		text: editedTheme ? editedTheme.colors.messageColorOwner : '#cacaca',
-		border: editedTheme ? editedTheme.colors.msgBorderOwner : '#252525',
+		text: editedTheme ? editedTheme.colors.messageColorOwner : '#e8e8e8',
+		border: editedTheme ? editedTheme.colors.msgBorderOwner : '#121212',
 	})
 
 	const [otherUserMessage, setOtherUserMessage] = useState({
 		show: false,
 		bg: editedTheme ? editedTheme.colors.msgBg : '#1e1e1e',
 		text: editedTheme ? editedTheme.colors.messageColor : '#cacaca',
-		border: editedTheme ? editedTheme.colors.msgBorder : '#252525',
+		border: editedTheme ? editedTheme.colors.msgBorder : '#1e1e1e',
 	})
 
 	const [inputColors, setInputColors] = useState({
@@ -67,14 +64,13 @@ export default function ThemeCreator({
 
 	const [textColors, setTextColors] = useState({
 		show: false,
-		primary: editedTheme ? editedTheme.colors.textPrimary : '#ffffff',
-		accent: editedTheme ? editedTheme.colors.textAccent : '#643e7a',
+		primary: editedTheme ? editedTheme.colors.textPrimary : '#d9d9d9',
+		accent: editedTheme ? editedTheme.colors.textAccent : '#5b3ba5',
 		lowContrast: editedTheme ? editedTheme.colors.textLowContrast : '#646464',
-		btn: editedTheme ? editedTheme.colors.btnText : '#ffffff',
 	})
 	const [buttonColor, setButtonColor] = useState({
 		show: false,
-		value: editedTheme ? editedTheme.colors.buttonColor : '#ffffff',
+		value: editedTheme ? editedTheme.colors.buttonColor : '#dedede',
 	})
 
 	const updateMessageBg = (index, e) => {
@@ -107,7 +103,6 @@ export default function ThemeCreator({
 			name: `${name}`,
 			colors: {
 				bgDark: `${bgDark.value}`,
-				bgSecondary: `${bgSecondary.value}`,
 				inputBg: `${inputColors.bg}`,
 				inputText: `${inputColors.text}`,
 				inputBorder: `${inputColors.border}`,
@@ -159,11 +154,10 @@ export default function ThemeCreator({
 			<form className='theme-creator__form custom-scrollbar'>
 				<div className='field'>
 					<p>Name your theme</p>
-
-					<input type='text' placeholder='Aa' required value={name} onChange={e => setName(e.target.value)} />
+					<Field type='text' value={name} setValue={setName} label='Theme name' />
 				</div>
 
-				<Field
+				<ThemeField
 					title={'Background color'}
 					setShow={() => setBgDark({ ...bgDark, show: !bgDark.show })}
 					show={bgDark.show}>
@@ -173,21 +167,9 @@ export default function ThemeCreator({
 							setBgDark({ ...bgDark, value: e.target.value })
 						}}
 					/>
-				</Field>
+				</ThemeField>
 
-				<Field
-					title={'Secondary background color'}
-					setShow={() => setBgSecondary({ ...bgSecondary, show: !bgSecondary.show })}
-					show={bgSecondary.show}>
-					<ColorPicker
-						value={bgSecondary.value}
-						setValue={e => {
-							setBgSecondary({ ...bgSecondary, value: e.target.value })
-						}}
-					/>
-				</Field>
-
-				<Field
+				<ThemeField
 					title={'Input colors'}
 					setShow={() => setInputColors({ ...inputColors, show: !inputColors.show })}
 					show={inputColors.show}>
@@ -212,9 +194,9 @@ export default function ThemeCreator({
 						}}
 						separator={'border'}
 					/>
-				</Field>
+				</ThemeField>
 
-				<Field
+				<ThemeField
 					title={'Button color'}
 					setShow={() => setButtonColor({ ...buttonColor, show: !buttonColor.show })}
 					show={buttonColor.show}>
@@ -224,9 +206,9 @@ export default function ThemeCreator({
 							setButtonColor({ ...buttonColor, value: e.target.value })
 						}}
 					/>
-				</Field>
+				</ThemeField>
 
-				<Field
+				<ThemeField
 					title={'Text colors'}
 					setShow={() => setTextColors({ ...textColors, show: !textColors.show })}
 					show={textColors.show}>
@@ -251,9 +233,9 @@ export default function ThemeCreator({
 						}}
 						separator={'low contrast'}
 					/>
-				</Field>
+				</ThemeField>
 
-				<Field
+				<ThemeField
 					title={'Other user messages'}
 					setShow={() => setOtherUserMessage({ ...otherUserMessage, show: !otherUserMessage.show })}
 					show={otherUserMessage.show}>
@@ -278,9 +260,9 @@ export default function ThemeCreator({
 						}}
 						separator={'border'}
 					/>
-				</Field>
+				</ThemeField>
 
-				<Field
+				<ThemeField
 					title={'Current user messages'}
 					setShow={() => setCurUserMessage({ ...curUserMessage, show: !curUserMessage.show })}
 					show={curUserMessage.show}>
@@ -333,9 +315,9 @@ export default function ThemeCreator({
 						}}
 						separator={'border'}
 					/>
-				</Field>
+				</ThemeField>
 
-				<Field
+				<ThemeField
 					title={'Border radius'}
 					setShow={() => setBorderRadius({ ...borderRadius, show: !borderRadius.show })}
 					show={borderRadius.show}>
@@ -349,7 +331,7 @@ export default function ThemeCreator({
 						/>
 						<span>{borderRadius.value}px</span>
 					</div>
-				</Field>
+				</ThemeField>
 			</form>
 
 			<ThemePreview

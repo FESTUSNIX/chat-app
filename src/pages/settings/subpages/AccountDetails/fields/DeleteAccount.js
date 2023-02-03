@@ -6,6 +6,7 @@ import Loader from '../../../../../components/Loader/Loader'
 import Modal from '../../../../../components/Modal/Modal'
 import { deleteUser } from 'firebase/auth'
 import { projectAuth } from '../../../../../firebase/config'
+import TextField from '../../../../../components/Inputs/Field/Field'
 
 const DeleteAccount = () => {
 	const { user } = useAuthContext()
@@ -141,12 +142,8 @@ const DeleteAccount = () => {
 							{isPasswordProvider() && (
 								<label>
 									<p>Enter your password to confirm</p>
-									<input
-										type='password'
-										value={confirm}
-										onChange={e => setConfirm(e.target.value)}
-										placeholder='Aa...'
-									/>
+
+									<TextField value={confirm} setValue={setConfirm} label='Password' type='password' />
 								</label>
 							)}
 							{isPending && <Loader />}

@@ -109,12 +109,14 @@ form {
 
 				& > label {
 					all: unset;
+
 					input {
 						width: 100%;
 						padding: 0 0 0 0.5em;
 						border: none;
 						font-size: 1.5rem;
 						color: var(--input-text);
+						background-color: var(--input-bg);
 
 						&:focus {
 							outline: none;

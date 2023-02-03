@@ -39,12 +39,19 @@
 
 		@media screen and (min-width: 768px) {
 			&.active {
-				background-color: var(--bg-secondary-lighten10);
+				background-color: var(--bg-dark-lighten15);
+				cursor: default;
 			}
 		}
 
-		&:hover {
-			background-color: var(--bg-secondary-lighten5);
+		&:not(.active) {
+			&:hover {
+				background-color: var(--bg-dark-lighten10);
+			}
+
+			&:active {
+				background-color: var(--bg-dark-lighten15);
+			}
 		}
 
 		.display-name {
@@ -60,7 +67,7 @@
 		.last-chat {
 			display: flex;
 			align-items: center;
-			color: var(--text-mid-contrast);
+			color: var(--text-low-contrast);
 
 			.last-message {
 				font-size: 1.3rem;

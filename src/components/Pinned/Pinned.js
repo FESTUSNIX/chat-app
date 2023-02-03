@@ -161,13 +161,15 @@ const Pinned = ({ orientation }) => {
 		items.splice(index, 1, userToAdd)
 		setFavsCopy(items)
 	}
-
 	return (
 		<>
 			<DragDropContext onDragEnd={handleOnDragEnd}>
 				<Droppable droppableId='favourites' direction={orientation === 'horizontal' ? 'horizontal' : 'vertical'}>
 					{provided => (
-						<div className={`pinned ${orientation}`} {...provided.droppableProps} ref={provided.innerRef}>
+						<div
+							className={`pinned ${orientation} ${favs && favs.filter(f => f !== null).length === 4 ? 'full' : ''}`}
+							{...provided.droppableProps}
+							ref={provided.innerRef}>
 							{favs &&
 								favs.map(
 									(f, index) =>

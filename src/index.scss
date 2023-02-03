@@ -306,18 +306,11 @@ a {
 }
 
 /* forms */
+
 input,
-textarea,
-.input {
-	width: 100%;
-	padding: 0.8em;
-	border: 1px solid var(--border-color);
-	border-radius: var(--border-radius);
-	background-color: var(--input-bg);
-	font-family: inherit;
-	color: var(--input-text);
+textarea {
 	outline: none;
-	@include custom-scrollbar;
+	color: var(--text-primary);
 }
 
 label {

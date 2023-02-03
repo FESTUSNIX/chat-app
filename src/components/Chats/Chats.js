@@ -74,6 +74,7 @@ export default function Chats({ currentChat, inputRef, setShowChat }) {
 
 			<label className='chats__search-bar'>
 				<i className='fa-solid fa-magnifying-glass'></i>
+
 				<input type='text' placeholder='Find a user' onChange={e => setQuery(e.target.value)} value={query} />
 			</label>
 

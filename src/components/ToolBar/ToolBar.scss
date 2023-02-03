@@ -3,8 +3,7 @@
 	flex-direction: column;
 	align-items: center;
 	padding: 1em 0.8em;
-	background-color: var(--bg-secondary);
-	z-index: 1000;
+	background-color: var(--bg-dark-lighten5);
 
 	&__pages {
 		display: flex;
@@ -20,7 +19,7 @@
 			border-radius: 8px;
 			text-decoration: none;
 			font-size: 2rem;
-			background-color: var(--bg-secondary-lighten5);
+			background-color: var(--bg-dark-lighten10);
 			color: var(--text-primary-darken100);
 			overflow: hidden;
 
@@ -33,7 +32,7 @@
 					right: 0;
 					padding: 0.1em;
 					border-radius: 50vw;
-					background-color: var(--bg-secondary-lighten5);
+					background-color: var(--bg-dark-lighten10);
 					user-select: none;
 
 					p {
@@ -51,11 +50,11 @@
 			}
 
 			&.active {
-				background-color: var(--bg-secondary-lighten15);
+				background-color: var(--bg-dark-lighten15);
 				color: var(--text-primary);
 
 				.pending-indicator {
-					background-color: var(--bg-secondary-lighten15);
+					background-color: var(--bg-dark-lighten15);
 				}
 			}
 		}
@@ -65,7 +64,7 @@
 		width: 60%;
 		height: 2px;
 		margin: 0.8em 0;
-		background-color: var(--bg-secondary-lighten15);
+		background-color: var(--bg-dark-lighten15);
 	}
 
 	&__profile-menu {

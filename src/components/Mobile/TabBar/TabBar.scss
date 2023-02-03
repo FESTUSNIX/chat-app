@@ -8,7 +8,7 @@
 	align-items: center;
 	gap: 0.5em;
 	padding: 0.4em 1em;
-	background-color: var(--bg-secondary);
+	background-color: var(--bg-dark-lighten5);
 	z-index: 800;
 
 	&__link {
@@ -21,7 +21,6 @@
 		border-radius: 8px;
 		text-decoration: none;
 		font-size: 2rem;
-		// background-color: var(--bg-secondary-lighten5);
 		color: var(--text-primary-darken100);
 		overflow: hidden;
 
@@ -34,7 +33,7 @@
 				right: 0.5em;
 				padding: 0.1em;
 				border-radius: 50vw;
-				background-color: var(--bg-secondary-lighten5);
+				background-color: var(--bg-dark-lighten10);
 				user-select: none;
 
 				p {
@@ -52,12 +51,7 @@
 		}
 
 		&.active {
-			// background-color: var(--bg-secondary-lighten15);
 			color: var(--text-accent);
-
-			.pending-indicator {
-				background-color: var(--bg-secondary);
-			}
 
 			.tab-bar__link-description {
 				color: var(--text-accent);

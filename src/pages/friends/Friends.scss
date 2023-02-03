@@ -10,7 +10,7 @@
 		padding: 0.5em 0.5em 0.5em 1em;
 		margin-bottom: 1em;
 		border-radius: var(--border-radius);
-		background-color: var(--bg-secondary);
+		background-color: var(--bg-dark-lighten5);
 		overflow: hidden;
 
 		&-title {
@@ -50,19 +50,21 @@
 			gap: 0.5em;
 
 			&.active {
-				background-color: var(--bg-secondary-lighten10);
+				background-color: var(--bg-dark-lighten15);
 				cursor: default;
+
 				.pending-indicator {
-					background-color: var(--bg-secondary-lighten10);
+					background-color: var(--bg-dark-lighten15);
 				}
 			}
+
 			&:not(.active) {
 				&:hover {
-					background-color: var(--bg-secondary-lighten10);
+					background-color: var(--bg-dark-lighten10);
 				}
 
 				&:active {
-					background-color: var(--bg-secondary-lighten15);
+					background-color: var(--bg-dark-lighten15);
 				}
 			}
 
@@ -74,7 +76,7 @@
 				right: 0;
 				padding: 0.2em;
 				border-radius: 50vw;
-				background-color: var(--bg-secondary);
+				background-color: var(--bg-dark-lighten5);
 				user-select: none;
 
 				p {
@@ -127,7 +129,7 @@
 		// padding: 0 10%;
 		margin-bottom: 2em;
 		border-radius: var(--border-radius);
-		background-color: var(--bg-secondary);
+		background-color: var(--bg-dark-lighten5);
 		overflow: hidden;
 
 		&-item {
@@ -146,27 +148,27 @@
 			cursor: pointer;
 
 			&.active {
-				background-color: var(--bg-secondary-lighten15);
+				background-color: var(--bg-dark-lighten15);
 
-				.mobile-status {
+				.status {
 					&::before {
-						background-color: var(--bg-secondary-lighten15);
+						background-color: var(--bg-dark-lighten15);
 					}
 				}
 			}
 
 			&:hover {
-				background-color: var(--bg-secondary-lighten10);
+				background-color: var(--bg-dark-lighten10);
 
-				.mobile-status {
+				.status {
 					&::before {
-						background-color: var(--bg-secondary-lighten10);
+						background-color: var(--bg-dark-lighten10);
 					}
 				}
 			}
 
 			&:active {
-				background-color: var(--bg-secondary-lighten15);
+				background-color: var(--bg-dark-lighten15);
 			}
 
 			.status {
@@ -177,7 +179,7 @@
 
 				&::before {
 					transition: background-color 0.3s;
-					background-color: var(--bg-secondary);
+					background-color: var(--bg-dark-lighten5);
 				}
 
 				&--online {
@@ -240,7 +242,6 @@
 		margin-bottom: 3em;
 		border: 1px solid var(--border-color);
 		border-radius: var(--border-radius);
-		// background-color: var(--bg-secondary);
 		cursor: text;
 
 		i {
@@ -279,7 +280,7 @@
 				gap: 1.5em;
 				padding: 0.5em 0.8em;
 				border-radius: var(--border-radius);
-				background-color: var(--bg-secondary);
+				background-color: var(--bg-dark-lighten5);
 				cursor: pointer;
 				overflow: hidden;
 
@@ -354,7 +355,6 @@
 			margin-bottom: 3em;
 			border: 1px solid var(--border-color);
 			border-radius: var(--border-radius);
-			// background-color: var(--bg-secondary);
 			cursor: text;
 
 			input {

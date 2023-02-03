@@ -57,15 +57,9 @@ export const GlobalStyles = createGlobalStyle`
     --bg-dark-lighten15: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 15)};
     --bg-dark-lighten20: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 20)};
     --bg-dark-lighten25: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 25)};
+    --bg-dark-lighten50: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 50)};
     --bg-dark-lighten90: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 90)};
     --bg-dark-lighten120: ${({ theme }) => adjustBrightness(theme.colors.bgDark, 120)};
-
-    --bg-secondary: ${({ theme }) => theme.colors.bgSecondary};
-	--bg-secondary-lighten5: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 5)};
-	--bg-secondary-lighten10: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 10)};
-	--bg-secondary-lighten15: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 15)};
-	--bg-secondary-lighten20: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 20)};
-	--bg-secondary-lighten50: ${({ theme }) => adjustBrightness(theme.colors.bgSecondary, 50)};
 
     --input-bg: ${({ theme }) => theme.colors.inputBg};
     --input-text: ${({ theme }) => theme.colors.inputText};

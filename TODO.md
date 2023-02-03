@@ -39,6 +39,8 @@
 19. Migrate the app to windows, macOS, android and ios with use of Electron [❌]
 20. Comment the code [❌]
 
+#### Delete --bg-secondary and rest of useless color variables
+
 #### Change the way themes work (theme provider only works on Chat and the rest of app has one default theme (or more to select... maybe lol) )
 
 #### Change banner updating (add modal in which you can choose color or image)

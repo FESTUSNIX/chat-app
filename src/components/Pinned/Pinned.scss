@@ -1,13 +1,19 @@
 .pinned {
 	display: flex;
+	align-items: center;
 	// justify-content: space-between;
 	// flex-direction: column;
 
 	&.horizontal {
 		flex-direction: row;
 
+		&.full {
+			justify-content: center;
+		}
+
 		a {
 			margin-right: auto;
+			margin-right: calc(20% - 45px);
 		}
 	}
 
@@ -46,7 +52,7 @@
 		padding: 0.5em;
 		border-radius: 50%;
 		font-size: 1.8rem;
-		background-color: var(--bg-secondary-lighten10);
+		background-color: var(--bg-dark-lighten15);
 		color: var(--text-accent);
 		cursor: pointer;
 		transition: 0.3s;
@@ -67,6 +73,7 @@
 		&-current-favs {
 			display: flex;
 			align-items: center;
+			justify-content: space-between;
 			// gap: 1.5em;
 
 			.flex-row:empty {
@@ -102,7 +109,7 @@
 					width: 50px;
 					height: 50px;
 					border-radius: 50%;
-					border: 1px solid var(--bg-secondary-lighten15);
+					border: 1px solid var(--bg-dark-lighten15);
 					color: var(--text-mid-contrast);
 					transition: 0.3s;
 					overflow: hidden;
@@ -130,28 +137,6 @@
 					transition: 0.3s;
 				}
 			}
-			.add-fav {
-				width: 50px;
-				height: 50px;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				border-radius: 50%;
-				background-color: var(--bg-secondary-lighten10);
-				color: var(--text-accent);
-				cursor: pointer;
-				transition: 0.3s;
-
-				&:hover {
-					border-radius: 15px;
-					background-color: var(--text-accent);
-					color: var(--text-primary);
-				}
-
-				i {
-					font-size: 2rem;
-				}
-			}
 		}
 
 		&-chats-list {
@@ -167,7 +152,7 @@
 				align-items: center;
 				padding: 0.4em;
 				border-radius: var(--border-radius);
-				background-color: var(--bg-secondary);
+				background-color: transparent;
 				transition: background-color 0.3s;
 				user-select: none;
 				cursor: pointer;
@@ -189,10 +174,10 @@
 				}
 
 				&:hover {
-					background-color: var(--bg-secondary-lighten10);
+					background-color: var(--bg-dark-lighten15);
 
 					.handle {
-						color: var(--bg-secondary-lighten50);
+						color: var(--bg-dark-lighten90);
 					}
 				}
 				.flex-row {
@@ -212,7 +197,7 @@
 					justify-self: flex-end;
 					padding: 0.5em;
 					font-size: 1.2rem;
-					color: var(--bg-secondary-lighten15);
+					color: var(--bg-dark-lighten25);
 					transition: color 0.3s;
 					cursor: grab;
 

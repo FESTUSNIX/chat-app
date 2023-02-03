@@ -4,7 +4,7 @@
 	flex-direction: row;
 	flex-grow: 1;
 	background-color: var(--bg-dark);
-	z-index: 999;
+
 
 	@media screen and (max-width: 768px) {
 		height: 100%;
@@ -43,6 +43,7 @@
 			border-radius: 50vw;
 			font-size: 1.8rem;
 			color: var(--text-accent);
+			cursor: pointer;
 
 			&:active {
 				background-color: var(--bg-dark-lighten10);

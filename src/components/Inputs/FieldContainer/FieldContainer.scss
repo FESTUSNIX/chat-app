@@ -1,5 +1,7 @@
 .field {
-	margin-bottom: 1em;
+	&:not(.mb0) {
+		margin-bottom: 1em;
+	}
 
 	&__title {
 		margin-bottom: 0.4em;

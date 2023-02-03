@@ -6,6 +6,7 @@ import { useLogout } from '../../../../../hooks/useLogout'
 // Components
 import Modal from '../../../../../components/Modal/Modal'
 import Loader from '../../../../../components/Loader/Loader'
+import Field from '../../../../../components/Inputs/Field/Field'
 
 const Password = () => {
 	const { user } = useAuthContext()
@@ -84,28 +85,13 @@ const Password = () => {
 				<p>Enter your current password and a new password. Also remember that your name isn't a good password...</p>
 
 				<label>
-					<input
-						type='password'
-						placeholder='Current password'
-						value={currentPassword}
-						onChange={e => setCurrentPassword(e.target.value)}
-					/>
+					<Field value={currentPassword} setValue={setCurrentPassword} label='Current password' type='password' />
 				</label>
 				<label>
-					<input
-						type='password'
-						placeholder='New password'
-						value={newPassword}
-						onChange={e => setNewPassword(e.target.value)}
-					/>
+					<Field value={newPassword} setValue={setNewPassword} label='New password' type='password' />
 				</label>
 				<label>
-					<input
-						type='password'
-						placeholder='Confirm new password'
-						value={confirmNewPassword}
-						onChange={e => setConfirmNewPassword(e.target.value)}
-					/>
+					<Field value={confirmNewPassword} setValue={setConfirmNewPassword} label='Password' type='password' />
 				</label>
 
 				{isPending && <Loader />}

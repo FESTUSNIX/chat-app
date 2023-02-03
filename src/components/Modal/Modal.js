@@ -25,7 +25,8 @@ export default function Modal({ children, show, setShow, onClose, disableOCH, bu
 					onOutsideClick={() => {
 						setShow()
 					}}
-					disabled={disableOCH}>
+					disabled={disableOCH}
+					display='contents'>
 					<div className='modal__content'>
 						{children}
 						<i className='fa-solid fa-xmark close-btn' onClick={() => setShow()}></i>

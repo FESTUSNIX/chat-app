@@ -234,6 +234,10 @@ const PendingInvites = () => {
 				</>
 			)}
 
+			{(!currentUserDoc || !currentUserDoc.friends || currentUserDoc.friends.length === 0) && (
+				<p className='absolute-center'>No pending invites</p>
+			)}
+
 			{error && <div className='error'>{error}</div>}
 		</div>
 	)

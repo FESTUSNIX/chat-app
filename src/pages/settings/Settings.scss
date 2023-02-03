@@ -69,7 +69,6 @@
 		flex-direction: column;
 		padding: 2em 1em 0.8em 1em;
 		margin-bottom: 75px;
-		// background-color: var(--bg-secondary);
 
 		> .custom-scrollbar {
 			height: 100%;
@@ -87,15 +86,15 @@
 			padding: 1em 1.4em;
 			border-radius: 8px;
 			text-transform: capitalize;
-			background-color: var(--bg-secondary);
+			background-color: var(--bg-dark-lighten5);
 			transition: 0.2s;
 
 			&:hover {
-				background-color: var(--bg-secondary-lighten10);
+				background-color: var(--bg-dark-lighten10);
 			}
 
 			&:active {
-				background-color: var(--bg-secondary-lighten15);
+				background-color: var(--bg-dark-lighten15);
 			}
 
 			@media screen and (min-width: 992px) {
@@ -122,8 +121,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				// background-color: var(--bg-secondary);
-				border: 1px solid var(--bg-secondary);
+				border: 1px solid var(--bg-dark-lighten15);
 				background-color: transparent;
 				cursor: pointer;
 				color: #f53649;
@@ -179,11 +177,14 @@
 			padding: 0.6em 1em;
 			margin-bottom: 2em;
 			border-radius: 8px;
-			background-color: var(--bg-secondary);
+			background-color: var(--bg-dark-lighten5);
 			transition: background-color 0.2s;
 
 			&:hover {
-				background-color: var(--bg-secondary-lighten10);
+				background-color: var(--bg-dark-lighten10);
+			}
+			&:active {
+				background-color: var(--bg-dark-lighten15);
 			}
 
 			.avatar-container {
@@ -245,7 +246,7 @@
 			cursor: pointer;
 
 			&:hover {
-				background-color: var(--bg-secondary);
+				background-color: var(--bg-dark-lighten5);
 			}
 		}
 

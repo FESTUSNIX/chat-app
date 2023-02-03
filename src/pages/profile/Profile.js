@@ -12,7 +12,6 @@ import ReactCountryFlag from 'react-country-flag'
 // Styles && Assets
 import './Profile.scss'
 import premiumIcon from '../../assets/premium-account.png'
-import classicAccIcon from '../../assets/logo-default.png'
 
 // Components
 import AvatarWithStatus from '../../components/AvatarWithStatus/AvatarWithStatus'

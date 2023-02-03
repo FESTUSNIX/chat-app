@@ -1,14 +1,23 @@
 .theme-creator {
+	max-height: 100vh;
 	display: flex;
-	align-items: center;
+	align-items: start;
+	justify-content: center;
+	flex-direction: column;
 	gap: 2em;
+	overflow: hidden auto;
+
+	@media screen and (min-width: 768px) {
+		align-items: center;
+		flex-direction: row;
+	}
 
 	&__form {
 		max-height: 80vh;
 		margin: 0;
 		overflow-y: auto;
 
-		.field {
+		> .field {
 			margin: 0 1em 0.5em 1em;
 
 			p {

@@ -12,6 +12,7 @@ import 'react-phone-input-2/lib/bootstrap.css'
 import Loader from '../../../../../components/Loader/Loader'
 import Modal from '../../../../../components/Modal/Modal'
 import PhoneInput from 'react-phone-input-2'
+import Field from '../../../../../components/Inputs/Field/Field'
 
 const PhoneNumber = () => {
 	const { user } = useAuthContext()
@@ -187,12 +188,8 @@ const PhoneNumber = () => {
 						</p>
 
 						<label className='otp-code'>
-							<input type='number' value={OTPCode} onChange={e => handleOTPInput(e)} />
-							{/* <input type='text' maxLength='1' />
-                        <input type='text' maxLength='1' />
-                        <input type='text' maxLength='1' />
-                        <input type='text' maxLength='1' />
-                        <input type='text' maxLength='1' /> */}
+							{/* <input type='number' value={OTPCode} onChange={e => handleOTPInput(e)} /> */}
+							<Field value={OTPCode} setValue={setOTPCode} onChange={e => handleOTPInput(e)} type='number' />
 						</label>
 						{error && <div className='error'>{error}</div>}
 

@@ -6,7 +6,7 @@ import '../InputStyles.scss'
 // Components
 import FieldContainer from '../FieldContainer/FieldContainer'
 
-const TextField = ({
+const Field = ({
 	value,
 	setValue,
 	label,
@@ -87,4 +87,4 @@ const TextField = ({
 	}
 }
 
-export default TextField
+export default Field

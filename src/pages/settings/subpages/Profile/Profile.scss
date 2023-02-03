@@ -38,7 +38,7 @@
 						flex-direction: column;
 						gap: 0.8em;
 						padding: 5em 7em;
-						border: 2px dashed var(--bg-secondary-lighten50);
+						border: 2px dashed var(--bg-dark-lighten50);
 						border-radius: var(--border-radius);
 						background-color: transparent;
 						transition: border 0.24s ease-in-out;
@@ -112,6 +112,7 @@
 				textarea {
 					font-size: 1.4rem;
 					resize: none;
+					background-color: var(--bg-dark-lighten10);
 				}
 
 				&__char-counter {

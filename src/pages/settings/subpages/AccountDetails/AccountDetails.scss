@@ -56,34 +56,6 @@
 				background-color: transparent;
 			}
 
-			i {
-				position: relative;
-				grid-column: 3 / 4;
-				grid-row: 1 / 3;
-				justify-self: end;
-				align-self: end;
-				padding: 0.5em;
-				border-radius: 50vw;
-				text-transform: capitalize;
-				font-size: 2rem;
-				cursor: pointer;
-				color: var(--text-primary-darken20);
-
-				&:hover {
-					background-color: var(--bg-dark-lighten10);
-
-					.tooltip {
-						display: block;
-						font-weight: normal;
-					}
-				}
-
-				&.fa-xmark,
-				&.fa-check {
-					display: none;
-				}
-			}
-
 			.modal {
 				&__content {
 					display: flex;
@@ -102,11 +74,6 @@
 						text-align: center;
 					}
 
-					input {
-						border-radius: var(--border-radius);
-						background-color: var(--bg-secondary-lighten10);
-					}
-
 					.otp-code {
 						display: flex;
 						align-items: center;
@@ -119,7 +86,7 @@
 							border: 1px solid var(--bg-dark-lighten25);
 							text-align: center;
 							font-size: 3.2rem;
-							background-color: var(--bg-secondary-lighten10);
+							background-color: var(--bg-dark-lighten10);
 
 							&::-webkit-outer-spin-button,
 							&::-webkit-inner-spin-button {
@@ -154,7 +121,7 @@
 							padding: 0.8em 1em 0.8em 4em;
 							border: 1px solid var(--border-color);
 							border-radius: var(--border-radius);
-							background-color: var(--bg-secondary-lighten10);
+							background-color: var(--bg-dark-lighten10);
 							font-family: inherit;
 							color: var(--input-text);
 							outline: none;
@@ -215,7 +182,7 @@
 
 			> .btn {
 				margin-top: 2em;
-				border: 1px solid var(--bg-secondary-lighten15);
+				border: 1px solid var(--bg-dark-lighten15);
 				font-weight: normal;
 				background-color: transparent;
 				color: #f53649;
@@ -294,11 +261,6 @@
 								font-size: 1.5rem;
 							}
 						}
-					}
-
-					input {
-						border-radius: var(--border-radius);
-						background-color: var(--bg-secondary-lighten10);
 					}
 				}
 			}

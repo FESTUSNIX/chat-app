@@ -17,6 +17,7 @@ import ThemePicker from '../../../components/ThemePicker/ThemePicker'
 import './ChatOptions.scss'
 import AvatarWithStatus from '../../../components/AvatarWithStatus/AvatarWithStatus'
 import MediaQuery from 'react-responsive'
+import Field from '../../../components/Inputs/Field/Field'
 
 export default function ChatOptions({
 	onMessageResponse,
@@ -166,7 +167,7 @@ export default function ChatOptions({
 				<div className='option__icon'>Aa</div>
 			</div>
 
-			{themes && (showThemePicker || showThemeCreator) && (
+			{themes && (
 				<>
 					<Modal
 						show={showThemePicker}
@@ -237,7 +238,7 @@ export default function ChatOptions({
 						key={u.id}
 						className='user'
 						onClick={() => {
-							setNewNickname(' ')
+							setNewNickname('')
 							handleNicknameInput(u)
 						}}>
 						<div className='author'>
@@ -248,14 +249,21 @@ export default function ChatOptions({
 									<p>Set nickname</p>
 								</div>
 							)}
-							{showNicknameInput === u.id && (
-								<input
+							{/* <input
 									type='text'
 									placeholder={u.nickname}
 									value={newNickname}
 									onChange={e => {
 										setNewNickname(e.target.value)
 									}}
+								/> */}
+							{showNicknameInput === u.id && (
+								<Field
+									value={newNickname}
+									setValue={setNewNickname}
+									placeholder={u.nickname}
+									type='text'
+									containerClass='mb0'
 								/>
 							)}
 						</div>

@@ -296,13 +296,14 @@ export default function Message({
 					)}
 					<li
 						className={`${handleMessageStyle()} ${message.deleted ? 'deleted' : ''} ${
-							message.emojiReactions ? 'emoji-response' : ''
+							message.emojiReactions && message.emojiReactions.filter(r => r === null).length === 0
+								? 'emoji-response'
+								: ''
 						}`}
 						id={message.id}>
 						{message.createdBy !== user.uid && (isTop() || !(isMiddle() || isBottom())) && (
 							<p className='message-author'>{getLocalUser(message.createdBy).nickname}</p>
 						)}
-
 						{message.response !== null && (
 							<div
 								onClick={() => scrollToResponse(chat.messages[message.response].id)}

@@ -6,6 +6,7 @@ import { projectAuth } from '../../../../../firebase/config'
 // Components
 import Modal from '../../../../../components/Modal/Modal'
 import Loader from '../../../../../components/Loader/Loader'
+import Field from '../../../../../components/Inputs/Field/Field'
 
 const Email = () => {
 	const { user } = useAuthContext()
@@ -89,15 +90,10 @@ const Email = () => {
 				<p>Enter a new email address</p>
 
 				<label>
-					<input type='email' placeholder='Email' value={email} onChange={e => setEmail(e.target.value)} />
+					<Field value={email} setValue={setEmail} label='Email' type='email' />
 				</label>
 				<label>
-					<input
-						type='password'
-						placeholder='Password'
-						value={currentPassword}
-						onChange={e => setCurrentPassword(e.target.value)}
-					/>
+					<Field value={currentPassword} setValue={setCurrentPassword} label='Password' type='password' />
 				</label>
 
 				{isPending && <Loader />}
