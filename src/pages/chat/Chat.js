@@ -60,9 +60,9 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme, showChat,
 					{
 						id: currentUserDoc.id,
 						nickname: currentUserLocal.nickname,
-						lastRead: document.messages[document.messages.length - 1].id,
-					},
-				],
+						lastRead: document.messages[document.messages.length - 1].id
+					}
+				]
 			})
 		}
 	}
@@ -92,10 +92,9 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme, showChat,
 							<Avatar src={otherUserDoc.photoURL} />
 							<div className='vertical-container'>
 								<h3>{otherUserLocal.nickname}</h3>
-								{<p className='isActive'>{currentUserDoc.status ? currentUserDoc.status : ''}</p>}
+								{<p className='isActive'>{otherUserDoc.status ? otherUserDoc.status : ''}</p>}
 							</div>
 						</div>
-
 						<div
 							className='top-bar-options'
 							onClick={e => {

@@ -16,14 +16,14 @@ export default function ResetPassword() {
 	const [timeToRedirect, setTimeToRedirect] = useState(15)
 
 	const [formErrors, setFormErrors] = useState({
-		email: '',
+		email: ''
 	})
 
 	const handlePasswordReset = () => {
 		if (!email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
 			setFormErrors(existing => ({
 				...existing,
-				email: 'Enter a valid email',
+				email: 'Enter a valid email'
 			}))
 			return
 		}
@@ -82,7 +82,7 @@ export default function ResetPassword() {
 						resetError={() =>
 							setFormErrors(existing => ({
 								...existing,
-								email: '',
+								email: ''
 							}))
 						}
 						onLostFocus={() => {
@@ -92,7 +92,7 @@ export default function ResetPassword() {
 							) {
 								setFormErrors(existing => ({
 									...existing,
-									email: 'Please enter a valid email address',
+									email: 'Please enter a valid email address'
 								}))
 							}
 						}}

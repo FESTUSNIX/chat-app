@@ -153,7 +153,6 @@ export default function ThemeCreator({
 		<div className='theme-creator'>
 			<form className='theme-creator__form custom-scrollbar'>
 				<div className='field'>
-					<p>Name your theme</p>
 					<Field type='text' value={name} setValue={setName} label='Theme name' />
 				</div>
 

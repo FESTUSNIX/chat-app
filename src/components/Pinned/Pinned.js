@@ -12,6 +12,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { Link } from 'react-router-dom'
 import Modal from '../Modal/Modal'
 import Avatar from '../Avatar/Avatar'
+import Field from '../Inputs/Field/Field'
 
 const Pinned = ({ orientation }) => {
 	const { user } = useAuthContext()
@@ -31,10 +32,11 @@ const Pinned = ({ orientation }) => {
 
 	useEffect(() => {
 		if (chats && chats !== null && chats.length !== 0) {
-			if (userDoc && userDoc.pinned) {
+			if (userDoc && userDoc.pinned && userDoc.pinned !== undefined) {
 				setFavs(userDoc.pinned)
 			} else {
 				setFavs([null, null, null, null])
+				setFavsCopy([null, null, null, null])
 			}
 		}
 	}, [chats, userDoc])
@@ -82,7 +84,7 @@ const Pinned = ({ orientation }) => {
 
 		setFavs(items)
 		await updateDocument(user.uid, {
-			pinned: items,
+			pinned: items
 		})
 	}
 
@@ -109,7 +111,7 @@ const Pinned = ({ orientation }) => {
 					if (u.id !== user.uid) {
 						userToAdd = {
 							id: chatToAdd.id,
-							uid: u.id,
+							uid: u.id
 						}
 					}
 				})
@@ -137,7 +139,16 @@ const Pinned = ({ orientation }) => {
 	}
 
 	const addFav = chat => {
-		const items = Array.from(favsCopy)
+		let items = [null, null, null, null]
+
+		if (!favsCopy) {
+			setFavsCopy([null, null, null, null])
+		}
+
+		if (favsCopy) {
+			items = Array.from(favsCopy)
+		}
+
 		let index
 		let userToAdd
 
@@ -146,7 +157,7 @@ const Pinned = ({ orientation }) => {
 				if (u.id !== user.uid) {
 					userToAdd = {
 						id: chat.id,
-						uid: u.id,
+						uid: u.id
 					}
 				}
 			})
@@ -193,7 +204,11 @@ const Pinned = ({ orientation }) => {
 								className='pinned__add'
 								onClick={() => {
 									setShowFavs(true)
-									setFavsCopy(favs)
+									if (favs) {
+										setFavsCopy(favs)
+									} else {
+										setFavsCopy([null, null, null, null])
+									}
 								}}>
 								<i className='fa-regular fa-star'></i>
 							</div>
@@ -260,13 +275,7 @@ const Pinned = ({ orientation }) => {
 						</Droppable>
 
 						<div>
-							<input
-								type='text'
-								placeholder='Find a user'
-								value={searchValue}
-								onChange={e => setSearchValue(e.target.value)}
-								className='mb1'
-							/>
+							<Field type='text' value={searchValue} setValue={setSearchValue} label='Find a user' />
 							<Droppable droppableId='chats-list' isDropDisabled={true}>
 								{provided => (
 									<ul
@@ -347,7 +356,7 @@ const Pinned = ({ orientation }) => {
 							className='btn'
 							onClick={() => {
 								updateDocument(user.uid, {
-									pinned: favsCopy,
+									pinned: favsCopy
 								})
 								setShowFavs(false)
 							}}>

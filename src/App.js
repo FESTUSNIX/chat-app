@@ -122,6 +122,7 @@ function App() {
 		theme && (
 			<ThemeProvider theme={theme}>
 				<GlobalStyles />
+
 				<div className='App'>
 					{/* <button
 						style={{ position: 'fixed', top: '0', left: '0', padding: '10px', zIndex: '100000' }}
@@ -146,7 +147,7 @@ function App() {
 												key='chat'
 												showChat={showChat}
 												setShowChat={setShowChat}
-											/>,
+											/>
 										]
 									) : (
 										<Navigate to='/' />

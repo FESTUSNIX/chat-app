@@ -110,8 +110,12 @@
 				margin-bottom: 0.5em;
 
 				textarea {
-					font-size: 1.4rem;
+					width: 100%;
+					padding: 0.8em 1em;
+					border: none;
+					border-radius: var(--border-radius);
 					resize: none;
+					font-size: 1.4rem;
 					background-color: var(--bg-dark-lighten10);
 				}
 

@@ -19,7 +19,7 @@
 12. Remind password if forgot (login screen) [✅]
 13. Friend invites (change the chat add/invitation system) [✅]
 <!-- 14. Blocking people [❌] -->
-14. Mobile version [❌]
+14. Mobile version [✅]
 15. Make visitable profiles [✅]
 
 16. Editing account
@@ -38,8 +38,6 @@
     - Custom emoji [✅]
 19. Migrate the app to windows, macOS, android and ios with use of Electron [❌]
 20. Comment the code [❌]
-
-#### Delete --bg-secondary and rest of useless color variables
 
 #### Change the way themes work (theme provider only works on Chat and the rest of app has one default theme (or more to select... maybe lol) )
 

@@ -5,12 +5,12 @@
 	flex-grow: 1;
 	background-color: var(--bg-dark);
 
-
 	@media screen and (max-width: 768px) {
 		height: 100%;
 		position: fixed;
 		left: 0;
 		animation: hideChat 0.3s forwards;
+		z-index: 20;
 
 		&.active {
 			animation: showChat 0.3s forwards;

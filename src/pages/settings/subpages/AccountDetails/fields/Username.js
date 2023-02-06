@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify'
 // Components
 import Modal from '../../../../../components/Modal/Modal'
 import Loader from '../../../../../components/Loader/Loader'
+import Field from '../../../../../components/Inputs/Field/Field'
 
 const Username = () => {
 	const { user } = useAuthContext()
@@ -81,7 +82,7 @@ const Username = () => {
 				<h3>Change your username</h3>
 				<p>Enter a new, always cool username</p>
 
-				<input type='text' placeholder='Username' value={username} onChange={e => setUsername(e.target.value)} />
+				<Field type='text' value={username} setValue={setUsername} label='Username' />
 
 				{isPending && <Loader />}
 				{error && <div className='error'>{error}</div>}
