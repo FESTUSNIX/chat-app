@@ -15,7 +15,7 @@ const AvatarWithStatus = ({ userId, linkToProfile, noTooltip, noStatus, src }) =
 	const [user, setUser] = useState(null)
 
 	useEffect(() => {
-		if (users && userId && userId !== null) {
+		if (users && userId) {
 			setUser(
 				users.filter(u => {
 					return u.id === userId
@@ -24,7 +24,7 @@ const AvatarWithStatus = ({ userId, linkToProfile, noTooltip, noStatus, src }) =
 		}
 	}, [userId, users])
 
-	if (user && user !== undefined && user !== null) {
+	if (user) {
 		return (
 			<div className='avatar-container'>
 				{linkToProfile && (

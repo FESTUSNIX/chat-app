@@ -1,14 +1,14 @@
-import { useLogin } from '../../hooks/useLogin'
+import { useSignup } from '../../hooks/useSignup'
 
 // Styles && Assets
 import './GithubButton.scss'
 import githubLogo from '../../assets/GitHub-Mark-Light-32px.png'
 
 const GithubButton = () => {
-	const { loginWithGithub, isPending, error } = useLogin()
+	const { signInWithGithub, isPending, error } = useSignup()
 
 	const handleSubmitWithGithub = () => {
-		loginWithGithub()
+		signInWithGithub()
 	}
 
 	return (

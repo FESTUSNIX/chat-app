@@ -9,22 +9,20 @@ import './Settings.scss'
 import premiumIcon from '../../assets/premium-account.png'
 
 // Components
-import AvatarWithStatus from '../../components/AvatarWithStatus/AvatarWithStatus'
 import AccountDetails from './subpages/AccountDetails/AccountDetails'
 import Profile from './subpages/Profile/Profile'
 import Theme from './subpages/Theme/Theme'
 import Premium from './subpages/Premium/Premium'
 import PrivacyAndSecurity from './subpages/PrivacyAndSecurity/PrivacyAndSecurity'
-// import Modal from '../../components/Modal/Modal'
-// import Loader from '../../components/Loader/Loader'
+import { AvatarWithStatus } from '../../components'
 
 export default function Settings() {
 	const { user } = useAuthContext()
-	const { logout, error, isPending } = useLogout()
+	const { logout } = useLogout()
 
 	const [showPage, setShowPage] = useState(false)
 	const mediaQueryXL = useMediaQuery({ query: '(min-width: 992px)' })
-	// const [confirmLogout, setConfirmLogout] = useState(false)
+
 	return (
 		<div className='settings'>
 			<div className='wrapper'>
@@ -70,26 +68,6 @@ export default function Settings() {
 							<i className='fa-solid fa-arrow-right-from-bracket'></i>
 						</div>
 					</div>
-
-					{/* <Modal show={confirmLogout} setShow={() => setConfirmLogout(false)}>
-						{!isPending && <i className='fa-regular fa-hand mb05'></i>}
-
-						{isPending && <Loader />}
-
-						<h3 className='mb05'>Come back soon!</h3>
-						<p>Are you sure you want to Log Out?</p>
-
-						<div className='btn-group'>
-							<button className='btn btn--secondary' onClick={() => setConfirmLogout(false)}>
-								cancel
-							</button>
-							<button className='btn' onClick={() => logout()}>
-								logout
-							</button>
-						</div>
-
-						{error && <div className='error'>{error}</div>}
-					</Modal> */}
 				</aside>
 
 				{(showPage || mediaQueryXL) && (

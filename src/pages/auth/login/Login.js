@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom'
 
 // Components
 import AuthTemplate from '../AuthTemplate'
-import Field from '../../../components/Inputs/Field/Field'
-import GoogleButton from '../../../components/GoogleButton/GoogleButton'
-import GithubButton from '../../../components/GithubButton/GithubButton'
+import { GithubButton, GoogleButton, Field } from '../../../components'
 
 export default function Login() {
 	const [email, setEmail] = useState('')
@@ -14,19 +12,17 @@ export default function Login() {
 	const { login, isPending, error } = useLogin()
 
 	const handleSubmit = () => {
-		// Validation
-
 		if (!email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
 			setFormErrors(existing => ({
 				...existing,
-				email: 'Enter a valid email',
+				email: 'Enter a valid email'
 			}))
 			return
 		}
 		if (password.trim().length < 6) {
 			setFormErrors(existing => ({
 				...existing,
-				password: 'Password must be at least 6 characters long',
+				password: 'Password must be at least 6 characters long'
 			}))
 			return
 		}
@@ -37,7 +33,7 @@ export default function Login() {
 	const [formErrors, setFormErrors] = useState({
 		username: '',
 		email: '',
-		password: '',
+		password: ''
 	})
 
 	return (
@@ -48,6 +44,12 @@ export default function Login() {
 				<p className='auth__change-page'>
 					Don't have an account? <Link to='/signup'>Sign up</Link>
 				</p>
+
+				<div className='mb05 mt2'>
+					<p style={{ fontSize: '1.6rem' }}>Example user:</p>
+					<p style={{ fontSize: '1.5rem' }}>Email: test@dev.pl</p>
+					<p style={{ fontSize: '1.5rem' }}>Pass: password</p>
+				</div>
 			</div>
 
 			<Field
@@ -59,14 +61,14 @@ export default function Login() {
 				resetError={() =>
 					setFormErrors(existing => ({
 						...existing,
-						email: '',
+						email: ''
 					}))
 				}
 				onLostFocus={() => {
 					if (email !== '' && !email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
 						setFormErrors(existing => ({
 							...existing,
-							email: 'Please enter a valid email address',
+							email: 'Please enter a valid email address'
 						}))
 					}
 				}}
@@ -82,14 +84,14 @@ export default function Login() {
 				resetError={() =>
 					setFormErrors(existing => ({
 						...existing,
-						password: '',
+						password: ''
 					}))
 				}
 				onLostFocus={() => {
 					if (password !== '' && password.trim().length < 6) {
 						setFormErrors(existing => ({
 							...existing,
-							password: 'Password must be at least 6 characters long',
+							password: 'Password must be at least 6 characters long'
 						}))
 					}
 				}}

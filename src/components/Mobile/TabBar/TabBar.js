@@ -16,7 +16,6 @@ export default function TabBar() {
 		['assignedUsersId', 'array-contains', user.uid],
 		['updatedAt', 'desc']
 	)
-
 	const { document: userDoc } = useDocument('users', user.uid)
 
 	const [currentPath, setCurrentPath] = useState('')
@@ -24,22 +23,15 @@ export default function TabBar() {
 	const [invitesAmount, setInvitesAmount] = useState(0)
 
 	useEffect(() => {
-		if (chats && chats !== null && chats.length !== 0) {
-			setLatestChat(chats[0])
-		} else {
-			setLatestChat('')
-		}
+		setLatestChat(chats && chats.length ? chats[0] : '')
 	}, [chats, userDoc])
 
 	useEffect(() => {
-		if (userDoc && userDoc.friends) {
-			setInvitesAmount(
-				userDoc.friends.filter(f => {
-					if (f.isPending) return true
-					return false
-				}).length
-			)
-		}
+		setInvitesAmount(
+			userDoc?.friends?.filter(f => {
+				return f.isPending
+			}).length
+		)
 	}, [userDoc])
 
 	useEffect(() => {
@@ -80,7 +72,7 @@ export default function TabBar() {
 						'/settings',
 						'/settings/',
 						'/settings/become-cool',
-						'/settings/privacy-and-security',
+						'/settings/privacy-and-security'
 					].includes(location.pathname)
 						? 'active'
 						: ''

@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom'
 import ShrekGif from '../../../assets/shrek-gif.gif'
 
 // Components
-import Field from '../../../components/Inputs/Field/Field'
 import AuthTemplate from '../AuthTemplate'
+import { Field } from '../../../components'
 
 export default function ResetPassword() {
 	const { sendPasswordReset, isPending, error, isFinished } = useLogin()

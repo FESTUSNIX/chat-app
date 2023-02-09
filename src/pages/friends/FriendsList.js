@@ -5,9 +5,8 @@ import { useDocument } from '../../hooks/useDocument'
 import { useCollection } from '../../hooks/useCollection'
 
 // Components
-import AvatarWithStatus from '../../components/AvatarWithStatus/AvatarWithStatus'
-import Field from '../../components/Inputs/Field/Field'
 import { useMediaQuery } from 'react-responsive'
+import { AvatarWithStatus, Field } from '../../components'
 
 const FriendsList = () => {
 	const { user } = useAuthContext()
@@ -17,22 +16,11 @@ const FriendsList = () => {
 	const [search, setSearch] = useState('')
 	const [filter, setFilter] = useState('all')
 
-	const getDoc = id => {
-		let res = null
-
-		if (users) {
-			res = users.filter(doc => {
-				if (doc.id === id) {
-					return true
-				}
-				return false
-			})[0]
-		}
-
-		return res
-	}
+	const getDoc = id => users?.filter(doc => doc.id === id)?.[0] ?? null
 
 	const filterUsers = f => {
+		console.log('xd')
+
 		if (getDoc(f.id)) {
 			let flt
 
@@ -52,14 +40,10 @@ const FriendsList = () => {
 			}
 
 			if (getDoc(f.id).status === flt && f.accepted) {
-				if (
+				return (
 					getDoc(f.id).displayName.toLowerCase().trim().replace(/\s+/g, '').includes(search.toLowerCase()) ||
 					search === ''
-				) {
-					return true
-				}
-
-				return false
+				)
 			}
 		}
 		return false
@@ -123,7 +107,7 @@ const FriendsList = () => {
 				before={<i className='fa-solid fa-magnifying-glass'></i>}
 			/>
 
-			{currentUserDoc && currentUserDoc.friends && currentUserDoc.friends.filter(f => filterUsers(f)).length > 0 ? (
+			{currentUserDoc?.friends ? (
 				<div className='friends__list'>
 					<div className='friends__list-title'>
 						{filter} - {currentUserDoc.friends.filter(f => filterUsers(f)).length}

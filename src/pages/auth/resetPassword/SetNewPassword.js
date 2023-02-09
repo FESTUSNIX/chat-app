@@ -8,7 +8,7 @@ import ShrekGif from '../../../assets/shrek-gif.gif'
 
 // Components
 import AuthTemplate from '../AuthTemplate'
-import Field from '../../../components/Inputs/Field/Field'
+import { Field } from '../../../components'
 
 export default function SetNewPassword() {
 	const { resetPassword, isPending, error, isFinished } = useLogin()
@@ -21,7 +21,7 @@ export default function SetNewPassword() {
 		if (newPassword.trim().length < 6) {
 			setFormErrors(existing => ({
 				...existing,
-				password: 'Password must be at least 6 characters long',
+				password: 'Password must be at least 6 characters long'
 			}))
 			return
 		}
@@ -30,7 +30,7 @@ export default function SetNewPassword() {
 	}
 
 	const [formErrors, setFormErrors] = useState({
-		password: '',
+		password: ''
 	})
 
 	return (
@@ -69,14 +69,14 @@ export default function SetNewPassword() {
 						resetError={() =>
 							setFormErrors(existing => ({
 								...existing,
-								password: '',
+								password: ''
 							}))
 						}
 						onLostFocus={() => {
 							if (newPassword !== '' && newPassword.trim().length < 6) {
 								setFormErrors(existing => ({
 									...existing,
-									password: 'Password must be at least 6 characters long',
+									password: 'Password must be at least 6 characters long'
 								}))
 							}
 						}}

@@ -4,9 +4,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { projectAuth } from '../../../../../firebase/config'
 
 // Components
-import Modal from '../../../../../components/Modal/Modal'
-import Loader from '../../../../../components/Loader/Loader'
-import Field from '../../../../../components/Inputs/Field/Field'
+import { Modal, Loader, Field } from '../../../../../components'
 
 const Email = () => {
 	const { user } = useAuthContext()
@@ -27,7 +25,7 @@ const Email = () => {
 			pauseOnHover: true,
 			draggable: true,
 			progress: undefined,
-			theme: 'dark',
+			theme: 'dark'
 		})
 
 	const updateEmail = async () => {

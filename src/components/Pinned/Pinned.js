@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom'
 import Modal from '../Modal/Modal'
 import Avatar from '../Avatar/Avatar'
 import Field from '../Inputs/Field/Field'
+import { createGlobalStyle } from 'styled-components'
 
 const Pinned = ({ orientation }) => {
 	const { user } = useAuthContext()
@@ -31,58 +32,28 @@ const Pinned = ({ orientation }) => {
 	const [favsCopy, setFavsCopy] = useState(favs)
 
 	useEffect(() => {
-		if (chats && chats !== null && chats.length !== 0) {
-			if (userDoc && userDoc.pinned && userDoc.pinned !== undefined) {
-				setFavs(userDoc.pinned)
-			} else {
-				setFavs([null, null, null, null])
-				setFavsCopy([null, null, null, null])
-			}
+		if (chats?.length) {
+			setFavs(userDoc?.pinned || [null, null, null, null])
+			!userDoc?.pinned && setFavsCopy([null, null, null, null])
 		}
 	}, [chats, userDoc])
 
-	useEffect(() => {
-		if (userDoc && userDoc.pinned !== null) {
-			setFavs(userDoc.pinned)
-		}
-	}, [userDoc])
+	useEffect(() => setFavs(userDoc?.pinned || favs), [userDoc])
 
-	const getDoc = id => {
-		let res = null
-
-		if (users) {
-			res = users.filter(doc => {
-				if (doc.id === id) {
-					return true
-				}
-				return false
-			})[0]
-		}
-
-		return res
-	}
+	const getDoc = id => users?.filter(doc => doc.id === id)?.[0] ?? null
 
 	const filterChats = chat => {
-		let result = false
-		if (favsCopy) {
-			favsCopy.forEach(fav => {
-				if (fav !== null) {
-					if (fav.id === chat.id) {
-						result = true
-					}
-				}
-			})
-		}
-		return result
+		return favsCopy?.filter(fav => fav !== null && fav.id === chat.id)?.[0] || false
 	}
 
 	const handleOnDragEnd = async result => {
 		if (!result.destination) return
+
 		const items = Array.from(favs)
 		const [reorderedItem] = items.splice(result.source.index, 1)
 		items.splice(result.destination.index, 0, reorderedItem)
-
 		setFavs(items)
+
 		await updateDocument(user.uid, {
 			pinned: items
 		})
@@ -100,22 +71,19 @@ const Pinned = ({ orientation }) => {
 
 		if (result.destination.droppableId === 'empty-slots') {
 			const favs = Array.from(favsCopy)
-			const items = Array.from(chats.filter(chat => !filterChats(chat)))
+			const items = Array.from(chats.filter(chat => !filterChats(chat)))[result.source.index]
 
-			const chatToAdd = items[result.source.index]
 			let userToAdd
 			let index
 
-			if (!chatToAdd.isGroup) {
-				chatToAdd.assignedUsers.forEach(u => {
-					if (u.id !== user.uid) {
-						userToAdd = {
-							id: chatToAdd.id,
-							uid: u.id
-						}
+			items.assignedUsers.forEach(u => {
+				if (u.id !== user.uid) {
+					userToAdd = {
+						id: items.id,
+						uid: u.id
 					}
-				})
-			}
+				}
+			})
 
 			favs.forEach(item => {
 				if (item === null) {

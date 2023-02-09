@@ -6,12 +6,13 @@ import { useDocument } from '../../../../hooks/useDocument'
 import './AccountDetails.scss'
 
 // Components
-import Loader from '../../../../components/Loader/Loader'
 import Username from './fields/Username'
 import Email from './fields/Email'
 import PhoneNumber from './fields/PhoneNumber'
 import Password from './fields/Password'
 import DeleteAccount from './fields/DeleteAccount'
+
+import { Loader } from '../../../../components'
 
 const AccountDetails = () => {
 	const { user } = useAuthContext()

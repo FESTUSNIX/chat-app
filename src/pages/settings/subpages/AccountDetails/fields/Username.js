@@ -4,10 +4,7 @@ import { useAuthContext } from '../../../../../hooks/useAuthContext'
 import { updateProfile } from 'firebase/auth'
 import { toast, ToastContainer } from 'react-toastify'
 
-// Components
-import Modal from '../../../../../components/Modal/Modal'
-import Loader from '../../../../../components/Loader/Loader'
-import Field from '../../../../../components/Inputs/Field/Field'
+import { Modal, Loader, Field } from '../../../../../components'
 
 const Username = () => {
 	const { user } = useAuthContext()
@@ -28,7 +25,7 @@ const Username = () => {
 			pauseOnHover: true,
 			draggable: true,
 			progress: undefined,
-			theme: 'dark',
+			theme: 'dark'
 		})
 
 	const updateUsername = async () => {
@@ -38,10 +35,10 @@ const Username = () => {
 
 			try {
 				await updateProfile(user, {
-					displayName: username,
+					displayName: username
 				})
 				await updateDocument(user.uid, {
-					displayName: username,
+					displayName: username
 				})
 
 				setIsPending(false)
@@ -64,9 +61,7 @@ const Username = () => {
 			<ToastContainer />
 			<h3>username</h3>
 			<p>{user.displayName}</p>
-			{/* <i className='fa-solid fa-pencil' onClick={() => setShow(true)}>
-							<Tooltip>Edit</Tooltip>
-						</i> */}
+
 			<button className='btn btn--secondary' onClick={() => setShow(true)}>
 				edit
 			</button>

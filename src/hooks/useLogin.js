@@ -1,7 +1,7 @@
 import { PhoneAuthProvider, RecaptchaVerifier } from 'firebase/auth'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { projectAuth, projectFirestore, projectGitHub, projectGoogle } from '../firebase/config'
+import { projectAuth, projectGitHub, projectGoogle } from '../firebase/config'
 import { useAuthContext } from './useAuthContext'
 
 export const useLogin = () => {
@@ -21,12 +21,6 @@ export const useLogin = () => {
 		try {
 			// Login
 			const res = await projectAuth.signInWithEmailAndPassword(email, password)
-
-			// Update online status
-
-			await projectFirestore.collection('users').doc(res.user.uid).update({
-				online: true,
-			})
 
 			// Dispatch login action
 			dispatch({ type: 'LOGIN', payload: res.user })
@@ -52,12 +46,6 @@ export const useLogin = () => {
 			// Login
 			const res = await projectAuth.signInWithPopup(projectGoogle)
 
-			// Update online status
-
-			await projectFirestore.collection('users').doc(res.user.uid).update({
-				online: true,
-			})
-
 			// Dispatch login action
 			dispatch({ type: 'LOGIN', payload: res.user })
 
@@ -81,11 +69,6 @@ export const useLogin = () => {
 		try {
 			// Login
 			const res = await projectAuth.signInWithPopup(projectGitHub)
-			// Update online status
-
-			await projectFirestore.collection('users').doc(res.user.uid).update({
-				online: true,
-			})
 
 			// Dispatch login action
 			dispatch({ type: 'LOGIN', payload: res.user })
@@ -183,6 +166,6 @@ export const useLogin = () => {
 		setUpRecaptcha,
 		isPending,
 		error,
-		isFinished,
+		isFinished
 	}
 }

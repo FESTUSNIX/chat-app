@@ -1,42 +1,31 @@
+import PrivacyPolicyField from './PrivacyPolicyField'
+
 export default function PrivacyPolicy() {
 	return (
-		<>
-			<div class='privacy-section'>
-				<h3>Zbieranie danych</h3>
-				<p>Kiedy zbieramy Twoje dane? Twój email oraz hasło zapisywane są podczas rejestracji na naszej stronie.</p>
-			</div>
+		<div className='privacy-policy'>
+			<PrivacyPolicyField
+				title='Zbieranie danych'
+				mainText='Kiedy zbieramy Twoje dane? Twój email oraz hasło zapisywane są podczas rejestracji na naszej stronie.'
+			/>
 
-			<div class='privacy-section'>
-				<h3>Cele przetwarzania danych</h3>
+			<PrivacyPolicyField
+				title='Cele przetwarzania danych'
+				mainText='Twoje dane zebrane podczas rejestracji przetwarzane są jedynie w celu umożliwienia korzystania ze strony. Nie
+				udostępniamy ich nikomu, nie sprzedajemy ich. Rejestracja jest dobrowolna.'
+			/>
 
-				<p>
-					Twoje dane zebrane podczas rejestracji przetwarzane są jedynie w celu umożliwienia korzystania ze strony. Nie
-					udostępniamy ich nikomu, nie sprzedajemy ich. Rejestracja jest dobrowolna.
-				</p>
-			</div>
-			<div class='privacy-section'>
-				<h3>Bezpieczeństwo danych</h3>
+			<PrivacyPolicyField
+				title='Bezpieczeństwo danych'
+				mainText='Twoje dane są automatycznie szyfrowane przez usługę firebase od google. Nikt nie ma dostępu do twoich danych.'
+			/>
 
-				<p>
-					Twoje dane są automatycznie szyfrowane przez usługę firebase od google. Nikt nie ma dostępu do twoich danych.
-				</p>
-			</div>
-			<div class='privacy-section'>
-				<h3>Usuwanie danych</h3>
+			<PrivacyPolicyField
+				title='Usuwanie danych'
+				mainText={`Jeśli zrezygnujesz z używania naszej aplikacji w każdym momencie możesz usunąć konto oraz swoje dane
+				(settings => account details => delete account).`}
+			/>
 
-				<p>
-					Jeśli zrezygnujesz z używania naszej aplikacji w każdym momencie możesz usunąć konto oraz swoje dane
-					{'(settings => account details => delete account)'}.
-				</p>
-			</div>
-
-			<div class='privacy-section'>
-				<h3>Pozostałe informacje</h3>
-
-				<p>
-					<span>W razie jakichkolwiek pytań, prosimy o kontakt na adresie mailowym: matkowsky808@gmail.com</span>
-				</p>
-			</div>
-		</>
+			<PrivacyPolicyField title='Pozostałe informacje' mainText='W razie jakichkolwiek pytań, prosimy o kontakt' />
+		</div>
 	)
 }

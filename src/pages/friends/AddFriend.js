@@ -7,7 +7,7 @@ import { useDocument } from '../../hooks/useDocument'
 import { useFirestore } from '../../hooks/useFirestore'
 
 // Components
-import Field from '../../components/Inputs/Field/Field'
+import { Avatar, Field, Tooltip } from '../../components/'
 
 const AddFriend = () => {
 	const { user } = useAuthContext()
@@ -17,6 +17,7 @@ const AddFriend = () => {
 
 	const [inputError, setInputError] = useState(null)
 	const [userCode, setUserCode] = useState('')
+	const [query, setQuery] = useState('')
 
 	const notify = message =>
 		toast.success(message, {
@@ -27,54 +28,31 @@ const AddFriend = () => {
 			pauseOnHover: true,
 			draggable: true,
 			progress: undefined,
-			theme: 'dark',
+			theme: 'dark'
 		})
 
-	const addFriend = async () => {
-		setInputError(null)
-
-		let userDoc = null
-
-		users.forEach(u => {
-			if (u.id === userCode.trim()) {
-				userDoc = u
-			}
-		})
-
-		if (userCode === '') {
-			setInputError('Please enter code')
-			return
-		}
-		if (userDoc === null) {
-			setInputError('Could not find user with this id')
-			return
-		}
-		if (currentUserDoc.friends && currentUserDoc.friends.some(f => f.id === userCode.trim())) {
-			setInputError("You've already invited this user or this user has invited you")
-			return
-		}
-
+	const updateFriendsDocument = async userDoc => {
 		try {
 			await updateDocument(user.uid, {
 				friends: [
-					...(currentUserDoc.friends ? currentUserDoc.friends : []),
+					...(currentUserDoc?.friends ?? []),
 					{
 						id: userDoc.id,
 						isPending: false,
-						accepted: false,
-					},
-				],
+						accepted: false
+					}
+				]
 			})
 
 			await updateDocument(userDoc.id, {
 				friends: [
-					...(userDoc.friends ? userDoc.friends : []),
+					...(userDoc?.friends ?? []),
 					{
 						id: currentUserDoc.id,
 						isPending: true,
-						accepted: false,
-					},
-				],
+						accepted: false
+					}
+				]
 			})
 
 			notify('Successfully sent invite')
@@ -85,6 +63,21 @@ const AddFriend = () => {
 		}
 	}
 
+	const validateUserCode = () => {
+		setInputError(null)
+
+		let userDoc = users.filter(u => u.id === userCode.trim()) ?? null
+
+		if (!userCode) return setInputError('Please enter code')
+		if (!userDoc?.length) return setInputError('Could not find user with this id')
+		if (currentUserDoc?.friends?.some(f => f.id === userCode.trim()))
+			return setInputError("You've already invited this user or this user has invited you")
+
+		updateFriendsDocument(userDoc)
+	}
+
+	const isAlreadyFriend = u => currentUserDoc?.friends?.filter(f => f.id === u.id)?.[0] ?? false
+
 	return (
 		<div className='friends__add'>
 			<ToastContainer />
@@ -92,7 +85,7 @@ const AddFriend = () => {
 			<div className='friends__add-description'>
 				<span>Enter invite code of user you want to add. </span>
 				<span>
-					You can find the code in <Link to='/settings/account-details'>account settings.</Link>
+					You can find the code in <Link to='/settings/account-details'>account settings.</Link> (beta)
 				</span>
 			</div>
 
@@ -103,11 +96,44 @@ const AddFriend = () => {
 				error={inputError}
 				resetError={() => setInputError(null)}
 				after={
-					<button className='btn btn--secondary text-capitalize' onClick={() => addFriend()}>
+					<button className='btn btn--secondary text-capitalize' onClick={() => validateUserCode()}>
 						invite
 					</button>
 				}
 			/>
+
+			<div className='separator mt2 mb2'>
+				<span>or</span>
+			</div>
+
+			<div className='friends__add-search'>
+				<Field
+					value={query}
+					setValue={setQuery}
+					label='Search for a user'
+					after={<i className='fa-solid fa-search'></i>}
+				/>
+
+				<div className='users-list custom-scrollbar'>
+					{users
+						?.filter(
+							u =>
+								u.displayName.toLowerCase().includes(query.toLowerCase()) && query.trim() !== '' && !isAlreadyFriend(u)
+						)
+						.map(u => (
+							<div key={u.id} className='users-list__user'>
+								<div className='flex-row gap05'>
+									<Avatar src={u.photoURL} />
+									<p className='text-clip'>{u.displayName}</p>
+								</div>
+
+								<i className='fa-solid fa-user-plus' onClick={() => updateFriendsDocument(u)}>
+									<Tooltip pos='left'>Invite</Tooltip>
+								</i>
+							</div>
+						))}
+				</div>
+			</div>
 		</div>
 	)
 }

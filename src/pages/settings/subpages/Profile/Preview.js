@@ -1,4 +1,4 @@
-import AvatarWithStatus from '../../../../components/AvatarWithStatus/AvatarWithStatus'
+import { AvatarWithStatus } from '../../../../components'
 
 export default function Preview({ userDoc, avatarState, about, bannerColor, setShowAvatarModal }) {
 	return (

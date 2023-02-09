@@ -8,12 +8,13 @@ import { useFirestore } from '../../hooks/useFirestore'
 import './Chat.scss'
 
 // Components
-import Messages from './Messages/Messages'
-import MessageField from './MessageField/MessageField'
-import Avatar from '../../components/Avatar/Avatar'
-import ChatOptions from './ChatOptions/ChatOptions'
 import { useMediaQuery } from 'react-responsive'
 import MediaQuery from 'react-responsive'
+import Messages from './Messages/Messages'
+import MessageField from './MessageField/MessageField'
+import ChatOptions from './ChatOptions/ChatOptions'
+
+import { Avatar } from '../../components'
 
 export default function Chat({ setCurrentChat, inputRef, currentTheme, showChat, setShowChat }) {
 	const { user } = useAuthContext()

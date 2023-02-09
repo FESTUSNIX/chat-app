@@ -3,10 +3,7 @@ import { useAuthContext } from '../../../../../hooks/useAuthContext'
 import { projectAuth } from '../../../../../firebase/config'
 import { useLogout } from '../../../../../hooks/useLogout'
 
-// Components
-import Modal from '../../../../../components/Modal/Modal'
-import Loader from '../../../../../components/Loader/Loader'
-import Field from '../../../../../components/Inputs/Field/Field'
+import { Modal, Loader, Field } from '../../../../../components'
 
 const Password = () => {
 	const { user } = useAuthContext()

@@ -9,26 +9,26 @@ import { updateProfile } from 'firebase/auth'
 import getCroppedImg from '../CropImg'
 
 // Components
-import Modal from '../../../../../components/Modal/Modal'
+import { Modal } from '../../../../../components'
 import Cropper from 'react-easy-crop'
 
 const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarModal }) => {
 	const { user } = useAuthContext()
 
 	const { updateDocument } = useFirestore('users')
-	const { acceptedFiles, getRootProps, getInputProps, isDragAccept, isDragReject, open } = useDropzone({
+	const { getRootProps, getInputProps, isDragAccept, isDragReject, open } = useDropzone({
 		noClick: true,
 		multiple: false,
 		accept: {
-			'image/*': [],
+			'image/*': []
 		},
 		onDrop: acceptedFiles => {
 			setFiles(
 				Object.assign(acceptedFiles[0], {
-					preview: URL.createObjectURL(acceptedFiles[0]),
+					preview: URL.createObjectURL(acceptedFiles[0])
 				})
 			)
-		},
+		}
 	})
 
 	const [error, setError] = useState(null)
@@ -88,10 +88,10 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 
 		try {
 			await updateProfile(user, {
-				photoURL: '',
+				photoURL: ''
 			})
 			await updateDocument(user.uid, {
-				photoURL: '',
+				photoURL: ''
 			})
 			deletePhotoURLFromStorage()
 			setIsPending(false)
@@ -108,7 +108,7 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 			case 'QUEUE_FOR_REMOVAL':
 				return {
 					url: state.url,
-					remove: true,
+					remove: true
 				}
 			case 'CLEAN_COLLECTION':
 				if (state.remove) {
@@ -116,12 +116,12 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 				}
 				return {
 					url: state.remove ? '' : state.url,
-					remove: false,
+					remove: false
 				}
 			case 'UNDO':
 				return {
 					url: state.url,
-					remove: false,
+					remove: false
 				}
 			default:
 				return state
@@ -130,7 +130,7 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 
 	const [state, dispatch] = useReducer(reducer, {
 		url: null,
-		remove: false,
+		remove: false
 	})
 
 	useEffect(() => {
@@ -139,7 +139,7 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 
 	const handleRemoveAvatar = () => {
 		dispatch({
-			type: 'QUEUE_FOR_REMOVAL',
+			type: 'QUEUE_FOR_REMOVAL'
 		})
 		toast.info(<Undo onUndo={() => dispatch({ type: 'UNDO' })} />, {
 			position: 'bottom-right',
@@ -151,7 +151,7 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 			draggable: true,
 			progress: undefined,
 			theme: 'dark',
-			onClose: () => dispatch({ type: 'CLEAN_COLLECTION' }),
+			onClose: () => dispatch({ type: 'CLEAN_COLLECTION' })
 		})
 	}
 
@@ -165,7 +165,7 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 				getDownloadURL(snapshot.ref).then(async downloadURL => {
 					try {
 						await updateDocument(user.uid, {
-							photoURL: downloadURL,
+							photoURL: downloadURL
 						})
 						await user.updateProfile({ photoURL: downloadURL })
 
@@ -183,7 +183,7 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 							pauseOnHover: true,
 							draggable: true,
 							progress: undefined,
-							theme: 'dark',
+							theme: 'dark'
 						})
 					} catch (error) {
 						console.log(error.message)
@@ -210,7 +210,7 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 							{!files && (
 								<section
 									{...getRootProps({
-										className: `dropzone-container ${isDragAccept ? 'accepted' : ''} ${isDragReject ? 'rejected' : ''}`,
+										className: `dropzone-container ${isDragAccept ? 'accepted' : ''} ${isDragReject ? 'rejected' : ''}`
 									})}>
 									<input {...getInputProps()} />
 									<button className='btn' onClick={open}>
@@ -282,12 +282,6 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 						<button className='btn btn--secondary' onClick={handleRemoveAvatar}>
 							remove avatar
 						</button>
-
-						// notifyAvatar(() => (
-						// 	<div className='reset-toast'>
-						// 		Removed avatar <span>reset</span>
-						// 	</div>
-						// ))
 					)}
 				</div>
 				{error && <div className='error'>{error}</div>}

@@ -9,13 +9,11 @@ import { useCollection } from '../../../../hooks/useCollection'
 import './Message.scss'
 
 // Components
-import Avatar from '../../../../components/Avatar/Avatar'
-import Modal from '../../../../components/Modal/Modal'
-import Tooltip from '../../../../components/Tooltip/Tooltip'
-import AvatarWithStatus from '../../../../components/AvatarWithStatus/AvatarWithStatus'
-import ProfilePreview from '../../../../components/ProfilePreview/ProfilePreview'
 import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
 import OutsideClickHandler from 'react-outside-click-handler'
+import { Avatar, Modal, Tooltip, AvatarWithStatus, ProfilePreview} from '../../../../components'
+
+
 
 export default function Message({
 	message,
@@ -25,7 +23,7 @@ export default function Message({
 	onMessageResponse,
 	setMessageToDelete,
 	showImage,
-	setShowImage,
+	setShowImage
 }) {
 	const { user } = useAuthContext()
 	const { updateDocument } = useFirestore('projects')
@@ -111,7 +109,7 @@ export default function Message({
 
 		const emojiToAdd = {
 			id: user.uid,
-			content: e.emoji,
+			content: e.emoji
 		}
 
 		chat.messages[indexOfMessage] = {
@@ -119,14 +117,14 @@ export default function Message({
 			emojiReactions: [
 				otherUserReaction ? otherUserReaction : null,
 				{
-					...emojiToAdd,
-				},
-			],
+					...emojiToAdd
+				}
+			]
 		}
 
 		try {
 			await updateDocument(chat.id, {
-				messages: [...chat.messages],
+				messages: [...chat.messages]
 			})
 		} catch (error) {
 			console.log(error)
@@ -162,12 +160,12 @@ export default function Message({
 
 			chat.messages[indexOfMessage] = {
 				...chat.messages[indexOfMessage],
-				emojiReactions: [otherUserReaction],
+				emojiReactions: [otherUserReaction]
 			}
 
 			try {
 				await updateDocument(chat.id, {
-					messages: [...chat.messages],
+					messages: [...chat.messages]
 				})
 				setEmojiReactions([])
 				setShowModal(false)
@@ -177,20 +175,7 @@ export default function Message({
 		}
 	}
 
-	const getDoc = id => {
-		let res = null
-
-		if (users) {
-			res = users.filter(doc => {
-				if (doc.id === id) {
-					return true
-				}
-				return false
-			})[0]
-		}
-
-		return res
-	}
+	const getDoc = id => users?.filter(doc => doc.id === id)?.[0] ?? null
 
 	const getLocalUser = id => {
 		let res = null
@@ -430,11 +415,10 @@ export default function Message({
 											theme={Theme.DARK}
 											previewConfig={{
 												defaultCaption: '',
-												defaultEmoji: null,
+												defaultEmoji: null
 											}}
 											width={300}
 											height={400}
-											// lazyLoadEmojis={true}
 											emojiStyle={EmojiStyle.NATIVE}
 										/>
 									</OutsideClickHandler>

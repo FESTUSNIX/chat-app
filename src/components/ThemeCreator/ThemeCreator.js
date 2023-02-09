@@ -80,24 +80,6 @@ export default function ThemeCreator({
 	}
 
 	const submitCustomTheme = async () => {
-		// setDoc(doc(projectFirestore, 'themes', 'green'), {
-		// 	id: name,
-		// 	name: name,
-		// 	colors: {
-		// 		bgDark: bgDark.value,
-		// 		bgSecondary: bgSecondary.value,
-		// 		inputBg: inputColors.bg,
-		// 		inputText: inputColors.text,
-		// 		textAccent: textColors.accent,
-		// 		textLowContrast: textColors.lowContrast,
-		// 		msgBg: otherUserMessage.bg,
-		// 		messageColor: otherUserMessage.text,
-		// 		msgBgOwner: curUserMessage.bg,
-		// 		messageColorOwner: curUserMessage.text,
-		// 	},
-		// 	borderRadius: borderRadius.value,
-		// })
-
 		const themeToAdd = {
 			id: `${name}`,
 			name: `${name}`,

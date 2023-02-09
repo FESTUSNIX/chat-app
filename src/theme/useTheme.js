@@ -10,7 +10,6 @@ export const useTheme = chat => {
 	useEffect(() => {
 		if (chat) {
 			chat.theme ? setTheme(chat.theme) : setTheme(themes.default)
-			// setTheme(themes)
 			setThemeLoaded(true)
 		}
 	}, [themes, chat])

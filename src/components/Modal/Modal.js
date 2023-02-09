@@ -5,9 +5,9 @@ import { useEscapeKey } from '../../hooks/useEscapeKey'
 // Styles
 import './Modal.scss'
 
-export default function Modal({ children, show, setShow, onClose, disableOCH, button1, button2 }) {
+export default function Modal({ children, show, setShow, onClose, disableOCH }) {
 	useEffect(() => {
-		if (show === false && onClose) {
+		if (!show && onClose) {
 			onClose()
 		}
 	}, [show])

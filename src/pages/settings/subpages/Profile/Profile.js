@@ -11,8 +11,8 @@ import { ToastContainer } from 'react-toastify'
 import AvatarField from './fields/AvatarField'
 import BannerField from './fields/BannerField'
 import AboutField from './fields/AboutField'
-import Loader from '../../../../components/Loader/Loader'
 import Preview from './Preview'
+import { Loader } from '../../../../components'
 
 const Profile = () => {
 	const { user } = useAuthContext()

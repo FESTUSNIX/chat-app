@@ -8,7 +8,7 @@ import Message from './Message/Message'
 
 // Styles && Assets
 import './Messages.scss'
-import Modal from '../../../components/Modal/Modal'
+import { Modal } from '../../../components'
 
 const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUser }) => {
 	const { user } = useAuthContext()
@@ -48,12 +48,12 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUse
 				...chat.messages[chat.messages.indexOf(message)],
 				content: 'Message deleted',
 				emojiReactions: null,
-				deleted: true,
+				deleted: true
 			}
 
 			try {
 				await updateDocument(chat.id, {
-					messages: [...chat.messages],
+					messages: [...chat.messages]
 				})
 				setMessageToDelete(null)
 			} catch (error) {
@@ -73,7 +73,7 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUse
 	const scrollToBottom = () => {
 		if (bottomRef.current) {
 			bottomRef.current.scrollIntoView({
-				block: 'end',
+				block: 'end'
 			})
 		}
 	}
@@ -138,11 +138,7 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUse
 				<i className='fa-solid fa-arrow-down'></i>
 			</div>
 			{messageToDelete !== null && (
-				<Modal
-					show={showModal}
-					setShow={() => setMessageToDelete(null)}
-					// onClose={() => {}}
-				>
+				<Modal show={showModal} setShow={() => setMessageToDelete(null)}>
 					<div className='confirm-message-delete'>
 						<h2>Delete message</h2>
 						<p>Do you really want to delete this message?</p>

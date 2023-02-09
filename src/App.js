@@ -10,6 +10,7 @@ import './App.scss'
 import 'react-toastify/dist/ReactToastify.css'
 
 // Components && Pages
+import MediaQuery from 'react-responsive'
 import Dashboard from './pages/dashboard/Dashboard'
 import Chat from './pages/chat/Chat'
 import Login from './pages/auth/login/Login'
@@ -17,14 +18,10 @@ import Signup from './pages/auth/signup/Signup'
 import PrivacyPolicy from './pages/privacyPolicy/privacyPolicy'
 import ResetPassword from './pages/auth/resetPassword/ResetPassword'
 import SetNewPassword from './pages/auth/resetPassword/SetNewPassword'
-import Chats from './components/Chats/Chats'
-import ToolBar from './components/ToolBar/ToolBar'
 import Profile from './pages/profile/Profile'
 import Settings from './pages/settings/Settings'
 import Friends from './pages/friends/Friends'
-
-import MediaQuery from 'react-responsive'
-import TabBar from './components/Mobile/TabBar/TabBar'
+import { Loader, TabBar, Chats, ToolBar } from './components'
 
 function App() {
 	const inputRef = useRef(null)
@@ -36,86 +33,22 @@ function App() {
 	const [theme, setTheme] = useState(themes)
 
 	const filterTheme = themeToSet => {
-		let filteredTheme
-
-		if (themeToSet.isCustom === true) {
-			if (currentChat.customThemes) {
-				currentChat.customThemes.forEach(theme => {
-					if (theme.id === themeToSet.name) filteredTheme = theme
-				})
-			}
-		} else {
-			if (themes) {
-				themes.forEach(theme => {
-					if (theme.id === themeToSet.name) filteredTheme = theme
-				})
-			}
+		if (themeToSet.isCustom) {
+			return currentChat?.customThemes?.filter(theme => theme.id === themeToSet.name)[0]
 		}
-		return filteredTheme
+
+		return themes?.filter(theme => theme.id === themeToSet.name)[0]
 	}
 
 	useEffect(() => {
-		if (currentChat) {
-			currentChat.theme
-				? setTheme(filterTheme(currentChat.theme))
-				: setTheme(filterTheme({ name: 'default', isCustom: false }))
-		} else if (themes) {
-			setTheme(filterTheme({ name: 'default', isCustom: false }))
-		}
+		setTheme(filterTheme(currentChat?.theme ?? { name: 'default', isCustom: false }))
 	}, [themes, currentChat])
 
 	const [showChat, setShowChat] = useState(false)
 
-	// // Admin tools
-	// const { addDocument: addTheme } = useFirestore('themes')
-	// const { document: adminTheme } = useDocument('themes', 'default')
-	// const { document: adminConversation } = useDocument(
-	// 	'projects',
-	// 	'cM8CaZG73ENA7ABO8AhkIwsRQSl1ZpVutXM9nTMk4zt2m6peODLoOml2'
-	// )
-
-	// const addThemeAdmin = async () => {
-	// 	try {
-	// 		const themeToAdd = {
-	// 			id: 'default',
-	// 			name: 'default',
-	// 			colors: {
-	// 				textPrimary: '#d9d9d9',
-	// 				buttonColor: '#dedede',
-	// 				msgBorder: '#1e1e1e',
-	// 				inputBorder: '#1e1e1e',
-	// 				msgBg: '#1e1e1e',
-	// 				messageColor: '#cacaca',
-	// 				textAccent: '#5b3ba5',
-	// 				bgDark: '#0e0f10',
-	// 				inputBg: '#1e1e1e',
-	// 				inputText: '#c4c4c4',
-	// 				textLowContrast: '#646464',
-	// 				messageColorOwner: '#e8e8e8',
-	// 				msgBgOwner: [
-	// 					{
-	// 						value: '#533e7a',
-	// 						id: 0,
-	// 					},
-	// 					{
-	// 						value: '#14545c',
-	// 						id: 1,
-	// 					},
-	// 				],
-	// 				msgBorderOwner: '#121212',
-	// 				bgSecondary: '#18191b',
-	// 			},
-	// 			borderRadius: '15',
-	// 			isCustom: true,
-	// 		}
-
-	// 		await setDoc(doc(projectFirestore, 'themes', themeToAdd.id), themeToAdd)
-
-	// 		console.log('added theme')
-	// 	} catch (error) {
-	// 		console.log(error.message)
-	// 	}
-	// }
+	if (!theme) {
+		return <Loader />
+	}
 
 	return (
 		authIsReady &&
@@ -124,12 +57,6 @@ function App() {
 				<GlobalStyles />
 
 				<div className='App'>
-					{/* <button
-						style={{ position: 'fixed', top: '0', left: '0', padding: '10px', zIndex: '100000' }}
-						onClick={() => addThemeAdmin()}>
-						add theme
-					</button> */}
-
 					<BrowserRouter>
 						<MediaQuery minWidth={769}>{user && <ToolBar />}</MediaQuery>
 						<Routes>

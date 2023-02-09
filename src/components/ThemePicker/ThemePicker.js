@@ -137,7 +137,6 @@ const ThemePicker = ({
 						className='create-theme'
 						onClick={() => {
 							setShowThemeCreator(true)
-							// setShowThemePicker(false)
 						}}>
 						<i className='fa-solid fa-plus'></i>
 					</button>

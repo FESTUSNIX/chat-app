@@ -9,10 +9,8 @@ import { useLogin } from '../../../../../hooks/useLogin'
 import 'react-phone-input-2/lib/bootstrap.css'
 
 // Components
-import Loader from '../../../../../components/Loader/Loader'
-import Modal from '../../../../../components/Modal/Modal'
 import PhoneInput from 'react-phone-input-2'
-import Field from '../../../../../components/Inputs/Field/Field'
+import { Modal, Loader, Field } from '../../../../../components'
 
 const PhoneNumber = () => {
 	const { user } = useAuthContext()
@@ -38,7 +36,7 @@ const PhoneNumber = () => {
 			pauseOnHover: true,
 			draggable: true,
 			progress: undefined,
-			theme: 'dark',
+			theme: 'dark'
 		})
 
 	const unlinkPhoneNumber = () => {
@@ -108,9 +106,6 @@ const PhoneNumber = () => {
 			<p>{user.phoneNumber ? user.phoneNumber : "You haven't added a phone number yet"}</p>
 
 			<div className='flex-row'>
-				{/* <i className='fa-solid fa-pencil' onClick={() => setShow(true)}>
-                <Tooltip>Edit</Tooltip>
-            </i> */}
 				{user.phoneNumber && (
 					<button className='btn' onClick={() => setConfirmUnlink(true)}>
 						remove
@@ -124,8 +119,6 @@ const PhoneNumber = () => {
 			<Modal show={confirmUnlink} setShow={() => setConfirmUnlink(false)}>
 				<h3 className='mb05'>Remove phone number</h3>
 				<p>Are you sure you want to remove your phone number from this account?</p>
-
-				{/* // !! Require password for remove */}
 
 				<div className='btn-group'>
 					<button className='btn btn--secondary' onClick={() => setConfirmUnlink(false)}>
@@ -188,7 +181,6 @@ const PhoneNumber = () => {
 						</p>
 
 						<label className='otp-code'>
-							{/* <input type='number' value={OTPCode} onChange={e => handleOTPInput(e)} /> */}
 							<Field value={OTPCode} setValue={setOTPCode} onChange={e => handleOTPInput(e)} type='number' />
 						</label>
 						{error && <div className='error'>{error}</div>}

@@ -45,10 +45,10 @@ export const useSignup = () => {
 					createdAt: `${new Date(res.user.metadata.creationTime).toLocaleString('default', {
 						day: '2-digit',
 						month: 'short',
-						year: 'numeric',
+						year: 'numeric'
 					})}`,
 					status: 'invisible',
-					banner: `${randColor}`,
+					banner: `${randColor}`
 				})
 
 			// Dispatch login action
@@ -72,21 +72,24 @@ export const useSignup = () => {
 
 		try {
 			// Signup
+
 			const res = await projectAuth.signInWithPopup(projectGoogle)
 
 			if (!res) {
 				throw new Error('Could not complete signup')
 			}
 
-			// Add display name to user
-			await res.user.updateProfile({ displayName: res.user.displayName, photoURL: res.user.photoURL })
+			if (res.additionalUserInfo.isNewUser) {
+				// Add display name to user
+				await res.user.updateProfile({ displayName: res.user.displayName, photoURL: res.user.photoURL })
 
-			// Create a user document
-			await projectFirestore.collection('users').doc(res.user.uid).set({
-				online: true,
-				displayName: res.user.displayName,
-				photoURL: res.user.photoURL,
-			})
+				// Create a user document
+				await projectFirestore.collection('users').doc(res.user.uid).set({
+					online: true,
+					displayName: res.user.displayName,
+					photoURL: res.user.photoURL
+				})
+			}
 
 			// Dispatch login action
 			dispatch({ type: 'LOGIN', payload: res.user })
@@ -114,16 +117,18 @@ export const useSignup = () => {
 			if (!res) {
 				throw new Error('Could not complete signup')
 			}
+			console.log(res.additionalUserInfo.isNewUser)
+			if (res.additionalUserInfo.isNewUser) {
+				// Add display name to user
+				await res.user.updateProfile({ displayName: res.additionalUserInfo.username, photoURL: res.user.photoURL })
 
-			// Add display name to user
-			await res.user.updateProfile({ displayName: res.additionalUserInfo.username, photoURL: res.user.photoURL })
-
-			// Create a user document
-			await projectFirestore.collection('users').doc(res.user.uid).set({
-				online: true,
-				displayName: res.user.displayName,
-				photoURL: res.user.photoURL,
-			})
+				// Create a user document
+				await projectFirestore.collection('users').doc(res.user.uid).set({
+					online: true,
+					displayName: res.user.displayName,
+					photoURL: res.user.photoURL
+				})
+			}
 
 			// Dispatch login action
 			dispatch({ type: 'LOGIN', payload: res.user })

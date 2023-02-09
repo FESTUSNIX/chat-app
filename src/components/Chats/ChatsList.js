@@ -16,27 +16,17 @@ export default function ChatsList({ chats, inputRef, setShowChat }) {
 		about: '',
 		minute: 'min',
 		minutes: 'min',
-		'less than a minute': '1 min',
-	}
-
-	const focusInput = () => {
-		if (inputRef.current !== null) {
-			inputRef.current.focus()
-		}
+		'less than a minute': '1 min'
 	}
 
 	const handleSeen = chat => {
-		let res = false
-
-		if (chat.messages && chat.messages[chat.messages.length - 1]) {
-			chat.assignedUsers.forEach(u => {
-				if (u.id === user.uid && u.lastRead !== chat.messages[chat.messages.length - 1].id) {
-					res = true
-				}
-			})
+		if (!chat.messages || !chat.messages[chat.messages.length - 1]) {
+			return
 		}
 
-		return res
+		return chat.assignedUsers.filter(
+			u => u.id === user.uid && u.lastRead !== chat.messages[chat.messages.length - 1].id
+		)?.[0]
 	}
 
 	return (
@@ -48,7 +38,7 @@ export default function ChatsList({ chats, inputRef, setShowChat }) {
 					key={chat.id}
 					className={`chats__list-chat ${handleSeen(chat) ? 'unread' : ''}`}
 					onClick={() => {
-						focusInput()
+						inputRef.current?.focus()
 						setShowChat(true)
 					}}>
 					{chat.assignedUsers.map(
@@ -57,39 +47,32 @@ export default function ChatsList({ chats, inputRef, setShowChat }) {
 								<React.Fragment key={u.id}>
 									<AvatarWithStatus userId={u.id} />
 									<div className='flex-column justify-center'>
-										<p className='display-name'>
-											{u.nickname.substring(0, 18)}
-											<span>{u.nickname.length >= 18 && '...'}</span>
-										</p>
+										<p className='display-name text-clip'>{u.nickname}</p>
 
 										<div className='last-chat'>
 											<span className='last-message text-clip'>
-												{chat.messages.length !== 0 && (
+												{chat.messages.length !== 0 ? (
 													<>
-														{chat &&
-															chat.messages[chat.messages.length - 1] &&
-															chat.messages[chat.messages.length - 1].createdBy === user.uid &&
-															'You: '}
+														{chat.messages[chat.messages.length - 1]?.createdBy === user.uid && 'You: '}
 
 														{chat.messages[chat.messages.length - 1].content &&
 															chat.messages[chat.messages.length - 1].fileType === undefined &&
 															chat.messages[chat.messages.length - 1].content.substring(0, 15)}
 
-														{!chat.messages[chat.messages.length - 1].content &&
-															chat.messages[chat.messages.length - 1].fileType === 'image' &&
-															`sent a photo`}
-
-														{!chat.messages[chat.messages.length - 1].content &&
-															chat.messages[chat.messages.length - 1].fileType === 'video' &&
-															`sent a video`}
+														{!chat.messages[chat.messages.length - 1].content && (
+															<>
+																{chat.messages[chat.messages.length - 1].fileType === 'image' && `sent a photo`}
+																{chat.messages[chat.messages.length - 1].fileType === 'video' && `sent a video`}
+															</>
+														)}
 
 														{chat.messages[chat.messages.length - 1].content &&
 															chat.messages[chat.messages.length - 1].content.length >= 15 &&
 															'...'}
 													</>
+												) : (
+													'No messages yet'
 												)}
-
-												{chat.messages.length === 0 && 'No messages yet'}
 											</span>
 
 											{chat.messages.length !== 0 && (
@@ -97,7 +80,7 @@ export default function ChatsList({ chats, inputRef, setShowChat }) {
 													<div className='dot'></div>
 													<span className='comment-date'>
 														{formatDistanceToNowStrict(chat.messages[chat.messages.length - 1].createdAt.toDate(), {
-															addSuffix: false,
+															addSuffix: false
 														}).replace(
 															/\b(?:about|less than a minute|minute|minutes)\b/gi,
 															matched => replaceDistanceToNow[matched]

@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom'
 
 // Components
 import AuthTemplate from '../AuthTemplate'
-import Field from '../../../components/Inputs/Field/Field'
-import GoogleButton from '../../../components/GoogleButton/GoogleButton'
-import GithubButton from '../../../components/GithubButton/GithubButton'
+import { Field, GoogleButton, GithubButton } from '../../../components'
 
 export default function Signup() {
 	const { signup, isPending, error } = useSignup()
@@ -15,63 +13,34 @@ export default function Signup() {
 	const [password, setPassword] = useState('')
 	const [displayName, setDisplayName] = useState('')
 
-	// const [thumbnail, setThumbnail] = useState(null)
-	// const [thumbnailError, setThumbnailError] = useState(null)
-
 	const [formErrors, setFormErrors] = useState({
 		displayName: '',
 		email: '',
-		password: '',
+		password: ''
 	})
 
 	const handleSubmit = () => {
-		// Validation
-
 		if (!email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-			setFormErrors(existing => ({
+			return setFormErrors(existing => ({
 				...existing,
-				email: 'Enter a valid email',
+				email: 'Enter a valid email'
 			}))
-			return
 		}
 		if (password.trim().length < 6) {
-			setFormErrors(existing => ({
+			return setFormErrors(existing => ({
 				...existing,
-				password: 'Password must be at least 6 characters long',
+				password: 'Password must be at least 6 characters long'
 			}))
-			return
 		}
 		if (displayName.trim().length < 3) {
-			setFormErrors(existing => ({
+			return setFormErrors(existing => ({
 				...existing,
-				displayName: 'Username must be at least 3 characters long',
+				displayName: 'Username must be at least 3 characters long'
 			}))
-			return
 		}
 
 		signup(email, password, displayName, '')
 	}
-
-	// const handleFileChange = e => {
-	// 	setThumbnail(null)
-	// 	let selected = e.target.files[0]
-
-	// 	if (!selected) {
-	// 		setThumbnailError('Please select a file')
-	// 		return
-	// 	}
-	// 	if (!selected.type.includes('image')) {
-	// 		setThumbnailError('Selected file must be an image')
-	// 		return
-	// 	}
-	// 	if (!selected.size > 100000) {
-	// 		setThumbnailError('Image file size must be less than 100kb')
-	// 		return
-	// 	}
-
-	// 	setThumbnailError(null)
-	// 	setThumbnail(selected)
-	// }
 
 	return (
 		<AuthTemplate>
@@ -83,6 +52,12 @@ export default function Signup() {
 				<p className='auth__change-page'>
 					Already a member? <Link to='/login'>Log in</Link>
 				</p>
+
+				<div className='mb05 mt2'>
+					<p style={{ fontSize: '1.6rem' }}>Example user:</p>
+					<p style={{ fontSize: '1.5rem' }}>Email: test@dev.pl</p>
+					<p style={{ fontSize: '1.5rem' }}>Pass: password</p>
+				</div>
 			</div>
 
 			<Field
@@ -94,14 +69,14 @@ export default function Signup() {
 				resetError={() =>
 					setFormErrors(existing => ({
 						...existing,
-						email: '',
+						email: ''
 					}))
 				}
 				onLostFocus={() => {
 					if (email !== '' && !email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
 						setFormErrors(existing => ({
 							...existing,
-							email: 'Please enter a valid email address',
+							email: 'Please enter a valid email address'
 						}))
 					}
 				}}
@@ -117,14 +92,14 @@ export default function Signup() {
 				resetError={() =>
 					setFormErrors(existing => ({
 						...existing,
-						displayName: '',
+						displayName: ''
 					}))
 				}
 				onLostFocus={() => {
 					if (displayName !== '' && displayName.trim().length < 3) {
 						setFormErrors(existing => ({
 							...existing,
-							displayName: 'Username must be at least 3 characters long',
+							displayName: 'Username must be at least 3 characters long'
 						}))
 					}
 				}}
@@ -139,25 +114,18 @@ export default function Signup() {
 				resetError={() =>
 					setFormErrors(existing => ({
 						...existing,
-						password: '',
+						password: ''
 					}))
 				}
 				onLostFocus={() => {
 					if (password !== '' && password.trim().length < 6) {
 						setFormErrors(existing => ({
 							...existing,
-							password: 'Password must be at least 6 characters long',
+							password: 'Password must be at least 6 characters long'
 						}))
 					}
 				}}
 			/>
-
-			{/* <label>
-							<span>Profile thumbnail:</span>
-							<input type='file' required onChange={handleFileChange} />
-							
-							{thumbnailError && <div className='error'>{thumbnailError}</div>}
-						</label> */}
 
 			{!isPending && (
 				<button className='btn' onClick={() => handleSubmit()}>

@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useAuthContext } from '../../../../../hooks/useAuthContext'
-
-// Components
-import Loader from '../../../../../components/Loader/Loader'
-import Modal from '../../../../../components/Modal/Modal'
 import { deleteUser } from 'firebase/auth'
 import { projectAuth } from '../../../../../firebase/config'
-import TextField from '../../../../../components/Inputs/Field/Field'
+
+import { Loader, Modal, Field } from '../../../../../components'
 
 const DeleteAccount = () => {
 	const { user } = useAuthContext()
@@ -143,7 +140,7 @@ const DeleteAccount = () => {
 								<label>
 									<p>Enter your password to confirm</p>
 
-									<TextField value={confirm} setValue={setConfirm} label='Password' type='password' />
+									<Field value={confirm} setValue={setConfirm} label='Password' type='password' />
 								</label>
 							)}
 							{isPending && <Loader />}

@@ -15,18 +15,11 @@ const Friends = () => {
 	const { user } = useAuthContext()
 	const { document: currentUserDoc } = useDocument('users', user.uid)
 
-	const [view, setView] = useState('list') // list, pending, add
+	const [view, setView] = useState('list')
 	const [invitesAmount, setInvitesAmount] = useState(0)
 
 	useEffect(() => {
-		if (currentUserDoc && currentUserDoc.friends) {
-			setInvitesAmount(
-				currentUserDoc.friends.filter(f => {
-					if (f.isPending) return true
-					return false
-				}).length
-			)
-		}
+		setInvitesAmount(currentUserDoc?.friends?.filter(f => f.isPending).length ?? 0)
 	}, [currentUserDoc])
 
 	const queryMd = useMediaQuery({ query: '(max-width: 768px)' })

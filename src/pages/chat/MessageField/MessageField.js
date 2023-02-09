@@ -8,14 +8,11 @@ import { useCollection } from '../../../hooks/useCollection'
 import EmojiPicker, { Emoji, EmojiStyle, Theme } from 'emoji-picker-react'
 import OutsideClickHandler from 'react-outside-click-handler'
 import imageCompression from 'browser-image-compression'
-// import Cryptr from 'cryptr'
 
 // Styles && Assets
 import './MessageField.scss'
 
 const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inputRef, otherUser, currentUser }) => {
-	// const cryptr = new Cryptr('myTotallySecretKey', { pbkdf2Iterations: 10000, saltLength: 10 })
-
 	const uniqueId = uuid()
 
 	const { updateDocument, response } = useFirestore('projects')
@@ -43,26 +40,23 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 
 	const scrollToBottom = () => {
 		bottomDiv.current.scrollIntoView({
-			block: 'end',
+			block: 'end'
 		})
 	}
 
 	const sendMessage = async () => {
-		// let encryptedMessage
-		// encryptedMessage = cryptr.encrypt(sendFastEmoji ? fastEmoji : newComment)
-
 		const commentToAdd = {
 			id: uniqueId,
 			content: sendFastEmoji ? fastEmoji : newComment,
 			createdAt: timestamp.fromDate(new Date()),
 			createdBy: user.uid,
-			response: messageResponse !== null ? messageResponse : null,
+			response: messageResponse !== null ? messageResponse : null
 		}
 
 		if (commentToAdd.content.trim() !== '' && newComment.length < 900 && isAssignedUser) {
 			await updateDocument(chat.id, {
 				messages: [...chat.messages, commentToAdd],
-				updatedAt: timestamp.fromDate(new Date()),
+				updatedAt: timestamp.fromDate(new Date())
 			})
 			if (!response.error) {
 				setSeen(!seen)
@@ -83,9 +77,9 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 					{
 						id: currentUser.id,
 						nickname: currentUser.nickname,
-						lastRead: chat.messages[chat.messages.length - 1].id,
-					},
-				],
+						lastRead: chat.messages[chat.messages.length - 1].id
+					}
+				]
 			})
 		}
 	}, [seen])
@@ -104,19 +98,18 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 				getDownloadURL(snapshot.ref).then(async downloadURL => {
 					const commentToAdd = {
 						id: uniqueId,
-						// content: newComment,
 						fileType: imgUpload.type.includes('image/') ? 'image' : 'video',
 						image: downloadURL,
 						createdAt: timestamp.fromDate(new Date()),
 						createdBy: user.uid,
-						response: messageResponse !== null ? messageResponse : null,
+						response: messageResponse !== null ? messageResponse : null
 					}
 
 					if (isAssignedUser) {
 						await updateDocument(chat.id, {
 							messages: [...chat.messages, commentToAdd],
 							updatedAt: timestamp.fromDate(new Date()),
-							isRead: false,
+							isRead: false
 						})
 
 						if (!response.error) {
@@ -136,7 +129,7 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 		const options = {
 			maxSizeMB: 1,
 			maxWidthOrHeight: 1920,
-			useWebWorker: true,
+			useWebWorker: true
 		}
 		try {
 			const compressedFile = await imageCompression(imageFile, options)
@@ -156,20 +149,7 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 		}
 	}
 
-	const getDoc = id => {
-		let res = null
-
-		if (users) {
-			res = users.filter(doc => {
-				if (doc.id === id) {
-					return true
-				}
-				return false
-			})[0]
-		}
-
-		return res
-	}
+	const getDoc = id => users?.filter(doc => doc.id === id)?.[0] ?? null
 
 	const handleKey = e => {
 		e.code === 'Enter' && handleSubmit(e)
@@ -201,7 +181,6 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 							<p className='response__to'>
 								Responding to{' '}
 								<span>
-									{/* //! */}
 									{getDoc(chat.messages[messageResponse].createdBy).displayName === user.displayName ? (
 										'yourself'
 									) : (
@@ -283,9 +262,8 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 									theme={Theme.DARK}
 									previewConfig={{
 										defaultCaption: '',
-										defaultEmoji: null,
+										defaultEmoji: null
 									}}
-									// lazyLoadEmojis={true}
 									emojiStyle={EmojiStyle.NATIVE}
 								/>
 							</OutsideClickHandler>
@@ -298,7 +276,6 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 							onClick={e => {
 								setFastEmoji(e.target.innerText)
 								setSendFastEmoji(true)
-								// sendMessage()
 							}}>
 							{chat.chatEmoji && <Emoji unified={chat.chatEmoji} emojiStyle={EmojiStyle.NATIVE} size={33} />}
 						</button>

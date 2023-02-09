@@ -4,7 +4,7 @@ import { useAuthContext } from '../../../../../hooks/useAuthContext'
 import { toast } from 'react-toastify'
 
 // Components
-import ColorPicker from '../../../../../components/ColorPicker/ColorPicker'
+import { ColorPicker } from '../../../../../components'
 
 export default function BannerField({ setBannerColor, bannerColor }) {
 	const { user } = useAuthContext()
@@ -22,7 +22,7 @@ export default function BannerField({ setBannerColor, bannerColor }) {
 			pauseOnHover: true,
 			draggable: true,
 			progress: undefined,
-			theme: 'dark',
+			theme: 'dark'
 		})
 
 	const updateBanner = async () => {
@@ -31,7 +31,7 @@ export default function BannerField({ setBannerColor, bannerColor }) {
 
 		try {
 			await updateDocument(user.uid, {
-				banner: `${bannerColor}`,
+				banner: `${bannerColor}`
 			})
 
 			setIsPending(false)

@@ -334,8 +334,9 @@
 				text-decoration: underline;
 			}
 		}
-		.input-field {
+		> .field .input-field {
 			padding: 0.6em 1em;
+
 			input {
 				padding: 0;
 			}
@@ -360,6 +361,76 @@
 			input {
 				all: unset;
 				flex-grow: 1;
+			}
+		}
+
+		&-search {
+			.field {
+				margin-bottom: 2em;
+			}
+
+			.users-list {
+				max-height: 300px;
+				display: flex;
+				flex-direction: column;
+				gap: 0.5em;
+				margin-bottom: 72.68px;
+				padding-right: 0.5em;
+				overflow: hidden auto;
+
+				&__user {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					padding: 0.6em;
+					border-radius: var(--border-radius);
+					background-color: var(--bg-dark-lighten5);
+
+					.avatar {
+						min-width: 30px;
+						width: 30px;
+						min-height: 30px;
+						height: 30px;
+					}
+
+					> .flex-row {
+						max-width: calc(100% - 78px);
+					}
+
+					i {
+						width: 35px;
+						height: 35px;
+						position: relative;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						border-radius: 50vw;
+						transition: 0.3s;
+						cursor: pointer;
+
+						.tooltip {
+							display: block;
+							visibility: hidden;
+							opacity: 0;
+							scale: 0;
+						}
+
+						&:hover {
+							background-color: var(--bg-dark-lighten15);
+							color: #3ba55d;
+
+							.tooltip {
+								visibility: visible;
+								opacity: 1;
+								scale: 1;
+							}
+						}
+
+						&:active {
+							background-color: var(--bg-dark-lighten20);
+						}
+					}
+				}
 			}
 		}
 	}

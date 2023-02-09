@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
-import Avatar from '../../components/Avatar/Avatar'
-import Tooltip from '../../components/Tooltip/Tooltip'
 import { projectFirestore, timestamp } from '../../firebase/config'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useCollection } from '../../hooks/useCollection'
 import { useDocument } from '../../hooks/useDocument'
 import { useFirestore } from '../../hooks/useFirestore'
 import { doc, setDoc } from 'firebase/firestore'
+
+import { Avatar, Tooltip } from '../../components'
 
 const PendingInvites = () => {
 	const { user } = useAuthContext()
@@ -27,23 +27,10 @@ const PendingInvites = () => {
 			pauseOnHover: true,
 			draggable: true,
 			progress: undefined,
-			theme: 'dark',
+			theme: 'dark'
 		})
 
-	const getDoc = id => {
-		let res = null
-
-		if (users) {
-			res = users.filter(doc => {
-				if (doc.id === id) {
-					return true
-				}
-				return false
-			})[0]
-		}
-
-		return res
-	}
+	const getDoc = id => users?.filter(doc => doc.id === id)?.[0] ?? null
 
 	const handleSelect = async addUser => {
 		const combinedId = user.uid > addUser.id ? user.uid + addUser.id : addUser.id + user.uid
@@ -53,28 +40,25 @@ const PendingInvites = () => {
 			assignedUsers: [
 				{
 					id: user.uid,
-					nickname: user.displayName,
+					nickname: user.displayName
 				},
 				{
 					id: addUser.id,
-					nickname: addUser.displayName,
-				},
+					nickname: addUser.displayName
+				}
 			],
 			assignedUsersId: [user.uid, addUser.id],
 			chatEmoji: '1f44d',
 			messages: [],
 			updatedAt: timestamp.fromDate(new Date()),
 			createdAt: timestamp.fromDate(new Date()),
-			customThemes: [],
+			customThemes: []
 		}
 
 		try {
 			const exists = chats.some(c => c.id === combinedId)
 
 			if (!exists && user.uid !== addUser.id) {
-				// Create a chat in chats collection
-
-				// await addDocument(docToAdd)
 				await setDoc(doc(projectFirestore, 'projects', combinedId), docToAdd)
 			}
 		} catch (err) {
@@ -91,7 +75,7 @@ const PendingInvites = () => {
 		arrCopy[index] = {
 			id: u.id,
 			isPending: false,
-			accepted: true,
+			accepted: true
 		}
 
 		const arrCopy2 = getDoc(u.id).friends
@@ -108,16 +92,16 @@ const PendingInvites = () => {
 		arrCopy2[index2] = {
 			id: currentUserDoc.id,
 			isPending: false,
-			accepted: true,
+			accepted: true
 		}
 
 		try {
 			await updateDocument(user.uid, {
-				friends: arrCopy,
+				friends: arrCopy
 			})
 
 			await updateDocument(u.id, {
-				friends: arrCopy2,
+				friends: arrCopy2
 			})
 
 			await handleSelect(getDoc(u.id))
@@ -149,11 +133,11 @@ const PendingInvites = () => {
 
 		try {
 			await updateDocument(user.uid, {
-				friends: arrCopy,
+				friends: arrCopy
 			})
 
 			await updateDocument(u.id, {
-				friends: arrCopy2,
+				friends: arrCopy2
 			})
 
 			notify('Successfully declined/canceled invitation')

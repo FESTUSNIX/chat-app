@@ -24,38 +24,7 @@ export default function Chats({ currentChat, inputRef, setShowChat }) {
 
 	const [query, setQuery] = useState('')
 
-	const getDoc = id => {
-		let res = null
-
-		if (users) {
-			res = users.filter(doc => {
-				if (doc.id === id) {
-					return true
-				}
-				return false
-			})[0]
-		}
-
-		return res
-	}
-
-	const filterChats = chat => {
-		let result = false
-		// chat.displayName.toLowerCase().trim().replace(/\s+/g, '').includes(query.toLowerCase())
-
-		chat.assignedUsers.forEach(u => {
-			if (u.id !== user.uid) {
-				if (
-					getDoc(u.id).displayName.toLowerCase().trim().replace(/\s+/g, '').includes(query.toLowerCase()) ||
-					(u.nickname && u.nickname.toLowerCase().trim().replace(/\s+/g, '').includes(query.toLowerCase()))
-				) {
-					result = true
-				}
-			}
-		})
-
-		return result
-	}
+	const getDoc = id => users?.filter(doc => doc.id === id)?.[0] ?? null
 
 	return (
 		<div className='chats'>
@@ -83,7 +52,12 @@ export default function Chats({ currentChat, inputRef, setShowChat }) {
 					<div className='chats__filtered'>
 						{chats &&
 							chats
-								.filter(chat => filterChats(chat))
+								.filter(
+									chat =>
+										chat.assignedUsers.filter(u =>
+											getDoc(u.id).displayName?.toLowerCase().includes(query.toLowerCase())
+										)[0]
+								)
 								.map(chat =>
 									chat.assignedUsers.map(
 										u =>

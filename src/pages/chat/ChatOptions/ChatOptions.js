@@ -5,19 +5,14 @@ import { useCollection } from '../../../hooks/useCollection'
 import { v4 as uuid } from 'uuid'
 import { useDocument } from '../../../hooks/useDocument'
 
+// Styles && Assets
+import './ChatOptions.scss'
+import MediaQuery from 'react-responsive'
+
 // Components
 import OutsideClickHandler from 'react-outside-click-handler'
 import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react'
-import Modal from '../../../components/Modal/Modal'
-import Avatar from '../../../components/Avatar/Avatar'
-import ThemeCreator from '../../../components/ThemeCreator/ThemeCreator'
-import ThemePicker from '../../../components/ThemePicker/ThemePicker'
-
-// Styles && Assets
-import './ChatOptions.scss'
-import AvatarWithStatus from '../../../components/AvatarWithStatus/AvatarWithStatus'
-import MediaQuery from 'react-responsive'
-import Field from '../../../components/Inputs/Field/Field'
+import { Modal, Avatar, ThemeCreator, ThemePicker, AvatarWithStatus, Field } from '../../../components'
 
 export default function ChatOptions({
 	onMessageResponse,
@@ -25,7 +20,7 @@ export default function ChatOptions({
 	chat,
 	currentTheme,
 	otherUserLocal,
-	setShowChatOptions,
+	setShowChatOptions
 }) {
 	const uniqueId = uuid()
 
@@ -54,11 +49,11 @@ export default function ChatOptions({
 			id: uniqueId,
 			content: content,
 			createdAt: timestamp.fromDate(new Date()),
-			isSpecial: true,
+			isSpecial: true
 		}
 
 		await updateDocument(chat.id, {
-			messages: [...chat.messages, commentToAdd],
+			messages: [...chat.messages, commentToAdd]
 		})
 		if (!response.error) {
 			onMessageResponse(null)
@@ -67,7 +62,7 @@ export default function ChatOptions({
 
 	const changeChatEmoji = async e => {
 		await updateDocument(chat.id, {
-			chatEmoji: e.unified,
+			chatEmoji: e.unified
 		})
 		if (!response.error) {
 			sendMessage(`Set quick emoji to ${e.emoji}`)
@@ -87,9 +82,9 @@ export default function ChatOptions({
 							u,
 							{
 								id: user.id,
-								nickname: newNickname.trim(),
-							},
-						],
+								nickname: newNickname.trim()
+							}
+						]
 					})
 					setShowNicknameModal(false)
 				}
@@ -114,20 +109,7 @@ export default function ChatOptions({
 		}
 	}
 
-	const getDoc = id => {
-		let res = null
-
-		if (users) {
-			res = users.filter(doc => {
-				if (doc.id === id) {
-					return true
-				}
-				return false
-			})[0]
-		}
-
-		return res
-	}
+	const getDoc = id => users?.filter(doc => doc.id === id)?.[0] ?? null
 
 	return (
 		<aside className='chat-options'>
@@ -217,9 +199,8 @@ export default function ChatOptions({
 						theme={Theme.DARK}
 						previewConfig={{
 							defaultCaption: '',
-							defaultEmoji: null,
+							defaultEmoji: null
 						}}
-						// lazyLoadEmojis={true}
 						emojiStyle={EmojiStyle.NATIVE}
 					/>
 				</OutsideClickHandler>
@@ -233,7 +214,6 @@ export default function ChatOptions({
 					setShowNicknameInput(null)
 				}}>
 				{chat.assignedUsers.map(u => (
-					// <OutsideClickHandler onOutsideClick={() => setShowNicknameInput(null)}>
 					<div
 						key={u.id}
 						className='user'
@@ -249,14 +229,7 @@ export default function ChatOptions({
 									<p>Set nickname</p>
 								</div>
 							)}
-							{/* <input
-									type='text'
-									placeholder={u.nickname}
-									value={newNickname}
-									onChange={e => {
-										setNewNickname(e.target.value)
-									}}
-								/> */}
+
 							{showNicknameInput === u.id && (
 								<Field
 									value={newNickname}
@@ -277,7 +250,6 @@ export default function ChatOptions({
 								}}></i>
 						)}
 					</div>
-					// </OutsideClickHandler>
 				))}
 			</Modal>
 		</aside>
