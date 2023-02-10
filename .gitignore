@@ -7,7 +7,9 @@ yarn-error.log*
 firebase-debug.log*
 firebase-debug.*.log*
 
-/build
+
+/build/
+/TODO.md
 
 # Firebase cache
 .firebase/
