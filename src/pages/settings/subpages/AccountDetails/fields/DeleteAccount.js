@@ -43,15 +43,9 @@ const DeleteAccount = () => {
 
 	const finalCountdown = () => {
 		let redirectCountdown = setInterval(() => {
-			if (timeToDelete < 0) {
-				clearInterval(redirectCountdown)
-			} else {
-				setTimeToDelete(prevTimeToRedirect => prevTimeToRedirect - 1)
-			}
+			timeToDelete < 0 ? clearInterval(redirectCountdown) : setTimeToDelete(prev => prev - 1)
 		}, 1000)
-		setTimeout(() => {
-			handleDeleteUser()
-		}, 10000)
+		setTimeout(() => handleDeleteUser(), 10000)
 	}
 
 	const handleDeleteUser = () => {
@@ -70,17 +64,7 @@ const DeleteAccount = () => {
 			})
 	}
 
-	const isPasswordProvider = () => {
-		let res = false
-
-		user.providerData.forEach(provider => {
-			if (provider.providerId === 'password') {
-				res = true
-			}
-		})
-
-		return res
-	}
+	const isPasswordProvider = () => user.providerData.some(provider => provider.providerId === 'password')
 
 	return (
 		<div className='account-details__details-delete-account'>

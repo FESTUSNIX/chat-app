@@ -19,16 +19,18 @@ export default function AboutField({ about, setAbout }) {
 			pauseOnHover: true,
 			draggable: true,
 			progress: undefined,
-			theme: 'dark',
+			theme: 'dark'
 		})
 
 	const updateBio = async () => {
 		setError(null)
 
 		if (about.length < 71) {
+			setIsPending(true)
+
 			try {
 				await updateDocument(user.uid, {
-					bio: about,
+					bio: about
 				})
 
 				setIsPending(false)
@@ -57,7 +59,7 @@ export default function AboutField({ about, setAbout }) {
 			</div>
 			{error && <div className='error'>{error}</div>}
 			<button className='btn btn--secondary text-capitalize' onClick={() => updateBio()}>
-				update about me
+				{!isPending ? 'update about me' : 'updating about me'}
 			</button>
 		</div>
 	)

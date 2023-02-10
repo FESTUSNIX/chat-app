@@ -16,7 +16,7 @@ export function rotateSize(width, height, rotation) {
 
 	return {
 		width: Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
-		height: Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
+		height: Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height)
 	}
 }
 
@@ -58,7 +58,6 @@ export default async function getCroppedImg(
 
 	return new Promise((resolve, reject) => {
 		canvas.toBlob(file => {
-			console.log('file-from-crop', file)
 			resolve(file)
 		}, 'image/jpeg')
 	})

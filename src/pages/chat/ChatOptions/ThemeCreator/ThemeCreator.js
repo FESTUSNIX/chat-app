@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { useFirestore } from '../../hooks/useFirestore'
+import { useFirestore } from '../../../../hooks/useFirestore'
 
 // Components
 import ThemePreview from './ThemePreview'
 import ThemeField from './Field'
-import ColorPicker from '../ColorPicker/ColorPicker'
-import Field from '../Inputs/Field/Field'
+import { ColorPicker, Field } from '../../../../components'
 
 // Styles && Assets
 import './ThemeCreator.scss'
@@ -16,19 +15,19 @@ export default function ThemeCreator({
 	chat,
 	editedTheme,
 	setConfirmCustomTheme,
-	confirmCustomTheme,
+	confirmCustomTheme
 }) {
 	const { updateDocument } = useFirestore('projects')
 
 	const [name, setName] = useState(editedTheme ? editedTheme.name : '')
 	const [bgDark, setBgDark] = useState({
 		show: true,
-		value: editedTheme ? editedTheme.colors.bgDark : '#0e0f10',
+		value: editedTheme ? editedTheme.colors.bgDark : '#0e0f10'
 	})
 
 	const [borderRadius, setBorderRadius] = useState({
 		show: false,
-		value: editedTheme ? editedTheme.borderRadius : 15,
+		value: editedTheme ? editedTheme.borderRadius : 15
 	})
 	const [curUserMessage, setCurUserMessage] = useState({
 		show: false,
@@ -37,40 +36,40 @@ export default function ThemeCreator({
 			: [
 					{
 						id: 0,
-						value: '#533e7a',
+						value: '#533e7a'
 					},
 					{
 						id: 1,
-						value: '#14545c',
-					},
+						value: '#14545c'
+					}
 			  ],
 		text: editedTheme ? editedTheme.colors.messageColorOwner : '#e8e8e8',
-		border: editedTheme ? editedTheme.colors.msgBorderOwner : '#121212',
+		border: editedTheme ? editedTheme.colors.msgBorderOwner : '#121212'
 	})
 
 	const [otherUserMessage, setOtherUserMessage] = useState({
 		show: false,
 		bg: editedTheme ? editedTheme.colors.msgBg : '#1e1e1e',
 		text: editedTheme ? editedTheme.colors.messageColor : '#cacaca',
-		border: editedTheme ? editedTheme.colors.msgBorder : '#1e1e1e',
+		border: editedTheme ? editedTheme.colors.msgBorder : '#1e1e1e'
 	})
 
 	const [inputColors, setInputColors] = useState({
 		show: false,
 		bg: editedTheme ? editedTheme.colors.inputBg : '#1e1e1e',
 		text: editedTheme ? editedTheme.colors.inputText : '#c4c4c4',
-		border: editedTheme ? editedTheme.colors.inputBorder : '#1e1e1e',
+		border: editedTheme ? editedTheme.colors.inputBorder : '#1e1e1e'
 	})
 
 	const [textColors, setTextColors] = useState({
 		show: false,
 		primary: editedTheme ? editedTheme.colors.textPrimary : '#d9d9d9',
 		accent: editedTheme ? editedTheme.colors.textAccent : '#5b3ba5',
-		lowContrast: editedTheme ? editedTheme.colors.textLowContrast : '#646464',
+		lowContrast: editedTheme ? editedTheme.colors.textLowContrast : '#646464'
 	})
 	const [buttonColor, setButtonColor] = useState({
 		show: false,
-		value: editedTheme ? editedTheme.colors.buttonColor : '#dedede',
+		value: editedTheme ? editedTheme.colors.buttonColor : '#dedede'
 	})
 
 	const updateMessageBg = (index, e) => {
@@ -97,14 +96,14 @@ export default function ThemeCreator({
 				messageColorOwner: `${curUserMessage.text}`,
 				msgBorderOwner: `${curUserMessage.border}`,
 				msgBorder: `${otherUserMessage.border}`,
-				buttonColor: `${buttonColor.value}`,
+				buttonColor: `${buttonColor.value}`
 			},
 			borderRadius: borderRadius.value,
-			isCustom: true,
+			isCustom: true
 		}
 		if (editedTheme === null) {
 			await updateDocument(chat.id, {
-				customThemes: [...chat.customThemes, themeToAdd],
+				customThemes: [...chat.customThemes, themeToAdd]
 			})
 			setConfirmCustomTheme(false)
 			setShowThemeCreator(false)
@@ -114,8 +113,8 @@ export default function ThemeCreator({
 				customThemes: updateCustomThemes(editedTheme, themeToAdd),
 				theme: {
 					isCustom: true,
-					name: name,
-				},
+					name: name
+				}
 			})
 			setConfirmCustomTheme(false)
 			setShowThemeCreator(false)
@@ -274,7 +273,7 @@ export default function ThemeCreator({
 						onClick={() =>
 							setCurUserMessage({
 								...curUserMessage,
-								bg: [...curUserMessage.bg, { value: '#643e7a', id: Math.random(0, 100) * 100 }],
+								bg: [...curUserMessage.bg, { value: '#643e7a', id: Math.random(0, 100) * 100 }]
 							})
 						}>
 						<i className='fa-solid fa-plus'></i>

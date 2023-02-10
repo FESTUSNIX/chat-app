@@ -1,9 +1,8 @@
 // Components
-import Avatar from '../Avatar/Avatar'
+import { Avatar, Modal } from '../../../../components'
 
 // Styles && Assets
-import britImg from '../../assets/british-person.jpg'
-import Modal from '../Modal/Modal'
+import britImg from '../../../../assets/british-person.jpg'
 
 const ThemePreview = ({
 	otherUserMessage,
@@ -19,7 +18,7 @@ const ThemePreview = ({
 	setShowThemePicker,
 	setShowThemeCreator,
 	buttonColor,
-	name,
+	name
 }) => {
 	const spreadColors = () => {
 		let colors = null
@@ -38,7 +37,7 @@ const ThemePreview = ({
 	const messageStyles = {
 		backgroundColor: otherUserMessage.bg,
 		color: otherUserMessage.text,
-		border: `1px solid ${otherUserMessage.border}`,
+		border: `1px solid ${otherUserMessage.border}`
 	}
 
 	const messageOwnerStyles = {
@@ -48,7 +47,7 @@ const ThemePreview = ({
 		backgroundSize: 'auto 35%',
 		borderRadius: '25px',
 		border: `1px solid ${curUserMessage.border}`,
-		color: curUserMessage.text,
+		color: curUserMessage.text
 	}
 
 	return (
@@ -99,7 +98,7 @@ const ThemePreview = ({
 						style={{
 							backgroundColor: inputColors.bg,
 							color: inputColors.text,
-							border: `1px solid ${inputColors.border}`,
+							border: `1px solid ${inputColors.border}`
 						}}>
 						<span>I love tea 😍</span>
 
@@ -131,7 +130,7 @@ const ThemePreview = ({
 					style={{
 						color: textColors.accent,
 						border: `1px solid ${textColors.accent}`,
-						borderRadius: `${borderRadius.value}px`,
+						borderRadius: `${borderRadius.value}px`
 					}}>
 					cancel
 				</button>
@@ -147,7 +146,7 @@ const ThemePreview = ({
 							color: buttonColor.value,
 							borderRadius: `${borderRadius.value}px`,
 							border: `1px solid ${textColors.accent}`,
-							backgroundColor: textColors.accent,
+							backgroundColor: textColors.accent
 						}}>
 						{editedTheme !== null ? 'edit' : 'create'}
 					</button>
@@ -161,7 +160,7 @@ const ThemePreview = ({
 							color: buttonColor.value,
 							borderRadius: `${borderRadius.value}px`,
 							border: `1px solid ${textColors.accent}`,
-							backgroundColor: textColors.accent,
+							backgroundColor: textColors.accent
 						}}>
 						{editedTheme !== null ? 'edit' : 'create'}
 					</button>

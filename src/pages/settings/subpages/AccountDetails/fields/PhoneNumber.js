@@ -46,18 +46,10 @@ const PhoneNumber = () => {
 		notify('Successfully unlinked phone number')
 	}
 
-	const handleOTPInput = e => {
-		const limit = 6
-		setOTPCode(e.target.value.slice(0, limit))
-	}
-
 	const sendOTP = async () => {
-		console.log(`${phoneNumber}`)
 		setError(null)
-		if (phoneNumber === '' || phoneNumber === undefined || phoneNumber === null) {
-			setError('Please enter a valid Phone Number!')
-			return
-		}
+
+		if (!phoneNumber || phoneNumber === null) return setError('Please enter a valid Phone Number!')
 
 		try {
 			const response = await setUpRecaptcha(`+${phoneNumber}`)
@@ -71,7 +63,7 @@ const PhoneNumber = () => {
 	}
 
 	const verifyOTP = async () => {
-		if (OTPCode === '' || OTPCode === null) return
+		if (!OTPCode || OTPCode === null) return
 
 		try {
 			setError(null)
@@ -79,11 +71,9 @@ const PhoneNumber = () => {
 
 			const authCredential = PhoneAuthProvider.credential(captchaResponse, OTPCode)
 
-			if (user.phoneNumber === null || user.phoneNumber === undefined) {
-				await linkWithCredential(user, authCredential)
-			} else {
-				await updatePhoneNumber(user, authCredential)
-			}
+			user.phoneNumber === null
+				? await linkWithCredential(user, authCredential)
+				: await updatePhoneNumber(user, authCredential)
 
 			setIsPending(false)
 			setShow(false)
@@ -181,7 +171,12 @@ const PhoneNumber = () => {
 						</p>
 
 						<label className='otp-code'>
-							<Field value={OTPCode} setValue={setOTPCode} onChange={e => handleOTPInput(e)} type='number' />
+							<Field
+								value={OTPCode}
+								setValue={setOTPCode}
+								onChange={e => setOTPCode(e.target.value.slice(0, 6))}
+								type='number'
+							/>
 						</label>
 						{error && <div className='error'>{error}</div>}
 

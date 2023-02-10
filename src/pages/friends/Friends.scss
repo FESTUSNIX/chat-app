@@ -436,6 +436,13 @@
 	}
 
 	&__invites {
+		max-height: calc(100% - 72.68px);
+		display: flex;
+		flex-direction: column;
+		gap: 0.5em;
+		padding-right: 0.5em;
+		overflow: hidden auto;
+
 		&-user {
 			display: flex;
 			align-items: center;

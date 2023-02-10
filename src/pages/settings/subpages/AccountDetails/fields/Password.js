@@ -20,15 +20,11 @@ const Password = () => {
 	const updatePassword = () => {
 		setError(null)
 
-		if (currentPassword === '') {
-			return setError('Enter a password')
-		}
-		if (newPassword === '' || confirmNewPassword === '') {
-			return setError('Enter a new password')
-		}
-		if (newPassword !== confirmNewPassword) {
-			return setError('Passwords must match')
-		}
+		if (currentPassword === '') return setError('Enter a password')
+
+		if (newPassword === '' || confirmNewPassword === '') return setError('Enter a new password')
+
+		if (newPassword !== confirmNewPassword) return setError('Passwords must match')
 
 		setIsPending(true)
 

@@ -5,12 +5,12 @@ import { useFirestore } from '../../../hooks/useFirestore'
 import { useLocation } from 'react-router-dom'
 import FileSaver from 'file-saver'
 import Message from './Message/Message'
+import { Modal } from '../../../components'
 
 // Styles && Assets
 import './Messages.scss'
-import { Modal } from '../../../components'
 
-const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUser }) => {
+const Messages = ({ chat, onMessageResponse, setBottomDiv }) => {
 	const { user } = useAuthContext()
 	const { dates } = useDates()
 	const { updateDocument } = useFirestore('projects')
@@ -35,11 +35,7 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUse
 	}, [location])
 
 	useEffect(() => {
-		if (messageToDelete !== null) {
-			setShowModal(true)
-		} else {
-			setShowModal(false)
-		}
+		setShowModal(messageToDelete !== null ? true : false)
 	}, [messageToDelete, showModal])
 
 	const deleteMessage = async message => {
@@ -62,32 +58,16 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUse
 		}
 	}
 
-	const hideFullImage = () => {
-		setShowImage('')
-	}
-
-	const downloadImage = () => {
-		FileSaver.saveAs(showImage)
-	}
-
 	const scrollToBottom = () => {
-		if (bottomRef.current) {
-			bottomRef.current.scrollIntoView({
-				block: 'end'
-			})
-		}
+		bottomRef?.current?.scrollIntoView({
+			block: 'end'
+		})
 	}
 
 	const handleScrollDownBtn = e => {
-		const winScroll = e.target.scrollTop
-
-		if (-winScroll <= 300) {
-			scrollDownRef.current.classList.remove('active')
-		}
-
-		if (-winScroll >= 300) {
-			scrollDownRef.current.classList.add('active')
-		}
+		;-e.target.scrollTop <= 300
+			? scrollDownRef.current.classList.remove('active')
+			: scrollDownRef.current.classList.add('active')
 	}
 
 	return (
@@ -98,15 +78,16 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUse
 						<div className='backdrop-blur'></div>
 						<img src={showImage} alt='' className='' />
 					</div>
+
 					<div className='wrapper'>
 						<img src={showImage} alt='' className='full-img__img' />
 					</div>
 
 					<div className='full-img__tools'>
-						<div className='tool' onClick={() => downloadImage()}>
+						<div className='tool' onClick={() => FileSaver.saveAs(showImage)}>
 							<i className='fa-solid fa-download'></i>
 						</div>
-						<div className='tool' onClick={() => hideFullImage()}>
+						<div className='tool' onClick={() => setShowImage('')}>
 							<i className='fa-solid fa-xmark'></i>
 						</div>
 					</div>
@@ -134,9 +115,11 @@ const Messages = ({ chat, onMessageResponse, setBottomDiv, otherUser, currentUse
 					))}
 				<div ref={bottomRef} className='bottom-ref'></div>
 			</div>
+
 			<div className='scroll-down' onClick={() => scrollToBottom()} ref={scrollDownRef}>
 				<i className='fa-solid fa-arrow-down'></i>
 			</div>
+
 			{messageToDelete !== null && (
 				<Modal show={showModal} setShow={() => setMessageToDelete(null)}>
 					<div className='confirm-message-delete'>

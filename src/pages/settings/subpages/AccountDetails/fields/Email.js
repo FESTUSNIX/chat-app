@@ -29,16 +29,12 @@ const Email = () => {
 		})
 
 	const updateEmail = async () => {
-		const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-
 		setError(null)
 
-		if (!email.match(regex)) {
-			return setError('Invalid email address')
-		}
-		if (currentPassword === '') {
-			return setError('Enter your password')
-		}
+		const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+		if (!email.match(regex)) return setError('Invalid email address')
+
+		if (currentPassword === '') return setError('Enter your password')
 
 		setIsPending(true)
 

@@ -19,8 +19,6 @@ const FriendsList = () => {
 	const getDoc = id => users?.filter(doc => doc.id === id)?.[0] ?? null
 
 	const filterUsers = f => {
-		console.log('xd')
-
 		if (getDoc(f.id)) {
 			let flt
 

@@ -30,30 +30,24 @@ export default function Chat({ setCurrentChat, inputRef, currentTheme, showChat,
 	const [otherUserLocal, setOtherUserLocal] = useState(null)
 	const [currentUserLocal, setCurrentUserLocal] = useState(null)
 
-	const { document: otherUserDoc } = useDocument('users', otherUserLocal ? otherUserLocal.id : null)
-	const { document: currentUserDoc } = useDocument('users', currentUserLocal ? currentUserLocal.id : null)
+	const { document: otherUserDoc } = useDocument('users', otherUserLocal?.id)
+	const { document: currentUserDoc } = useDocument('users', currentUserLocal?.id)
 
 	useEffect(() => {
-		if (document !== null) {
-			document.assignedUsers.forEach(u => {
-				if (u.id !== user.uid) {
-					setOtherUserLocal({ ...u })
-				}
-			})
-
-			document.assignedUsers.forEach(u => {
-				if (u.id === user.uid) {
-					setCurrentUserLocal({ ...u })
-					setIsAssignedUser(true)
-				}
-			})
-		}
+		document?.assignedUsers.forEach(u => {
+			if (u.id === user.uid) {
+				setCurrentUserLocal({ ...u })
+				setIsAssignedUser(true)
+			} else {
+				setOtherUserLocal({ ...u })
+			}
+		})
 
 		setCurrentChat(document)
 	}, [id, document])
 
 	const handleSeen = async () => {
-		if (document.messages && document.messages.length > 0) {
+		if (document?.messages?.length) {
 			await updateDocument(document.id, {
 				isRead: true,
 				assignedUsers: [

@@ -148,10 +148,49 @@ const PendingInvites = () => {
 	}
 
 	return (
-		<div className='friends__invites mt2'>
+		<div className='friends__invites custom-scrollbar mt2'>
 			<ToastContainer />
 			{currentUserDoc && currentUserDoc.friends && (
 				<>
+					{currentUserDoc.friends.map(
+						(f, index) =>
+							f.isPending &&
+							!f.accepted && (
+								<div className='friends__invites-user' key={f.id}>
+									<div className='flex-row gap1 w100'>
+										<Avatar src={getDoc(f.id) && getDoc(f.id).photoURL} />
+
+										<div className='flex-column'>
+											<p>{getDoc(f.id) && getDoc(f.id).displayName}</p>
+											<p>Sent you an invite</p>
+										</div>
+									</div>
+
+									<div className='flex-row gap1 options'>
+										<div className='options__decline' onClick={() => declineInvite(f, index)}>
+											<Tooltip pos='left'>Decline</Tooltip>
+											<i className='fa-solid fa-xmark'></i>
+										</div>
+
+										<div className='options__accept' onClick={() => acceptInvite(f, index)}>
+											<Tooltip pos='left'>Accept</Tooltip>
+											<i className='fa-solid fa-check'></i>
+										</div>
+									</div>
+								</div>
+							)
+					)}
+
+					{currentUserDoc.friends.filter(f => !f.accepted && !f.isPending).length > 0 ? (
+						<div className='separator mb1 mt1'></div>
+					) : (
+						''
+					)}
+
+					{(!currentUserDoc || !currentUserDoc.friends || currentUserDoc.friends.length === 0) && (
+						<p className='absolute-center'>No pending invites</p>
+					)}
+
 					{currentUserDoc.friends.map(
 						(f, index) =>
 							!f.isPending &&
@@ -168,7 +207,7 @@ const PendingInvites = () => {
 
 									<div className='flex-row gap1 options'>
 										<div className='options__decline' onClick={() => declineInvite(f, index)}>
-											<Tooltip>Cancel invite</Tooltip>
+											<Tooltip pos='left'>Cancel invite</Tooltip>
 											<i className='fa-solid fa-xmark'></i>
 										</div>
 									</div>
@@ -176,50 +215,12 @@ const PendingInvites = () => {
 							)
 					)}
 
-					{currentUserDoc.friends.filter(f => !f.accepted && !f.isPending).length > 0 ? (
-						<div className='separator mb1 mt1'></div>
-					) : (
-						''
-					)}
 					{currentUserDoc.friends.filter(f => !f.accepted).length === 0 ? (
 						<div className='absolute-center'>There are no pending invites</div>
 					) : (
 						''
 					)}
-
-					{currentUserDoc.friends.map(
-						(f, index) =>
-							f.isPending &&
-							!f.accepted && (
-								<div className='friends__invites-user' key={f.id}>
-									<div className='flex-row gap1'>
-										<Avatar src={getDoc(f.id) && getDoc(f.id).photoURL} />
-
-										<div className='flex-column'>
-											<p>{getDoc(f.id) && getDoc(f.id).displayName}</p>
-											<p>Sent you an invite</p>
-										</div>
-									</div>
-
-									<div className='flex-row gap1 options'>
-										<div className='options__decline' onClick={() => declineInvite(f, index)}>
-											<Tooltip>Decline</Tooltip>
-											<i className='fa-solid fa-xmark'></i>
-										</div>
-
-										<div className='options__accept' onClick={() => acceptInvite(f, index)}>
-											<Tooltip>Accept</Tooltip>
-											<i className='fa-solid fa-check'></i>
-										</div>
-									</div>
-								</div>
-							)
-					)}
 				</>
-			)}
-
-			{(!currentUserDoc || !currentUserDoc.friends || currentUserDoc.friends.length === 0) && (
-				<p className='absolute-center'>No pending invites</p>
 			)}
 
 			{error && <div className='error'>{error}</div>}

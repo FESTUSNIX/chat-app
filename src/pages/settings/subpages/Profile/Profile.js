@@ -27,9 +27,8 @@ const Profile = () => {
 
 	useEffect(() => {
 		if (userDoc) {
-			if (userDoc.banner) setBannerColor(userDoc.banner)
-
-			if (userDoc.bio) setAbout(userDoc.bio)
+			setBannerColor(userDoc.banner)
+			setAbout(userDoc.bio)
 		}
 	}, [userDoc])
 

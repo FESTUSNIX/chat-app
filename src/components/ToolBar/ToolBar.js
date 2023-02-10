@@ -40,7 +40,7 @@ const ToolBar = () => {
 	}, [location])
 
 	useEffect(() => {
-		if (userDoc && userDoc.friends) {
+		if (userDoc?.friends) {
 			setInvitesAmount(
 				userDoc.friends.filter(f => {
 					if (f.isPending) return true
@@ -79,7 +79,7 @@ const ToolBar = () => {
 								'/settings',
 								'/settings/',
 								'/settings/become-cool',
-								'/settings/privacy-and-security',
+								'/settings/privacy-and-security'
 							].includes(location.pathname)
 								? 'active'
 								: ''

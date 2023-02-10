@@ -39,19 +39,16 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 	const [crop, setCrop] = useState({ x: 0, y: 0 })
 	const [zoom, setZoom] = useState(1)
 	const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
-	const [croppedImage, setCroppedImage] = useState(null)
 
-	const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-		setCroppedAreaPixels(croppedAreaPixels)
-	}, [])
+	const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => setCroppedAreaPixels(croppedAreaPixels), [])
 
 	const showCroppedImage = useCallback(async () => {
 		try {
 			const croppedImage = await getCroppedImg(files.preview, croppedAreaPixels, 0)
-			setCroppedImage(croppedImage)
+
 			updateAvatar(croppedImage, true)
-		} catch (e) {
-			console.error(e)
+		} catch (err) {
+			console.error(err.message)
 		}
 	}, [croppedAreaPixels, files])
 
@@ -110,7 +107,7 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 					url: state.url,
 					remove: true
 				}
-			case 'CLEAN_COLLECTION':
+			case 'CLEAN_URL':
 				if (state.remove) {
 					removePhotoURLs()
 				}
@@ -145,13 +142,12 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 			position: 'bottom-right',
 			autoClose: 15000,
 			hideProgressBar: false,
-			// closeButton: false,
 			closeOnClick: false,
 			pauseOnHover: true,
 			draggable: true,
 			progress: undefined,
 			theme: 'dark',
-			onClose: () => dispatch({ type: 'CLEAN_COLLECTION' })
+			onClose: () => dispatch({ type: 'CLEAN_URL' })
 		})
 	}
 
@@ -174,7 +170,6 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 						setCrop({ x: 0, y: 0 })
 						setZoom(1)
 						setCroppedAreaPixels(null)
-						setCroppedImage(null)
 						toast.success('Succesfully updated your avatar', {
 							position: 'bottom-right',
 							autoClose: 5000,
@@ -280,7 +275,7 @@ const AvatarField = ({ setAvatarState, userDoc, setShowAvatarModal, showAvatarMo
 
 					{userDoc.photoURL && !state.remove && (
 						<button className='btn btn--secondary' onClick={handleRemoveAvatar}>
-							remove avatar
+							{!isPending ? 'remove' : 'removing'} avatar
 						</button>
 					)}
 				</div>

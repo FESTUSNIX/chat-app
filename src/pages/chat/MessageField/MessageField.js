@@ -4,19 +4,18 @@ import { useAuthContext } from '../../../hooks/useAuthContext'
 import { useFirestore } from '../../../hooks/useFirestore'
 import { v4 as uuid } from 'uuid'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { useCollection } from '../../../hooks/useCollection'
 import EmojiPicker, { Emoji, EmojiStyle, Theme } from 'emoji-picker-react'
 import OutsideClickHandler from 'react-outside-click-handler'
 import imageCompression from 'browser-image-compression'
 
 // Styles && Assets
 import './MessageField.scss'
+import ResponseField from './ResponseField'
 
 const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inputRef, otherUser, currentUser }) => {
 	const uniqueId = uuid()
 
 	const { updateDocument, response } = useFirestore('projects')
-	const { documents: users } = useCollection('users')
 	const { user } = useAuthContext()
 
 	const [newComment, setNewComment] = useState('')
@@ -149,8 +148,6 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 		}
 	}
 
-	const getDoc = id => users?.filter(doc => doc.id === id)?.[0] ?? null
-
 	const handleKey = e => {
 		e.code === 'Enter' && handleSubmit(e)
 	}
@@ -176,39 +173,7 @@ const MessageField = ({ chat, messageResponse, onMessageResponse, bottomDiv, inp
 		chat && (
 			<form onSubmit={handleSubmit}>
 				{messageResponse !== null && (
-					<div className='response'>
-						<div>
-							<p className='response__to'>
-								Responding to{' '}
-								<span>
-									{getDoc(chat.messages[messageResponse].createdBy).displayName === user.displayName ? (
-										'yourself'
-									) : (
-										<b>{chat.messages[messageResponse].displayName}</b>
-									)}
-								</span>
-							</p>
-							<p className='response__content'>
-								{chat.messages[messageResponse].content && (
-									<>
-										{chat.messages[messageResponse].content.substring(0, 70)}
-										{chat.messages[messageResponse].content.length > 70 ? <span>...</span> : ''}
-									</>
-								)}
-
-								{chat.messages[messageResponse].image && chat.messages[messageResponse].fileType === 'image'
-									? 'Image'
-									: ''}
-								{chat.messages[messageResponse].image && chat.messages[messageResponse].fileType === 'video'
-									? 'Video'
-									: ''}
-							</p>
-						</div>
-
-						<div className='response__close-btn' onClick={() => onMessageResponse(null)}>
-							<i className='fa-solid fa-xmark'></i>
-						</div>
-					</div>
+					<ResponseField chat={chat} messageResponse={messageResponse} onMessageResponse={onMessageResponse} />
 				)}
 
 				<div className='add-comment'>

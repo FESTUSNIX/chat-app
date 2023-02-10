@@ -1,5 +1,5 @@
-import { useFirestore } from '../../hooks/useFirestore'
-import Modal from '../Modal/Modal'
+import { useFirestore } from '../../../../hooks/useFirestore'
+import { Modal } from '../../../../components/'
 
 // Styles
 import './ThemePicker.scss'
@@ -10,7 +10,7 @@ const ThemePicker = ({
 	setShowThemeCreator,
 	setEditedTheme,
 	setConfirmThemeDelete,
-	confirmThemeDelete,
+	confirmThemeDelete
 }) => {
 	const { updateDocument } = useFirestore('projects')
 
@@ -19,8 +19,8 @@ const ThemePicker = ({
 			await updateDocument(chat.id, {
 				theme: {
 					name: theme.id,
-					isCustom: theme.isCustom ? theme.isCustom : false,
-				},
+					isCustom: theme.isCustom ? theme.isCustom : false
+				}
 			})
 		} catch (err) {
 			console.log(err)
@@ -47,7 +47,7 @@ const ThemePicker = ({
 				changeTheme({ id: 'frosty', isCustom: false })
 			}
 			await updateDocument(chat.id, {
-				customThemes: [...chat.customThemes.filter(t => t !== theme)],
+				customThemes: [...chat.customThemes.filter(t => t !== theme)]
 			})
 			setConfirmThemeDelete(null)
 		} catch (err) {
@@ -77,7 +77,7 @@ const ThemePicker = ({
 							<i
 								className='fa-solid fa-check theme-tick'
 								style={{
-									backgroundImage: spreadColors(theme),
+									backgroundImage: spreadColors(theme)
 								}}></i>
 
 							<div className='theme-bg' style={{ background: spreadColors(theme) }}></div>
@@ -102,12 +102,12 @@ const ThemePicker = ({
 							<i
 								className='fa-solid fa-check theme-tick'
 								style={{
-									backgroundImage: `${spreadColors(theme)}`,
+									backgroundImage: `${spreadColors(theme)}`
 								}}></i>
 							<div
 								className='theme-bg'
 								style={{
-									background: spreadColors(theme),
+									background: spreadColors(theme)
 								}}>
 								<div className='theme-tools'>
 									<div
@@ -122,7 +122,6 @@ const ThemePicker = ({
 										className='theme-tools__remove'
 										onClick={e => {
 											e.stopPropagation()
-											// removeCustomTheme(theme)
 											setConfirmThemeDelete(theme)
 										}}>
 										<i className='fa-solid fa-trash-can'></i>
