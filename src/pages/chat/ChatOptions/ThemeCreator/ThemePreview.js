@@ -62,10 +62,14 @@ const ThemePreview = ({
 					<i className='fa-solid fa-ellipsis-vertical' style={{ color: textColors.accent }}></i>
 				</div>
 				<div className='chat-preview__messages'>
-					<div className='message owner' style={{ ...messageOwnerStyles, borderRadius: '25px 25px 5px 25px' }}>
+					<div
+						className='chat-preview__messages-message owner'
+						style={{ ...messageOwnerStyles, borderRadius: '25px 25px 5px 25px' }}>
 						Hello mate
 					</div>
-					<div className='message owner' style={{ ...messageOwnerStyles, borderRadius: '25px 5px 25px 25px' }}>
+					<div
+						className='chat-preview__messages-message owner'
+						style={{ ...messageOwnerStyles, borderRadius: '25px 5px 25px 25px' }}>
 						it's tuesday init?
 					</div>
 
@@ -73,21 +77,29 @@ const ThemePreview = ({
 						Set quick emoji to ☕
 					</div>
 
-					<div className='message' style={{ ...messageStyles, borderRadius: '25px 25px 25px 5px' }}>
+					<div
+						className='chat-preview__messages-message'
+						style={{ ...messageStyles, borderRadius: '25px 25px 25px 5px' }}>
 						oh yes yes
 					</div>
 
-					<div className='message' style={{ ...messageStyles, borderRadius: '5px 25px 25px 5px' }}>
+					<div
+						className='chat-preview__messages-message'
+						style={{ ...messageStyles, borderRadius: '5px 25px 25px 5px' }}>
 						what a lovely weather we have today
 					</div>
 
-					<div className='message' style={{ ...messageStyles, borderRadius: '5px 25px 25px 25px' }}>
+					<div
+						className='chat-preview__messages-message'
+						style={{ ...messageStyles, borderRadius: '5px 25px 25px 25px' }}>
 						🌞
 					</div>
 
 					<br />
 
-					<div className='message owner' style={{ ...messageOwnerStyles, borderRadius: '25px 25px 25px 25px' }}>
+					<div
+						className='chat-preview__messages-message owner'
+						style={{ ...messageOwnerStyles, borderRadius: '25px 25px 25px 25px' }}>
 						*sips tea 🍵*
 					</div>
 				</div>

@@ -1,7 +1,10 @@
 {
-	"name": "messenger-copy",
-	"version": "0.1.0",
+	"name": "someapp",
+	"version": "1.0.0",
+	"productName": "Someapp",
+	"description": "Beautifull react chat app",
 	"private": true,
+	"author": "Festus",
 	"dependencies": {
 		"@testing-library/jest-dom": "^5.14.1",
 		"@testing-library/react": "^11.2.7",

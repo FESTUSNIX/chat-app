@@ -347,9 +347,16 @@
 			transition-delay: 0.3s;
 			z-index: 100;
 
+			&.visible {
+				transform: translateY(0);
+				opacity: 1;
+				visibility: visible;
+			}
+
 			@media screen and (min-width: 768px) {
 				width: auto;
 				position: absolute;
+				top: 50%;
 				right: -4.5em;
 				bottom: unset;
 				left: unset;
@@ -360,12 +367,10 @@
 				box-shadow: none;
 				transform: translateY(-50%);
 				background-color: transparent;
-			}
 
-			&.visible {
-				transform: translateY(0);
-				opacity: 1;
-				visibility: visible;
+				&.visible {
+					transform: translateY(-50%);
+				}
 			}
 
 			&:hover + .message-createdAt {

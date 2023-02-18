@@ -57,7 +57,7 @@ export default function ChatsList({ chats, inputRef, setShowChat }) {
 
 														{chat.messages[chat.messages.length - 1].content &&
 															chat.messages[chat.messages.length - 1].fileType === undefined &&
-															chat.messages[chat.messages.length - 1].content.substring(0, 15)}
+															chat.messages[chat.messages.length - 1].content.substring(0, 18)}
 
 														{!chat.messages[chat.messages.length - 1].content && (
 															<>
@@ -67,7 +67,7 @@ export default function ChatsList({ chats, inputRef, setShowChat }) {
 														)}
 
 														{chat.messages[chat.messages.length - 1].content &&
-															chat.messages[chat.messages.length - 1].content.length >= 15 &&
+															chat.messages[chat.messages.length - 1].content.length >= 18 &&
 															'...'}
 													</>
 												) : (

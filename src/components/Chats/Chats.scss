@@ -1,14 +1,6 @@
 .chats {
-	// Desktop
-	// min-width: max-content;
-	// max-width: 40vw;
-	// min-height: 100vh;
-
-	// Mobile
-	height: 100vh;
-	max-height: 100vh;
-	flex-grow: 1;
 	position: relative;
+	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
 	padding: 0 1em;
@@ -32,10 +24,6 @@
 			font-size: 3rem;
 			font-weight: 500;
 		}
-
-		// .avatar-container {
-		// 	// --size: 50px;
-		// }
 	}
 
 	.pinned {

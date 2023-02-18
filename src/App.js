@@ -55,8 +55,7 @@ function App() {
 		theme && (
 			<ThemeProvider theme={theme}>
 				<GlobalStyles />
-
-				<div className='App'>
+				<div className={`App ${window?.process?.type ? 'electron-app' : ''}`}>
 					<BrowserRouter>
 						<MediaQuery minWidth={769}>{user && <ToolBar />}</MediaQuery>
 						<Routes>

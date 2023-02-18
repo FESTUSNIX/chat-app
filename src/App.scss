@@ -8,6 +8,11 @@
 	color: var(--text-primary);
 	overflow: hidden auto;
 
+	&.electron-app {
+		min-height: calc(100vh - 26.78px);
+		max-height: calc(100vh - 26.78px);
+	}
+
 	@media screen and (min-width: 768px) {
 		flex-direction: row;
 	}

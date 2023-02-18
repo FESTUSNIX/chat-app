@@ -21,7 +21,7 @@ export default function MessageResponse({ message, chat }) {
 		<div
 			onClick={() => scrollToResponse(chat.messages[message.response].id)}
 			className={`message__response ${chat.messages[message.response].deleted ? 'deleted' : ''}`}>
-			{message.createdBy !== user.uid && <div className='left-margin'></div>}
+			{message.createdBy !== user.uid && <div className='message__content-margin'></div>}
 
 			{chat.messages[message.response].content && (
 				<div className='message__response-message'>{chat.messages[message.response].content.substring(0, 55)}</div>

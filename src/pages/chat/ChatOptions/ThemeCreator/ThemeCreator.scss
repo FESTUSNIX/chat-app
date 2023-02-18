@@ -132,7 +132,7 @@
 				flex-direction: column;
 				padding: 1em;
 
-				.message {
+				&-message {
 					max-width: 80%;
 					display: inline-block;
 					align-self: flex-start;
