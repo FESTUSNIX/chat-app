@@ -21,7 +21,7 @@ Chat app created as a side project, mostly inspired by messenger and discord.
 
 **Frontend:** React
 
-**Backend:** Node, Electron, Firebase
+**Backend:** Node, Firebase
 
 ## Installation
 
