@@ -23,11 +23,6 @@ Chat app created as a side project, mostly inspired by messenger and discord.
 
 **Backend:** Node, Firebase
 
-## Installation
-
-You can install the app on windows by simply running **SomeappAppInstaller.exe** from
-**'/relase/windows-installer/'**
-
 ## Screenshots
 
 ![Imgur](https://i.imgur.com/L8H7VfV.png)
