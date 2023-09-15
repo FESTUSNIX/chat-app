@@ -1,4 +1,5 @@
 # React chat app
+#### The only website I've finished in last year
 
 Chat app created as a side project, mostly inspired by messenger and discord.
 [Try it yourself.](https://better-react-messenger.web.app/)
